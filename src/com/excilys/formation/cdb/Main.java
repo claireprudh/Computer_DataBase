@@ -25,10 +25,16 @@ public class Main {
 		for(String s : ComputerService.getInstance().getListComputers()) {
 			System.out.println(s);
 		}
+		
+		
 		System.out.println("\n\n\nCompanies");
 		for(String s : CompanyService.getInstance().getListCompanies()) {
 			System.out.println(s);
 		}
+		
+		
+		
+		System.out.println("\n\n\n" + ComputerService.getInstance().getDetails(569));
 
 	}
 

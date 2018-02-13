@@ -46,5 +46,10 @@ public class ComputerService {
 		
 		return ls;
 	}
+	
+	public Computer getDetails(int id) {
+		Computer c = ComputerDAO.getInstance().getComputerById(id);
+		return c;
+	}
 
 }

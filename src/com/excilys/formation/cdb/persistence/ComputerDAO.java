@@ -81,6 +81,56 @@ public class ComputerDAO {
 		
 		return lp;
 	}
+
+	public Computer getComputerById(int id) {
+		
+		Computer computer = new Computer();
+		Date temp;
+		
+		Connexion conn = Connexion.getInstance();
+		conn.open();
+		Connection c = conn.getConnection();
+		
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT name, introduced, discontinued, company_id  "
+					+ "FROM computer WHERE id = " + id + ";");
+			computer.setId(id);
+			
+			if(rs.next()) {
+				
+				computer.setName(rs.getString("name"));
+				temp = rs.getDate("introduced");
+				if (temp != null) {
+					computer.setDateOfIntro(temp.toLocalDate());
+				}
+				else {
+					computer.setDateOfIntro(null);
+				}
+				temp = rs.getDate("discontinued");			
+				if (temp != null) {
+					computer.setDateOfDisc(temp.toLocalDate());
+				}
+				else {
+					computer.setDateOfDisc(null);
+				}
+	
+				computer.setCompanyID(CompanyDAO.getInstance().getCompanyByID(rs.getInt("company_id")));
+			}
+			
+			else {
+				computer = null;
+				
+				}
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		conn.close();
+
+		return computer;
+	}
 	
 	
 
