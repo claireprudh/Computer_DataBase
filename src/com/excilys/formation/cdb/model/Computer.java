@@ -30,6 +30,15 @@ public class Computer {
 		this.setDateOfDisc(dateOfDisc);
 		this.setCompanyID(company);
 	}
+	
+	public Computer(int id, String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
+		
+		this.setId(id);
+		this.setName(name);
+		this.setDateOfIntro(dateOfIntro);
+		this.setDateOfDisc(dateOfDisc);
+		this.setCompanyID(company);
+	}
 		
 	
 	/**

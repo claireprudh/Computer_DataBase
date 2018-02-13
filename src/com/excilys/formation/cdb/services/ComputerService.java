@@ -58,5 +58,9 @@ public class ComputerService {
 		ComputerDAO.getInstance().createNewComputer(c);
 		
 	}
+	
+	public void updateComputer(Computer c) {
+		ComputerDAO.getInstance().updateComputer(c);
+	}
 
 }

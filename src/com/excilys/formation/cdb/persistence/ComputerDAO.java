@@ -235,6 +235,59 @@ public class ComputerDAO {
 		return computer;
 		
 	}*/
+	public void updateComputer(Computer ucomputer) {
+			
+		Computer oldComputer;
+		
+		Connexion conn = Connexion.getInstance();
+		conn.open();
+		Connection connection = conn.getConnection();
+		
+		StringBuilder query = new StringBuilder();
+		
+		try {
+			Statement stmt = connection.createStatement();
+			//query.append("UPDATE computer SET");
+		
+		
+		if( this.getComputerById(ucomputer.getId()).isPresent()) {
+			
+			oldComputer = ComputerDAO.getInstance().getComputerById(ucomputer.getId()).get();
+			
+			if (!oldComputer.getName().equals(ucomputer.getName())) {
+				query.append("UPDATE computer SET name = \"" + ucomputer.getName() + "\" WHERE id = " + ucomputer.getId()+ " ;");
+			}
+			if (oldComputer.getDateOfIntro() != null &&
+					ucomputer.getDateOfIntro() != null &&
+					!oldComputer.getDateOfIntro().equals(ucomputer.getDateOfIntro())) {
+				query.append("UPDATE computer SET introduced = \'" + ucomputer.getDateOfIntro().toString() + 
+						"\' WHERE id = " + ucomputer.getId()+ " ;");
+			}
+			if (oldComputer.getDateOfDisc() != null &&
+					ucomputer.getDateOfDisc() != null &&
+					!oldComputer.getDateOfDisc().equals(ucomputer.getDateOfDisc())) {
+				query.append("UPDATE computer SET discontinued = \'" + ucomputer.getDateOfDisc().toString() + 
+						"\' WHERE id = " + ucomputer.getId()+ " ;");
+			}
+			if (!oldComputer.getCompanyID().equals(ucomputer.getCompanyID())) {
+				query.append("UPDATE computer SET company_id = " + ucomputer.getCompanyID().getId() + 
+						" WHERE id = " + ucomputer.getId()+ " ;");
+			}
+			
+		}
+		else {
+			
+		}
+		
+		System.out.println(query.toString());
+		stmt.executeUpdate(query.toString());
+		
+	}catch (SQLException e) {
+		e.printStackTrace();
+	}
+	
+	conn.close();
+	}
 	
 
 }

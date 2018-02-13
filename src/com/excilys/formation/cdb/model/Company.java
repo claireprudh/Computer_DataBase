@@ -51,6 +51,20 @@ public class Company {
 		String s = "\n\tCompany name : " + this.name + " \n\tid : " + this.id;
 		return s;
 	}
+	
+	
+	public boolean equals(Company other) {
+		
+		if (this.getId() == other.getId() && this.getName().equals(other.getName())) {
+			return true;
+			
+		}
+		else {
+		
+			return false;
+		
+		}
+	}
 
 
 }
