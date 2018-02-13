@@ -22,6 +22,14 @@ public class Computer {
 	public Computer() {
 		
 	}
+	
+	public Computer(String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
+		
+		this.setName(name);
+		this.setDateOfIntro(dateOfIntro);
+		this.setDateOfDisc(dateOfDisc);
+		this.setCompanyID(company);
+	}
 		
 	
 	/**

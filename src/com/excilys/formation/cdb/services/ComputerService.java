@@ -34,7 +34,7 @@ public class ComputerService {
 	
 	public List<String> getListComputers(){
 		
-		List<Computer> lp = ComputerDAO.getInstance().getListComputer();
+		List<Computer> lp = ComputerDAO.getInstance().getListComputer().orElse(new ArrayList<Computer>());
 		List<String> ls = new ArrayList<String>();
 		for(Computer c : lp) {
 			
@@ -48,8 +48,15 @@ public class ComputerService {
 	}
 	
 	public Computer getDetails(int id) {
-		Computer c = ComputerDAO.getInstance().getComputerById(id);
+		Computer c = ComputerDAO.getInstance().getComputerById(id).orElse(new Computer());
 		return c;
+	}
+
+
+	public void createNewComputer(Computer c) {
+		
+		ComputerDAO.getInstance().createNewComputer(c);
+		
 	}
 
 }

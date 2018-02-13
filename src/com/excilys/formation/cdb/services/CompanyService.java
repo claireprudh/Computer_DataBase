@@ -40,5 +40,9 @@ public class CompanyService {
 		
 		return ls;
 	}
+	
+	public Company getCompanyDetails(int id) {
+		return CompanyDAO.getInstance().getCompanyByID(id);
+	}
 
 }

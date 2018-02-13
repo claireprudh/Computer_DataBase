@@ -16,6 +16,11 @@ public class Company {
 	public Company() {
 		
 	}
+	
+	public Company(int id, String name) {
+		this.setId(id);
+		this.setName(name);
+	}
 	/**
 	 * @return the id
 	 */
