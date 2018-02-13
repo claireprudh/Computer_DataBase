@@ -23,6 +23,10 @@ public class Computer {
 		
 	}
 	
+	public Computer(int id) {
+		this.setId(id);
+	}
+	
 	public Computer(String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
 		
 		this.setName(name);

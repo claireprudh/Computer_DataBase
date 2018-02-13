@@ -289,5 +289,23 @@ public class ComputerDAO {
 	conn.close();
 	}
 	
+	public void deleteComputer(int id) {
+		Connexion conn = Connexion.getInstance();
+		conn.open();
+		Connection connection = conn.getConnection();
+		
+		try {
+			Statement stmt = connection.createStatement();
+			String query = "DELETE FROM computer WHERE id = " + id + " ;";
+			
+			stmt.executeUpdate(query);
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 }

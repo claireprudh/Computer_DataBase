@@ -62,5 +62,9 @@ public class ComputerService {
 	public void updateComputer(Computer c) {
 		ComputerDAO.getInstance().updateComputer(c);
 	}
+	
+	public void deleteComputer(Computer c) {
+		ComputerDAO.getInstance().deleteComputer(c.getId());
+	}
 
 }
