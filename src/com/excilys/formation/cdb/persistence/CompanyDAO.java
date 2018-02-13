@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
 
@@ -53,6 +55,35 @@ public class CompanyDAO {
 		
 		return company;
 		
+	}
+	
+	public List<Company> getListCompanies(){
+		List<Company> lp = new ArrayList<Company>();
+		
+		Connexion conn = Connexion.getInstance();
+		conn.open();
+		Connection c = conn.getConnection();
+		
+		try {
+			Statement stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id, name FROM company");
+			
+			while(rs.next()) {
+				Company company = new Company();
+				company.setId(rs.getInt("id"));
+				company.setName(rs.getString("name"));				
+				
+				lp.add(company);
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		conn.close();
+		
+		return lp;
 	}
 	
 

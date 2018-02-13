@@ -3,9 +3,9 @@
  */
 package com.excilys.formation.cdb;
 
-import java.util.List;
 
-import com.excilys.formation.cdb.model.Computer;
+
+import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
 /**
@@ -20,10 +20,14 @@ public class Main {
 	public static void main(String[] args) {
 		
 		System.out.println("Main");
-		List<Computer> l = ComputerService.getInstance().getListComputers();
 		
-		for(Computer c : l) {
-			System.out.println(c);
+		
+		for(String s : ComputerService.getInstance().getListComputers()) {
+			System.out.println(s);
+		}
+		System.out.println("\n\n\nCompanies");
+		for(String s : CompanyService.getInstance().getListCompanies()) {
+			System.out.println(s);
 		}
 
 	}

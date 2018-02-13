@@ -4,6 +4,7 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -34,8 +35,9 @@ public class ComputerDAO {
 	}
 
 	public List<Computer> getListComputer() {
-		System.out.println(this.getClass().getSimpleName());
+		
 		List<Computer> lp = new ArrayList<Computer>();
+		Date temp;
 		
 		Connexion conn = Connexion.getInstance();
 		conn.open();
@@ -43,14 +45,28 @@ public class ComputerDAO {
 		
 		try {
 			Statement stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM computer");
+			ResultSet rs = stmt.executeQuery("SELECT id, name, introduced, discontinued, company_id FROM computer");
 			
 			while(rs.next()) {
 				Computer computer = new Computer();
 				computer.setId(rs.getInt("id"));
 				computer.setName(rs.getString("name"));
-				computer.setDateOfIntro(rs.getTimestamp("introduced"));
-				computer.setDateOfDisc(rs.getTimestamp("discontinued"));
+				
+				temp = rs.getDate("introduced");
+				if (temp != null) {
+					computer.setDateOfIntro(temp.toLocalDate());
+				}
+				else {
+					computer.setDateOfIntro(null);
+				}
+				temp = rs.getDate("discontinued");			
+				if (temp != null) {
+					computer.setDateOfDisc(temp.toLocalDate());
+				}
+				else {
+					computer.setDateOfDisc(null);
+				}
+	
 				computer.setCompanyID(CompanyDAO.getInstance().getCompanyByID(rs.getInt("company_id")));
 				
 				lp.add(computer);

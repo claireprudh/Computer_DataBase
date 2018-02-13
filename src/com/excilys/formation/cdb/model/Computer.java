@@ -3,7 +3,7 @@
  */
 package com.excilys.formation.cdb.model;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 /**
  * @author excilys
@@ -14,8 +14,8 @@ public class Computer {
 	
 	int id;
 	String name;
-	Timestamp dateOfIntro;
-	Timestamp dateOfDisc;
+	LocalDate dateOfIntro;
+	LocalDate dateOfDisc;
 	Company company;
 	
 	
@@ -55,28 +55,28 @@ public class Computer {
 	/**
 	 * @return
 	 */
-	public Timestamp getDateOfIntro() {
+	public LocalDate getDateOfIntro() {
 		return dateOfIntro;
 	}
 	
 	/**
 	 * @param dateOfIntro
 	 */
-	public void setDateOfIntro(Timestamp dateOfIntro) {
+	public void setDateOfIntro(LocalDate dateOfIntro) {
 		this.dateOfIntro = dateOfIntro;
 	}
 	
 	/**
 	 * @return
 	 */
-	public Timestamp getDateOfDisc() {
+	public LocalDate getDateOfDisc() {
 		return dateOfDisc;
 	}
 	
 	/**
 	 * @param dateOfDisc
 	 */
-	public void setDateOfDisc(Timestamp dateOfDisc) {
+	public void setDateOfDisc(LocalDate dateOfDisc) {
 		this.dateOfDisc = dateOfDisc;
 	}
 	

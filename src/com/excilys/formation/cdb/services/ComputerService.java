@@ -3,6 +3,7 @@
  */
 package com.excilys.formation.cdb.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Computer;
@@ -31,13 +32,19 @@ public class ComputerService {
 	}
 	
 	
-	public List<Computer> getListComputers(){
-		System.out.println(this.getClass().getSimpleName());
+	public List<String> getListComputers(){
+		
 		List<Computer> lp = ComputerDAO.getInstance().getListComputer();
+		List<String> ls = new ArrayList<String>();
+		for(Computer c : lp) {
+			
+			ls.add(c.getName());
+			
+		}
 		
 		
 		
-		return lp;
+		return ls;
 	}
 
 }

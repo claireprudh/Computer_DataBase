@@ -99,7 +99,6 @@ public class Connexion {
 	}
 	
 	public Connection getConnection() {
-		System.out.println(this.getClass().getSimpleName());
 		return this.connection;
 	}
 
