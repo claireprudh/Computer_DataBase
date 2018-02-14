@@ -16,74 +16,53 @@ import java.sql.SQLException;
  */
 public class Connexion {
 	
+	/**
+	 * La connexion à la base de données.
+	 */
 	private Connection connection;
+	
+	/**
+	 * instance, l'instance de Connexion pour appliquer le pattern Singleton.
+	 */
 	private static Connexion instance;
 	
+	/**
+	 * Méthode permettant de récupérer l'instance du Singleton
+	 * @return l'instance
+	 */
 	public static Connexion getInstance() {
 		
-		Connexion c;
-		
 		if (instance == null) {
-			c = new Connexion();
+			instance = new Connexion();
 		}
-		else {
-			c = instance;
-		}
-		
-		return c;
+				
+		return instance;
 	}
 	
 	/**
-	 * Implements connection with the database.
+	 * Constructeur.
 	 */
 	private Connexion() {
 	
 	}
-		
+	
+	/**
+	 * Implements connection with the database.
+	 */	
 	public void open() {
-	try {
-				
-		String url = "jdbc:mysql://127.0.0.1:3306/computer-database-db?useSSL=false";
+		try {
+					
+			String url = "jdbc:mysql://127.0.0.1:3306/computer-database-db?useSSL=false";
+			
+			this.connection = DriverManager.getConnection(url, "admincdb", "qwerty1234");
 		
-		this.connection = DriverManager.getConnection(url, "admincdb", "qwerty1234");
-	
-	
-	} catch (SQLException e) {
 		
-		e.printStackTrace();
-		System.exit(1);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			System.exit(1);
+		}
 	}
-	}
-	
-	
-	
-//	/**
-//	 * Gets the data identified by attribut.
-//	 * @param attribut
-//	 * @throws SQLException 
-//	 */
-//	public ResultSet getData(String... attribut ) throws SQLException {
-//
-//		String myRequest = "SELECT * FROM computer;";
-//
-//		
-//		Statement stmt;
-//		//PreparedStatement pstmt;
-//		
-//			stmt = connection.createStatement();
-//			//pstmt = conn.prepareStatement(myRequest);
-//			
-//			
-//			ResultSet results = stmt.executeQuery(myRequest);
-//			//ResultSet results2 = pstmt.executeQuery();
-//		
-//			
-//		
-//			return results;
-//		
-//		
-//		
-//	}
 	
 	/**
 	 * Closes connexion with the database
@@ -98,6 +77,10 @@ public class Connexion {
 		}
 	}
 	
+	/**
+	 * Donne l'accès à la base à l'appelant.
+	 * @return la connexion à la base.
+	 */
 	public Connection getConnection() {
 		return this.connection;
 	}

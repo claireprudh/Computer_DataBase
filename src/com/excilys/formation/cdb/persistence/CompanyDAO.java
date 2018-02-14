@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.excilys.formation.cdb.model.Company;
 
@@ -18,48 +19,70 @@ import com.excilys.formation.cdb.model.Company;
  */
 public class CompanyDAO {
 
+	
+	/**
+	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
+	 */
 	private static CompanyDAO instance;
 	
+	/**
+	 * Méthode permettant de récupérer l'instance du Singleton
+	 * @return l'instance
+	 */
 	public static CompanyDAO getInstance() {
-		CompanyDAO c;
 		
 		if (instance == null) {
-			c = new CompanyDAO();
-		}
-		else {
-			c = instance;
+			instance = new CompanyDAO();
 		}
 		
-		return c;
+		return instance;
 	}
 	
-	public Company getCompanyByID(int id) {
-		Company company = new Company();
+	/**
+	 * Récupère un fabriquant à partir de son identifiant.
+	 * @param id, l'identifiant du fabriquant à récupérer.
+	 * @return le fabriquant récupéré
+	 */
+	public Optional<Company> getCompanyByID(int id) {
+		Company company = null;
+		
+		//Ouverture de la connexion
 		Connexion conn = Connexion.getInstance();
 		conn.open();
 		Connection c = conn.getConnection();
+		
 		try {
 			Statement stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT name FROM company WHERE id = " + id + ";");
-			company.setId(id);
+			
+			//Parcours des résultats de la requête
 			if(rs.next()) {
+				company = new Company();
+				company.setId(id);
 				company.setName(rs.getString("name"));
 			}
-			else company.setName(null);
+			
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
+		//Fermeture de la connexion
 		conn.close();
 		
-		return company;
+		return Optional.ofNullable(company);
 		
 	}
 	
+	/**
+	 * Récupère la liste des fabriquants.
+	 * @return la liste des fabriquants.
+	 */
 	public List<Company> getListCompanies(){
+		
 		List<Company> lp = new ArrayList<Company>();
 		
+		//Ouverture de la connexion
 		Connexion conn = Connexion.getInstance();
 		conn.open();
 		Connection c = conn.getConnection();
@@ -68,6 +91,7 @@ public class CompanyDAO {
 			Statement stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT id, name FROM company");
 			
+			//Parcours des résultats
 			while(rs.next()) {
 				Company company = new Company();
 				company.setId(rs.getInt("id"));
@@ -81,6 +105,7 @@ public class CompanyDAO {
 			e.printStackTrace();
 		}
 		
+		//Fermeture de la connexion
 		conn.close();
 		
 		return lp;

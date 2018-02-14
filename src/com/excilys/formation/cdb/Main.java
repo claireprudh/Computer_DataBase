@@ -45,7 +45,8 @@ public class Main {
 		ComputerService.getInstance().createNewComputer(c);
 		
 		Company cp2 = CompanyService.getInstance().getCompanyDetails(5);
-		ComputerService.getInstance().updateComputer(new Computer(580, "NomChange", LocalDate.of(2018,  03,  13), LocalDate.of(2018,  12,  13), cp));
+		ComputerService.getInstance().updateComputer(new Computer(580, "NomChange", LocalDate.of(2018,  03,  13), 
+				LocalDate.of(2018,  12,  13), cp2));
 
 		
 		ComputerService.getInstance().deleteComputer(new Computer(579));

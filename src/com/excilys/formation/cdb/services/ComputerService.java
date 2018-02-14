@@ -15,9 +15,15 @@ import com.excilys.formation.cdb.persistence.ComputerDAO;
  */
 public class ComputerService {
 	
-
+	/**
+	 * instance, l'instance de ComputerService pour appliquer le pattern Singleton.
+	 */
 	private static ComputerService instance;
 	
+	/**
+	 * Méthode permettant de récupérer l'instance du Singleton
+	 * @return l'instance
+	 */
 	public static ComputerService getInstance() {
 		ComputerService c;
 		
@@ -31,38 +37,55 @@ public class ComputerService {
 		return c;
 	}
 	
-	
+	/**
+	 * Retourne la liste complète des ordinateurs.
+	 * @return la liste des ordinateurs.
+	 */
 	public List<String> getListComputers(){
 		
-		List<Computer> lp = ComputerDAO.getInstance().getListComputer().orElse(new ArrayList<Computer>());
+		List<Computer> lp = ComputerDAO.getInstance().getListComputer();
 		List<String> ls = new ArrayList<String>();
 		for(Computer c : lp) {
 			
 			ls.add(c.getName());
 			
 		}
-		
-		
-		
+				
 		return ls;
 	}
 	
+	/**
+	 * Récupère l'ordinateur identifié par id et tous ses attributs
+	 * @param id, l'identifiant du Computer.
+	 * @return le Computer avec tous ses détails.
+	 */
 	public Computer getDetails(int id) {
-		Computer c = ComputerDAO.getInstance().getComputerById(id).orElse(new Computer());
-		return c;
+		return ComputerDAO.getInstance().getComputerById(id).orElse(new Computer());
 	}
 
 
+	/**
+	 * Crée un nouvel ordinateur en base.
+	 * @param c, l'ordinateur à créer en base.
+	 */
 	public void createNewComputer(Computer c) {
 		
 		ComputerDAO.getInstance().createNewComputer(c);
 		
 	}
 	
+	/**
+	 * Modifier un ordinateur en base.
+	 * @param c, l'ordinateur modifié.
+	 */
 	public void updateComputer(Computer c) {
 		ComputerDAO.getInstance().updateComputer(c);
 	}
 	
+	/**
+	 * Supprimer un ordinateur en base.
+	 * @param c, l'ordinateur à supprimer.
+	 */
 	public void deleteComputer(Computer c) {
 		ComputerDAO.getInstance().deleteComputer(c.getId());
 	}
