@@ -4,6 +4,7 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,6 +20,17 @@ import com.excilys.formation.cdb.model.Company;
  */
 public class CompanyDAO {
 
+	/**
+	 * Columns c-
+	 */
+	private String cName = "name";
+	
+	/**
+	 * Queries q-
+	 */
+	private String qlistCompanies = "SELECT name FROM company";
+	private String qgetCompanyId = "SELECT name FROM company WHERE id = ? ;";
+	
 	
 	/**
 	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
@@ -52,14 +64,15 @@ public class CompanyDAO {
 		Connection c = conn.getConnection();
 		
 		try {
-			Statement stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT name FROM company WHERE id = " + id + ";");
+			PreparedStatement pstmt = c.prepareStatement(qgetCompanyId);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
 			
 			//Parcours des résultats de la requête
 			if(rs.next()) {
 				company = new Company();
 				company.setId(id);
-				company.setName(rs.getString("name"));
+				company.setName(rs.getString(cName));
 			}
 			
 		}
@@ -78,9 +91,9 @@ public class CompanyDAO {
 	 * Récupère la liste des fabriquants.
 	 * @return la liste des fabriquants.
 	 */
-	public List<Company> getListCompanies(){
+	public List<String> getListCompanies(){
 		
-		List<Company> lp = new ArrayList<Company>();
+		List<String> lp = new ArrayList<String>();
 		
 		//Ouverture de la connexion
 		Connexion conn = Connexion.getInstance();
@@ -89,16 +102,12 @@ public class CompanyDAO {
 		
 		try {
 			Statement stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, name FROM company");
+			ResultSet rs = stmt.executeQuery(qlistCompanies);
 			
 			//Parcours des résultats
 			while(rs.next()) {
-				Company company = new Company();
-				company.setId(rs.getInt("id"));
-				company.setName(rs.getString("name"));				
-				
-				lp.add(company);
-				
+				lp.add(rs.getString(cName));				
+										
 			}
 			
 		} catch (SQLException e) {

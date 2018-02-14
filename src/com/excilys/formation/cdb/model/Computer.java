@@ -104,7 +104,7 @@ public class Computer {
 	/**
 	 * @return
 	 */
-	public Company getCompanyID() {
+	public Company getCompany() {
 		return company;
 	}
 	

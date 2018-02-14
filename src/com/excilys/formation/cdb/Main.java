@@ -23,7 +23,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		System.out.println("Main");
+		System.out.println("Main\n");
 		
 		
 		for(String s : ComputerService.getInstance().getListComputers()) {
@@ -45,11 +45,11 @@ public class Main {
 		ComputerService.getInstance().createNewComputer(c);
 		
 		Company cp2 = CompanyService.getInstance().getCompanyDetails(5);
-		ComputerService.getInstance().updateComputer(new Computer(580, "NomChange", LocalDate.of(2018,  03,  13), 
+		ComputerService.getInstance().updateComputer(new Computer(504, "NomChange", LocalDate.of(2018,  03,  13), 
 				LocalDate.of(2018,  12,  13), cp2));
 
 		
-		ComputerService.getInstance().deleteComputer(new Computer(579));
+		ComputerService.getInstance().deleteComputer(503);
 	}
 
 }

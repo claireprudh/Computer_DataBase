@@ -1,6 +1,6 @@
 package com.excilys.formation.cdb.services;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Company;
@@ -37,16 +37,8 @@ public class CompanyService {
 	 */
 	public List<String> getListCompanies() {
 		
-		List<String> ls = new ArrayList<String>();
-		List<Company> lp = CompanyDAO.getInstance().getListCompanies();
+		return CompanyDAO.getInstance().getListCompanies();
 		
-		for(Company c : lp) {
-			
-			ls.add(c.getName());
-		}
-		
-		
-		return ls;
 	}
 	
 	/**

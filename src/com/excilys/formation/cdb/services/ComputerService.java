@@ -3,7 +3,6 @@
  */
 package com.excilys.formation.cdb.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Computer;
@@ -43,15 +42,9 @@ public class ComputerService {
 	 */
 	public List<String> getListComputers(){
 		
-		List<Computer> lp = ComputerDAO.getInstance().getListComputer();
-		List<String> ls = new ArrayList<String>();
-		for(Computer c : lp) {
+		return ComputerDAO.getInstance().getListComputer();
+		
 			
-			ls.add(c.getName());
-			
-		}
-				
-		return ls;
 	}
 	
 	/**
@@ -86,8 +79,8 @@ public class ComputerService {
 	 * Supprimer un ordinateur en base.
 	 * @param c, l'ordinateur à supprimer.
 	 */
-	public void deleteComputer(Computer c) {
-		ComputerDAO.getInstance().deleteComputer(c.getId());
+	public void deleteComputer(int idComputer) {
+		ComputerDAO.getInstance().deleteComputer(idComputer);
 	}
 
 }
