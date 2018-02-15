@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
+
 import com.excilys.formation.cdb.model.Company;
 
 /**
@@ -20,6 +22,8 @@ import com.excilys.formation.cdb.model.Company;
  */
 public class CompanyDAO {
 
+	final static Logger logger  = Logger.getLogger(ComputerDAO.class);
+	
 	/**
 	 * Columns c-
 	 */
@@ -58,30 +62,25 @@ public class CompanyDAO {
 	public Optional<Company> getCompanyByID(int id) {
 		Company company = null;
 		
-		//Ouverture de la connexion
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection c = conn.getConnection();
+
 		
-		try {
-			PreparedStatement pstmt = c.prepareStatement(qgetCompanyId);
+		try(Connection connection = Connexion.getInstance()) {
+			PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId);
 			pstmt.setInt(1, id);
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet results = pstmt.executeQuery();
 			
 			//Parcours des résultats de la requête
-			if(rs.next()) {
+			if(results.next()) {
 				company = new Company();
 				company.setId(id);
-				company.setName(rs.getString(cName));
+				company.setName(results.getString(cName));
 			}
-			
+		
+			results.close();
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
-		
-		//Fermeture de la connexion
-		conn.close();
 		
 		return Optional.ofNullable(company);
 		
@@ -93,31 +92,26 @@ public class CompanyDAO {
 	 */
 	public List<String> getListCompanies(){
 		
-		List<String> lp = new ArrayList<String>();
+		List<String> listCompanies = new ArrayList<String>();
 		
-		//Ouverture de la connexion
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection c = conn.getConnection();
-		
-		try {
-			Statement stmt = c.createStatement();
-			ResultSet rs = stmt.executeQuery(qlistCompanies);
+	
+		try(Connection connection = Connexion.getInstance()) {
+			Statement stmt = connection.createStatement();
+			ResultSet results = stmt.executeQuery(qlistCompanies);
 			
 			//Parcours des résultats
-			while(rs.next()) {
-				lp.add(rs.getString(cName));				
+			while(results.next()) {
+				listCompanies.add(results.getString(cName));				
 										
 			}
 			
+			results.close();
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
 		
-		//Fermeture de la connexion
-		conn.close();
-		
-		return lp;
+		return listCompanies;
 	}
 	
 

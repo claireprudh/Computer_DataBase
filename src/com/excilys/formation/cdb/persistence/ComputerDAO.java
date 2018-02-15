@@ -77,37 +77,30 @@ public class ComputerDAO {
 	public List<String> getListComputer() {
 		
 		//La liste à remplir
-		List<String> lp = new ArrayList<String>();
-		
-		//Connection à la base de données
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection c = conn.getConnection();
-		
+		List<String> listComputers = new ArrayList<String>();
 		
 		//Traitement
-		try {
+		try(Connection connection = Connexion.getInstance()) {
 			//Création du statement
-			Statement stmt = c.createStatement();
+			Statement stmt = connection.createStatement();
 			//Création du ResultSet
-			ResultSet rs = stmt.executeQuery(qlistComputers);
+			ResultSet results = stmt.executeQuery(qlistComputers);
 			
 			//Parcours du ResultSet
-			while(rs.next()) {
+			while(results.next()) {
 				
 				//Ajout du Computer dans la liste
-				lp.add(rs.getString(cname));
+				listComputers.add(results.getString(cname));
 				
 			}
 			
+			results.close();
+			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
 		
-		//Fermeture de la connexion
-		conn.close();
-		
-		return lp;
+		return listComputers;
 	}
 
 	/**
@@ -122,35 +115,31 @@ public class ComputerDAO {
 		//La Date utilisée pour la conversion
 		Date temp;
 		
-		//Ouverture de la connexion
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection c = conn.getConnection();
 		
-		try {
+		try (Connection connection = Connexion.getInstance()) {
 			
 			//Création du statement 
-			PreparedStatement pstmt = c.prepareStatement(qgetComputerById);
+			PreparedStatement pstmt = connection.prepareStatement(qgetComputerById);
 			pstmt.setInt(1, id);
 			//Création du ResultSet
-			ResultSet rs = pstmt.executeQuery();
+			ResultSet results = pstmt.executeQuery();
 			
 			//Parcours du ResultSet
-			if(rs.next()) {
+			if(results.next()) {
 				//le Computeur existe, on peut donc l'instancier
 				computer = new Computer();
 				
 				//Remplissage des champs
 				computer.setId(id);
-				computer.setName(rs.getString(cname));
-				temp = rs.getDate(cdateOfIntro);
+				computer.setName(results.getString(cname));
+				temp = results.getDate(cdateOfIntro);
 				if (temp != null) {
 					computer.setDateOfIntro(temp.toLocalDate());
 				}
 				else {
 					computer.setDateOfIntro(null);
 				}
-				temp = rs.getDate(cdateOfDisc);			
+				temp = results.getDate(cdateOfDisc);			
 				if (temp != null) {
 					computer.setDateOfDisc(temp.toLocalDate());
 				}
@@ -158,17 +147,15 @@ public class ComputerDAO {
 					computer.setDateOfDisc(null);
 				}
 	
-				computer.setCompany(CompanyDAO.getInstance().getCompanyByID(rs.getInt(ccompanyID)).orElse(new Company()));
+				computer.setCompany(CompanyDAO.getInstance().getCompanyByID(results.getInt(ccompanyID)).orElse(new Company()));
 			}
 			
+			results.close();
 			
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
-		
-		//Fermeture de la connexion
-		conn.close();
 
 		
 		return Optional.ofNullable(computer);
@@ -180,13 +167,9 @@ public class ComputerDAO {
 	 */
 	public void createNewComputer(Computer computer) {
 		
-		//Ouverture de la connexion
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection c = conn.getConnection();
 			
-		try {
-			PreparedStatement pstmt = c.prepareStatement(qcreateNewComputer);
+		try (Connection connection = Connexion.getInstance()){
+			PreparedStatement pstmt = connection.prepareStatement(qcreateNewComputer);
 			
 			//Remplissage de la requête
 			pstmt.setString(1, computer.getName());
@@ -213,15 +196,9 @@ public class ComputerDAO {
 			
 		}
 		catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
-		
-		//Fermeture de la connexion
-		conn.close();
-		
-		
-		
-		
+				
 	}
 	
 	
@@ -231,12 +208,9 @@ public class ComputerDAO {
 	 */
 	public void updateComputer(Computer ucomputer) {
 		
-		//Ouverture de la connexion
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection connection = conn.getConnection();
+
 		
-		try {
+		try (Connection connection = Connexion.getInstance()) {
 			PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
 		
 		
@@ -277,11 +251,9 @@ public class ComputerDAO {
 			
 		}
 		}catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
-		
-		//Fermeture de la connexion
-		conn.close();
+
 	}
 	
 	/**
@@ -290,12 +262,8 @@ public class ComputerDAO {
 	 */
 	public void deleteComputer(int id) {
 		
-		//Ouverture de la connexion
-		Connexion conn = Connexion.getInstance();
-		conn.open();
-		Connection connection = conn.getConnection();
-		
-		try {
+
+		try (Connection connection = Connexion.getInstance()) {
 			PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer);
 			
 			pstmt.setInt(1, id);
@@ -303,11 +271,9 @@ public class ComputerDAO {
 			pstmt.executeUpdate();
 			
 		}catch (SQLException e) {
-			e.printStackTrace();
+			logger.error("Exception SQL à l'exécution de la requête");
 		}
 		
-		//Fermeture de la connexion
-		conn.close();
 		
 	}
 	
