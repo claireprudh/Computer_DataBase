@@ -122,4 +122,31 @@ public class Computer {
 		return s;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		Computer other = (Computer) obj;
+		if (this.getId() == other.getId()) {
+			return true;
+			
+		}
+		else {
+		
+			return false;
+		
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	
+
 }
