@@ -158,7 +158,7 @@ public class ComputerDAO {
 					computer.setDateOfDisc(null);
 				}
 	
-				computer.setCompanyID(CompanyDAO.getInstance().getCompanyByID(rs.getInt(ccompanyID)).orElse(new Company()));
+				computer.setCompany(CompanyDAO.getInstance().getCompanyByID(rs.getInt(ccompanyID)).orElse(new Company()));
 			}
 			
 			

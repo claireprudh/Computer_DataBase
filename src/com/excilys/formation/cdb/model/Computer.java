@@ -32,7 +32,7 @@ public class Computer {
 		this.setName(name);
 		this.setDateOfIntro(dateOfIntro);
 		this.setDateOfDisc(dateOfDisc);
-		this.setCompanyID(company);
+		this.setCompany(company);
 	}
 	
 	public Computer(int id, String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
@@ -41,7 +41,7 @@ public class Computer {
 		this.setName(name);
 		this.setDateOfIntro(dateOfIntro);
 		this.setDateOfDisc(dateOfDisc);
-		this.setCompanyID(company);
+		this.setCompany(company);
 	}
 		
 	
@@ -111,7 +111,7 @@ public class Computer {
 	/**
 	 * @param companyID
 	 */
-	public void setCompanyID(Company companyID) {
+	public void setCompany(Company companyID) {
 		this.company = companyID;
 	}
 	

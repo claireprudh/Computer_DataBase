@@ -9,16 +9,26 @@ package com.excilys.formation.cdb.ihm;
  */
 public enum Command {
 	
+	//Commandes sans arguments
 	LIST_COMPUTERS ("listcomputers"),
 	LIST_COMPANIES ("listcompanies"),
+	EXIT ("exit"),
+	RETURN("return"),
+	DEFAULT("default"),
+	
+	//Commandes avec arguments
 	GET_COMPUTER ("getcomputer" ),
 	GET_COMPANY ("getcompany"),
 	CREATE_COMPUTER ("createcomputer"),
 	UPDATE_COMPUTER ("updatecomputer"),
 	DELETE_COMPUTER ("deletecomputer"),
-	EXIT ("exit"),
-	RETURN("return"),
-	DEFAULT("default")
+	
+	//arguments
+	ID ("id"),
+	NAME("name"),
+	DATE_OF_INTRO("introduced"),
+	DATE_OF_DISC("discontinued")
+	
 	;
 	
 	private String name;
