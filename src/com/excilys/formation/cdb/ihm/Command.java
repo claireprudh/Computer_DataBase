@@ -24,7 +24,8 @@ public enum Command {
 	DELETE_COMPUTER ("deletecomputer"),
 	
 	//arguments
-	ID ("id"),
+	COMPANY_ID ("companyid"),
+	COMPUTER_ID ("computerid"),
 	NAME("name"),
 	DATE_OF_INTRO("introduced"),
 	DATE_OF_DISC("discontinued")

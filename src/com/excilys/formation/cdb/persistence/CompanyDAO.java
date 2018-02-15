@@ -79,7 +79,7 @@ public class CompanyDAO {
 			results.close();
 		}
 		catch (SQLException e) {
-			logger.error("Exception SQL à l'exécution de la requête");
+			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 		
 		return Optional.ofNullable(company);
@@ -108,7 +108,7 @@ public class CompanyDAO {
 			results.close();
 			
 		} catch (SQLException e) {
-			logger.error("Exception SQL à l'exécution de la requête");
+			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 		
 		return listCompanies;
