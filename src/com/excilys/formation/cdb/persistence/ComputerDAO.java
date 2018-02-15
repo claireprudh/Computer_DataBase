@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.log4j.Logger;
+
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 
@@ -21,6 +23,8 @@ import com.excilys.formation.cdb.model.Computer;
  *
  */
 public class ComputerDAO {
+	
+	final static Logger logger = Logger.getLogger(ComputerDAO.class);
 	
 	/**
 	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
@@ -40,6 +44,8 @@ public class ComputerDAO {
 		return instance;
 	}
 
+	
+	
 	/**
 	 * Columns c-
 	 */
@@ -267,8 +273,7 @@ public class ComputerDAO {
 		}
 		else {
 			
-			System.out.println("L'id spécifié ne correspond à aucun ordinateur de la base.");
-			
+			logger.error("L'id spécifié ne correspond à aucun ordinateur de la base.");			
 			
 		}
 		}catch (SQLException e) {
