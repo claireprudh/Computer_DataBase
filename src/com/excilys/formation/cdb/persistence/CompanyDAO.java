@@ -27,13 +27,13 @@ public class CompanyDAO {
 	/**
 	 * Columns c-
 	 */
-	private String cName = "name";
+	private final String cName = "name";
 	
 	/**
 	 * Queries q-
 	 */
-	private String qlistCompanies = "SELECT name FROM company";
-	private String qgetCompanyId = "SELECT name FROM company WHERE id = ? ;";
+	private final String qlistCompanies = "SELECT name FROM company";
+	private final String qgetCompanyId = "SELECT name FROM company WHERE id = ? ;";
 	
 	
 	/**

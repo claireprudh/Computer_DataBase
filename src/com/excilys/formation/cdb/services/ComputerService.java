@@ -83,4 +83,19 @@ public class ComputerService {
 		ComputerDAO.getInstance().deleteComputer(idComputer);
 	}
 
+	public List<String> getPageComputers(int nbComputer, int noPage) {
+		
+		return ComputerDAO.getInstance().getPageComputer(nbComputer, nbComputer*noPage);
+		
+		
+	}
+
+	public int getMaxPage(int nbComputer) {
+		
+		return ComputerDAO.getInstance().getMaxPage(nbComputer);
+	}
+
+
+
+
 }

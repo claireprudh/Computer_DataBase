@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,26 +50,29 @@ public class ComputerDAO {
 	/**
 	 * Columns c-
 	 */
-	private String cid = "id";
-	private String cname = "name";
-	private String cdateOfIntro = "introduced";
-	private String cdateOfDisc = "discontinued";
-	private String ccompanyID = "company_id";
+	private final String cid = "id";
+	private final String cname = "name";
+	private final String cdateOfIntro = "introduced";
+	private final String cdateOfDisc = "discontinued";
+	private final String ccompanyID = "company_id";
+	private final String ccount = "COUNT(*)";
 
 	/**
 	 * Queries q-
 	 */
-	private String qlistComputers = "SELECT name FROM computer";
-	private String qgetComputerById = "SELECT name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	private String qcreateNewComputer = "INSERT INTO computer (name, introduced, discontinued, company_id)"
+	private final String qlistComputers = "SELECT name FROM computer";
+	private final String qgetComputerById = "SELECT name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
+	private final String qcreateNewComputer = "INSERT INTO computer (name, introduced, discontinued, company_id)"
 			+ "  VALUES (?, ?, ?, ?)";
-	private String qupdateComputer = "UPDATE computer SET " 
+	private final String qupdateComputer = "UPDATE computer SET " 
 			+ cname + " = ? , " 
 			+ cdateOfIntro + " = ? , " 
 			+ cdateOfDisc + " = ? , " 
 			+ ccompanyID + " = ? "
 			+ "WHERE " + cid + " = ? ;";
-	private String qdeleteComputer = "DELETE FROM computer WHERE " + cid +" = ? ;";
+	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid +" = ? ;";
+	private final String qgetPageOfComputers = "SELECT name FROM computer LIMIT ? OFFSET ? ;";
+	private final String qgetMaxPage = "SELECT COUNT(*) FROM computer ;";
 
 	/**
 	 * Retourne la liste complète des ordinateurs.
@@ -197,11 +201,11 @@ public class ComputerDAO {
 				pstmt.setDate(3, null);
 			}
 
-			if(computer.getCompany() != null) {
-				pstmt.setInt(4, computer.getCompany().getId());
+			if(computer.getCompany().isPresent() && computer.getCompany().get().getId() != 0) {
+				pstmt.setInt(4, computer.getCompany().orElse(new Company()).getId());
 			}
 			else {
-				pstmt.setInt(4, 0);
+				pstmt.setNull(4, Types.INTEGER);
 			}
 
 			//Exécution de la requête
@@ -223,7 +227,7 @@ public class ComputerDAO {
 	public void updateComputer(Computer ucomputer) {
 
 		if( this.getComputerById(ucomputer.getId()).isPresent() 
-				&& CompanyDAO.getInstance().getCompanyByID(ucomputer.getCompany().getId()).isPresent()) { 
+				&& CompanyDAO.getInstance().getCompanyByID(ucomputer.getCompany().orElse(new Company()).getId()).isPresent()) { 
 
 			try (Connection connection = Connexion.getInstance()) {
 
@@ -253,8 +257,13 @@ public class ComputerDAO {
 				else {
 					pstmt.setDate(3, null);
 				}
-				
-				pstmt.setInt(4, ucomputer.getCompany().getId());
+
+				if(ucomputer.getCompany().isPresent() && ucomputer.getCompany().get().getId() != 0) {
+					pstmt.setInt(4, ucomputer.getCompany().orElse(new Company()).getId());
+				}
+				else {
+					pstmt.setNull(4, Types.INTEGER);
+				}
 
 				pstmt.executeUpdate();
 
@@ -288,6 +297,68 @@ public class ComputerDAO {
 			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 
+
+	}
+
+	public List<String> getPageComputer(int nbComputer, int offset) {
+
+		//La liste à remplir
+		List<String> listComputers = new ArrayList<String>();
+
+		//Traitement
+		try(Connection connection = Connexion.getInstance()) {
+
+			//Création du statement
+			PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers);
+
+			pstmt.setInt(1, nbComputer);
+			pstmt.setInt(2, offset);
+
+			//Création du ResultSet
+			ResultSet results = pstmt.executeQuery();
+
+			//Parcours du ResultSet
+			while(results.next()) {
+
+				//Ajout du Computer dans la liste
+				listComputers.add(results.getString(cname));
+
+			}
+
+			results.close();
+
+		} catch (SQLException e) {
+			logger.error("Exception SQL à l'exécution de la requête" + e.getMessage());
+		}
+
+		return listComputers;
+	}
+
+	public int getMaxPage(int nbComputer) {
+
+		int maxPage = 0;
+
+		try (Connection connection = Connexion.getInstance()) {
+
+			//Création du statement 
+			PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage);
+			//Création du ResultSet
+			ResultSet results = pstmt.executeQuery();
+
+			//Parcours du ResultSet
+			if(results.next()) {
+				maxPage = results.getInt(ccount);
+			}
+
+			results.close();
+
+		}
+		catch (SQLException e) {
+			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+		}
+
+
+		return maxPage;
 
 	}
 

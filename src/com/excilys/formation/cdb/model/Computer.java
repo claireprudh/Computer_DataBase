@@ -4,6 +4,7 @@
 package com.excilys.formation.cdb.model;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 /**
  * @author excilys
@@ -104,8 +105,8 @@ public class Computer {
 	/**
 	 * @return
 	 */
-	public Company getCompany() {
-		return company;
+	public Optional<Company> getCompany() {
+		return Optional.ofNullable(company);
 	}
 	
 	/**
