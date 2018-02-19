@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
 
 /**
  * @author excilys
@@ -54,18 +55,18 @@ public class ComputerDAO {
 	/**
 	 * Columns c-
 	 */
-	private final String cid = "id";
-	private final String cname = "name";
-	private final String cdateOfIntro = "introduced";
-	private final String cdateOfDisc = "discontinued";
-	private final String ccompanyID = "company_id";
-	private final String ccount = "COUNT(*)";
+	private final String cid = Column.CID.getName();
+	private final String cname = Column.CNAME.getName();
+	private final String cdateOfIntro = Column.CDATE_OF_INTRO.getName();
+	private final String cdateOfDisc = Column.CDATE_OF_DISC.getName();
+	private final String ccompanyID = Column.CCOMPANY_ID.getName();
+	private final String ccount = Column.CCOUNT.getName();
 
 	/**
 	 * Queries q-
 	 */
 	private final String qlistComputers = "SELECT " + cname +" FROM computer";
-	private final String qgetComputerById = "SELECT " + cname +", "+ cdateOfIntro +", "+ cdateOfDisc +", "+ ccompanyID +" FROM computer WHERE " + cid + " = ?;";
+	private final String qgetComputerById = "SELECT " +cid +", "+ cname +", "+ cdateOfIntro +", "+ cdateOfDisc +", "+ ccompanyID +" FROM computer WHERE " + cid + " = ?;";
 	private final String qcreateNewComputer = "INSERT INTO computer ("+ cname +", "+ cdateOfIntro +", "+ cdateOfDisc +", "+ ccompanyID +")"
 			+ "  VALUES (?, ?, ?, ?)";
 	private final String qupdateComputer = "UPDATE computer SET " 
@@ -116,8 +117,6 @@ public class ComputerDAO {
 
 		Computer computer = null;
 
-		Date temp;
-
 
 		try (Connection connection = Connexion.getInstance()) {
 
@@ -130,26 +129,7 @@ public class ComputerDAO {
 	
 			if(results.next()) {
 	
-				computer = new Computer();
-
-				computer.setId(id);
-				computer.setName(results.getString(cname));
-				temp = results.getDate(cdateOfIntro);
-				if (temp != null) {
-					computer.setDateOfIntro(temp.toLocalDate());
-				}
-				else {
-					computer.setDateOfIntro(null);
-				}
-				temp = results.getDate(cdateOfDisc);			
-				if (temp != null) {
-					computer.setDateOfDisc(temp.toLocalDate());
-				}
-				else {
-					computer.setDateOfDisc(null);
-				}
-
-				computer.setCompany(CompanyDAO.getInstance().getByID(results.getInt(ccompanyID)).orElse(new Company()));
+				computer = ComputerMapper.getInstance().map(results);
 			}
 
 			results.close();

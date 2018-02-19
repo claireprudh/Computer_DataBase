@@ -21,7 +21,7 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class IHM {
 
 	final static Logger logger = Logger.getLogger(IHM.class);
-	final static int computerByPage = 100;
+	final static int computerByPage = 500;
 
 	public static void main(String[] args) {
 
@@ -156,7 +156,7 @@ public class IHM {
 
 		} while(command != Command.RETURN);
 		
-		Page.noPage = 0;
+		Page.noPage = 1;
 
 	}
 
@@ -545,6 +545,7 @@ public class IHM {
 
 
 			str.setLength(0);
+			System.out.println(">");
 
 
 		}while (command != Command.RETURN) ;

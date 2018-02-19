@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.apache.log4j.Logger;
 
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
 
 /**
  * @author excilys
@@ -64,9 +65,8 @@ public class CompanyDAO {
 	 * @return le fabriquant récupéré
 	 */
 	public Optional<Company> getByID(int id) {
-		Company company = null;
-		
 
+		Company company = null;
 		
 		try(Connection connection = Connexion.getInstance()) {
 			PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId);
@@ -74,9 +74,7 @@ public class CompanyDAO {
 			ResultSet results = pstmt.executeQuery();
 			
 			if(results.next()) {
-				company = new Company();
-				company.setId(id);
-				company.setName(results.getString(cname));
+				company = CompanyMapper.getInstance().map(results);
 			}
 		
 			results.close();
@@ -90,8 +88,8 @@ public class CompanyDAO {
 	}
 	
 	/**
-	 * Récupère la liste des fabriquants.
-	 * @return la liste des fabriquants.
+	 * Récupère la liste des fabricants.
+	 * @return la liste des fabricants.
 	 */
 	public List<String> getList(){
 		

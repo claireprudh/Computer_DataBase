@@ -13,36 +13,38 @@ import com.excilys.formation.cdb.services.ComputerService;
  *
  */
 public class Page {
-	
-	public static int noPage = 1;
+
+	public static int noPage = 0;
 	public int nbComputer;
 	public int pageMax;
-	
+
 	private List<String> listComputers;
 
-	
+
 	public Page(int nbComputer) {
 		setNbComputer(nbComputer);
-		
+
 		pageMax = ComputerService.getInstance().getMaxPage(nbComputer);
 		listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
-		
 
-		
+
+
 	}
-	
+
 	public Page nextPage() {
-		if (noPage<=pageMax) {
+		if (noPage < pageMax-1) {
 			noPage++;
 			listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 		}
-		
+
 		return this;
 	}
-	
+
 	public Page previousPage() {
-		noPage--;
-		listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
+		if(noPage > 0) {
+			noPage--;
+			listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
+		}
 
 		return this;
 	}
@@ -51,14 +53,14 @@ public class Page {
 	 */
 	@Override
 	public String toString() {
-		
+
 		StringBuilder list = new StringBuilder();
 		for (String s : listComputers) {
 			list.append(s + "\n");
 		}
-		
-		list.append(noPage + " / " + pageMax);
-		
+
+		list.append(noPage+1 + " / " + pageMax);
+
 		return list.toString();
 	}
 
