@@ -352,6 +352,10 @@ public class ComputerDAO {
 
 			results.close();
 
+			maxPage = maxPage / nbComputer; 
+			if (maxPage%nbComputer > 0) {
+				maxPage++;
+			}
 		}
 		catch (SQLException e) {
 			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());

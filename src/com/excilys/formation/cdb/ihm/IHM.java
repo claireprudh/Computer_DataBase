@@ -21,7 +21,7 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class IHM {
 
 	final static Logger logger = Logger.getLogger(IHM.class);
-	final static int computerByPage = 10;
+	final static int computerByPage = 100;
 
 	public static void main(String[] args) {
 
@@ -113,6 +113,12 @@ public class IHM {
 
 	}
 
+	/**
+	 * 
+	 * @param scan
+	 * @param str
+	 * @param command
+	 */
 	private static void displayPages(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
@@ -126,15 +132,14 @@ public class IHM {
 
 			switch(command) {
 			case NEXT :
-				for (String s : page.nextPage()) {
-					System.out.println(s);
-				}
+				System.out.println(page.nextPage());
+				
 				break;
 				
 			case PREVIOUS :
-				for (String s : page.previousPage()) {
-					System.out.println(s);
-				}
+				
+				System.out.println(page.previousPage());
+				
 				break;
 				
 			case RETURN :
@@ -145,6 +150,7 @@ public class IHM {
 				break;
 			}
 
+			str.setLength(0);
 
 		} while(command != Command.RETURN);
 		

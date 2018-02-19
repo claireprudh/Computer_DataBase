@@ -14,7 +14,7 @@ import com.excilys.formation.cdb.services.ComputerService;
  */
 public class Page {
 	
-	public static int noPage;
+	public static int noPage = 1;
 	public int nbComputer;
 	public int pageMax;
 	
@@ -27,22 +27,24 @@ public class Page {
 		pageMax = ComputerService.getInstance().getMaxPage(nbComputer);
 		listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
 		
-		noPage++;
+
 		
 	}
 	
-	public List<String> nextPage() {
-		listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
-		noPage++;
+	public Page nextPage() {
+		if (noPage<=pageMax) {
+			noPage++;
+			listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
+		}
 		
-		return listComputers;
+		return this;
 	}
 	
-	public List<String> previousPage() {
-		listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
+	public Page previousPage() {
 		noPage--;
-		
-		return listComputers;
+		listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
+
+		return this;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -54,6 +56,8 @@ public class Page {
 		for (String s : listComputers) {
 			list.append(s + "\n");
 		}
+		
+		list.append(noPage + " / " + pageMax);
 		
 		return list.toString();
 	}
