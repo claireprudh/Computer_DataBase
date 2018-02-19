@@ -48,8 +48,9 @@ public class IHM {
 
 			switch(command) {
 			case LIST_COMPUTERS : 
-				for(String s : ComputerService.getInstance().getListComputers())
+				for(String s : ComputerService.getInstance().getList()) {
 					System.out.println(s);
+				}
 				break;
 
 			case LIST_COMPUTERS_PAGED : 
@@ -58,8 +59,9 @@ public class IHM {
 				break;
 
 			case LIST_COMPANIES : 
-				for(String s : CompanyService.getInstance().getListCompanies())
+				for(String s : CompanyService.getInstance().getList()) {
 					System.out.println(s);
+				}
 				break;
 
 			case GET_COMPUTER : 
@@ -237,7 +239,7 @@ public class IHM {
 				break;
 
 			case COMPANY_ID : 
-				Company company = CompanyService.getInstance().getCompanyDetails(
+				Company company = CompanyService.getInstance().getDetails(
 						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));
 
 				computer.setCompany(company);
@@ -261,7 +263,7 @@ public class IHM {
 		}while (command != Command.RETURN) ;
 
 		if (computer.getName() != null) {
-			ComputerService.getInstance().createNewComputer(computer);
+			ComputerService.getInstance().createNew(computer);
 		}
 		else {
 			System.out.println("Le nom est obligatoire pour la création d'un nouvel ordinateur, sortie");
@@ -285,13 +287,11 @@ public class IHM {
 
 		StringBuilder message = new StringBuilder();
 
-		message.append("Veuillez caractériser l\'ordinateur à mettre à jour :\n"
-				+ Command.COMPUTER_ID + " = <computer_id> : ID de l'ordinateur à modifier\n"
-				+ Command.NAME + " = <name> : Nom du pc\n"
-				+ Command.DATE_OF_INTRO + " = <YYYY/MM/DD> : Date d'introduction de l'ordinateur\n"
-				+ Command.DATE_OF_DISC + " = <YYYY/MM/DD> : Date de discontinuité de l'ordinateur\n"
-				+ Command.COMPANY_ID + " = <company_id> : ID du fabricant\n"
-				+ Command.RETURN + " : Lancer la mise à jour\n\n"
+		message.append("Veuillez caractériser l\'ordinateur à mettre à jour :\n");
+				for (String s : Command.listcommands(TypeCommand.ARGUMENT)) {
+					message.append(s);
+				}
+		message.append( Command.RETURN + " : Lancer la mise à jour\n\n"
 				+ "Arguments passés : \n");
 
 		do {
@@ -360,7 +360,7 @@ public class IHM {
 				break;
 
 			case COMPANY_ID : 
-				Company company = CompanyService.getInstance().getCompanyDetails(
+				Company company = CompanyService.getInstance().getDetails(
 						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));
 
 				computer.setCompany(company);
@@ -384,7 +384,7 @@ public class IHM {
 		}while (command != Command.RETURN) ;
 
 		if(computer.getId() != 0) {
-			ComputerService.getInstance().updateComputer(computer);
+			ComputerService.getInstance().update(computer);
 		}
 		else {
 			System.out.println("ID non mentionné, pas de changement, sortie");
@@ -476,7 +476,7 @@ public class IHM {
 
 			case COMPANY_ID : 
 				System.out.println(
-						CompanyService.getInstance().getCompanyDetails(
+						CompanyService.getInstance().getDetails(
 								Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim())));			
 				break;			
 

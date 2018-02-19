@@ -1,6 +1,7 @@
 #Environment
 .project
 .classpath
+.settings/
 
 # Compiled class file
 *.class

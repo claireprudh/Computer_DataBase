@@ -27,13 +27,13 @@ public class CompanyDAO {
 	/**
 	 * Columns c-
 	 */
-	private final String cName = "name";
+	private final String cname = "name";
 	
 	/**
 	 * Queries q-
 	 */
-	private final String qlistCompanies = "SELECT name FROM company";
-	private final String qgetCompanyId = "SELECT name FROM company WHERE id = ? ;";
+	private final String qlistCompanies = "SELECT "+ cname +" FROM company";
+	private final String qgetCompanyId = "SELECT "+ cname +" FROM company WHERE id = ? ;";
 	
 	
 	/**
@@ -54,12 +54,16 @@ public class CompanyDAO {
 		return instance;
 	}
 	
+	private CompanyDAO(){
+		
+	}
+	
 	/**
 	 * Récupère un fabriquant à partir de son identifiant.
 	 * @param id, l'identifiant du fabriquant à récupérer.
 	 * @return le fabriquant récupéré
 	 */
-	public Optional<Company> getCompanyByID(int id) {
+	public Optional<Company> getByID(int id) {
 		Company company = null;
 		
 
@@ -69,11 +73,10 @@ public class CompanyDAO {
 			pstmt.setInt(1, id);
 			ResultSet results = pstmt.executeQuery();
 			
-			//Parcours des résultats de la requête
 			if(results.next()) {
 				company = new Company();
 				company.setId(id);
-				company.setName(results.getString(cName));
+				company.setName(results.getString(cname));
 			}
 		
 			results.close();
@@ -90,7 +93,7 @@ public class CompanyDAO {
 	 * Récupère la liste des fabriquants.
 	 * @return la liste des fabriquants.
 	 */
-	public List<String> getListCompanies(){
+	public List<String> getList(){
 		
 		List<String> listCompanies = new ArrayList<String>();
 		
@@ -99,9 +102,8 @@ public class CompanyDAO {
 			Statement stmt = connection.createStatement();
 			ResultSet results = stmt.executeQuery(qlistCompanies);
 			
-			//Parcours des résultats
 			while(results.next()) {
-				listCompanies.add(results.getString(cName));				
+				listCompanies.add(results.getString(cname));				
 										
 			}
 			

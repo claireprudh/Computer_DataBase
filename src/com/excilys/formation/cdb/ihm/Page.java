@@ -25,7 +25,7 @@ public class Page {
 		setNbComputer(nbComputer);
 		
 		pageMax = ComputerService.getInstance().getMaxPage(nbComputer);
-		listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
+		listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 		
 
 		
@@ -34,7 +34,7 @@ public class Page {
 	public Page nextPage() {
 		if (noPage<=pageMax) {
 			noPage++;
-			listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
+			listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 		}
 		
 		return this;
@@ -42,7 +42,7 @@ public class Page {
 	
 	public Page previousPage() {
 		noPage--;
-		listComputers = ComputerService.getInstance().getPageComputers(nbComputer, noPage);
+		listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 
 		return this;
 	}

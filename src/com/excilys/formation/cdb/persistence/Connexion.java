@@ -45,13 +45,17 @@ public class Connexion {
 			}
 		} catch (SQLException e) {
 			logger.error("Exception SQL à l\'ouverture de la session");
-			System.exit(1);
+			
 		}
 
 
 
 
 		return connexion;
+	}
+	
+	private Connexion() {
+		
 	}
 
 

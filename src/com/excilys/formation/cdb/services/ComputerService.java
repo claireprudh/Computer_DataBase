@@ -24,25 +24,25 @@ public class ComputerService {
 	 * @return l'instance
 	 */
 	public static ComputerService getInstance() {
-		ComputerService c;
 		
 		if (instance == null) {
-			c = new ComputerService();
-		}
-		else {
-			c = instance;
-		}
+			instance = new ComputerService();
+		}		
 		
-		return c;
+		return instance;
+	}
+	
+	private ComputerService() {
+		
 	}
 	
 	/**
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
 	 */
-	public List<String> getListComputers(){
+	public List<String> getList(){
 		
-		return ComputerDAO.getInstance().getListComputer();
+		return ComputerDAO.getInstance().getList();
 		
 			
 	}
@@ -53,7 +53,7 @@ public class ComputerService {
 	 * @return le Computer avec tous ses détails.
 	 */
 	public Computer getDetails(int id) {
-		return ComputerDAO.getInstance().getComputerById(id).orElse(new Computer());
+		return ComputerDAO.getInstance().getById(id).orElse(new Computer());
 	}
 
 
@@ -61,9 +61,9 @@ public class ComputerService {
 	 * Crée un nouvel ordinateur en base.
 	 * @param c, l'ordinateur à créer en base.
 	 */
-	public void createNewComputer(Computer c) {
+	public void createNew(Computer c) {
 		
-		ComputerDAO.getInstance().createNewComputer(c);
+		ComputerDAO.getInstance().create(c);
 		
 	}
 	
@@ -71,8 +71,8 @@ public class ComputerService {
 	 * Modifier un ordinateur en base.
 	 * @param c, l'ordinateur modifié.
 	 */
-	public void updateComputer(Computer c) {
-		ComputerDAO.getInstance().updateComputer(c);
+	public void update(Computer c) {
+		ComputerDAO.getInstance().update(c);
 	}
 	
 	/**
@@ -80,12 +80,12 @@ public class ComputerService {
 	 * @param c, l'ordinateur à supprimer.
 	 */
 	public void deleteComputer(int idComputer) {
-		ComputerDAO.getInstance().deleteComputer(idComputer);
+		ComputerDAO.getInstance().delete(idComputer);
 	}
 
-	public List<String> getPageComputers(int nbComputer, int noPage) {
+	public List<String> getPage(int nbComputer, int noPage) {
 		
-		return ComputerDAO.getInstance().getPageComputer(nbComputer, nbComputer*noPage);
+		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer*noPage);
 		
 		
 	}

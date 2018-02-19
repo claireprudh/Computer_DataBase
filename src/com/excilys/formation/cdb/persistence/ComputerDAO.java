@@ -44,6 +44,10 @@ public class ComputerDAO {
 
 		return instance;
 	}
+	
+	private ComputerDAO() {
+		
+	}
 
 
 
@@ -60,9 +64,9 @@ public class ComputerDAO {
 	/**
 	 * Queries q-
 	 */
-	private final String qlistComputers = "SELECT name FROM computer";
-	private final String qgetComputerById = "SELECT name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	private final String qcreateNewComputer = "INSERT INTO computer (name, introduced, discontinued, company_id)"
+	private final String qlistComputers = "SELECT " + cname +" FROM computer";
+	private final String qgetComputerById = "SELECT " + cname +", "+ cdateOfIntro +", "+ cdateOfDisc +", "+ ccompanyID +" FROM computer WHERE " + cid + " = ?;";
+	private final String qcreateNewComputer = "INSERT INTO computer ("+ cname +", "+ cdateOfIntro +", "+ cdateOfDisc +", "+ ccompanyID +")"
 			+ "  VALUES (?, ?, ?, ?)";
 	private final String qupdateComputer = "UPDATE computer SET " 
 			+ cname + " = ? , " 
@@ -71,29 +75,25 @@ public class ComputerDAO {
 			+ ccompanyID + " = ? "
 			+ "WHERE " + cid + " = ? ;";
 	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid +" = ? ;";
-	private final String qgetPageOfComputers = "SELECT name FROM computer LIMIT ? OFFSET ? ;";
+	private final String qgetPageOfComputers = "SELECT "+ cname +" FROM computer LIMIT ? OFFSET ? ;";
 	private final String qgetMaxPage = "SELECT COUNT(*) FROM computer ;";
 
 	/**
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
 	 */
-	public List<String> getListComputer() {
+	public List<String> getList() {
 
-		//La liste à remplir
 		List<String> listComputers = new ArrayList<String>();
 
-		//Traitement
 		try(Connection connection = Connexion.getInstance()) {
-			//Création du statement
+
 			Statement stmt = connection.createStatement();
-			//Création du ResultSet
+
 			ResultSet results = stmt.executeQuery(qlistComputers);
 
-			//Parcours du ResultSet
 			while(results.next()) {
 
-				//Ajout du Computer dans la liste
 				listComputers.add(results.getString(cname));
 
 			}
@@ -112,28 +112,26 @@ public class ComputerDAO {
 	 * @param id, l'id du Computer recherché.
 	 * @return computer, le Computer à l'id recherché ou null 
 	 */
-	public Optional<Computer> getComputerById(int id) {
+	public Optional<Computer> getById(int id) {
 
-		//Le Computer manipulé
 		Computer computer = null;
-		//La Date utilisée pour la conversion
+
 		Date temp;
 
 
 		try (Connection connection = Connexion.getInstance()) {
 
-			//Création du statement 
+
 			PreparedStatement pstmt = connection.prepareStatement(qgetComputerById);
 			pstmt.setInt(1, id);
-			//Création du ResultSet
+
 			ResultSet results = pstmt.executeQuery();
 
-			//Parcours du ResultSet
+	
 			if(results.next()) {
-				//le Computeur existe, on peut donc l'instancier
+	
 				computer = new Computer();
 
-				//Remplissage des champs
 				computer.setId(id);
 				computer.setName(results.getString(cname));
 				temp = results.getDate(cdateOfIntro);
@@ -151,7 +149,7 @@ public class ComputerDAO {
 					computer.setDateOfDisc(null);
 				}
 
-				computer.setCompany(CompanyDAO.getInstance().getCompanyByID(results.getInt(ccompanyID)).orElse(new Company()));
+				computer.setCompany(CompanyDAO.getInstance().getByID(results.getInt(ccompanyID)).orElse(new Company()));
 			}
 
 			results.close();
@@ -172,13 +170,12 @@ public class ComputerDAO {
 	 * Création d'un ordinateur en base.
 	 * @param computer, l'ordinateur à insérer dans la base.
 	 */
-	public void createNewComputer(Computer computer) {
+	public void create(Computer computer) {
 
 
 		try (Connection connection = Connexion.getInstance()){
 			PreparedStatement pstmt = connection.prepareStatement(qcreateNewComputer);
 
-			//Remplissage de la requête
 
 			if (computer.getName() != null) {
 				pstmt.setString(1, computer.getName());
@@ -208,7 +205,6 @@ public class ComputerDAO {
 				pstmt.setNull(4, Types.INTEGER);
 			}
 
-			//Exécution de la requête
 			pstmt.executeUpdate();			
 
 
@@ -224,21 +220,13 @@ public class ComputerDAO {
 	 * Modification d'un Computer.
 	 * @param ucomputer, the updated computer
 	 */
-	public void updateComputer(Computer ucomputer) {
+	public void update(Computer ucomputer) {
 
-		if( this.getComputerById(ucomputer.getId()).isPresent() 
-				&& CompanyDAO.getInstance().getCompanyByID(ucomputer.getCompany().orElse(new Company()).getId()).isPresent()) { 
+		if(this.getById(ucomputer.getId()).isPresent()) { 
 
 			try (Connection connection = Connexion.getInstance()) {
 
 				PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
-
-
-
-
-
-
-				//Récupération du Computer à modifier
 
 				pstmt.setInt(5, ucomputer.getId());
 
@@ -274,7 +262,6 @@ public class ComputerDAO {
 		}
 		else {
 			logger.error("Pas d'ordinateur reçu à mettre à jour");
-			logger.error("Pas de fabricant spécifié");
 		}
 
 	}
@@ -283,7 +270,7 @@ public class ComputerDAO {
 	 * Suppression de l'ordinateur à l'ID spécifié.
 	 * @param id, l'id de l'ordinateur concerné.
 	 */
-	public void deleteComputer(int id) {
+	public void delete(int id) {
 
 
 		try (Connection connection = Connexion.getInstance()) {
@@ -300,27 +287,27 @@ public class ComputerDAO {
 
 	}
 
-	public List<String> getPageComputer(int nbComputer, int offset) {
+	public List<String> getPage(int nbComputer, int offset) {
 
-		//La liste à remplir
+
 		List<String> listComputers = new ArrayList<String>();
 
-		//Traitement
+
 		try(Connection connection = Connexion.getInstance()) {
 
-			//Création du statement
+
 			PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers);
 
 			pstmt.setInt(1, nbComputer);
 			pstmt.setInt(2, offset);
 
-			//Création du ResultSet
+
 			ResultSet results = pstmt.executeQuery();
 
-			//Parcours du ResultSet
+
 			while(results.next()) {
 
-				//Ajout du Computer dans la liste
+
 				listComputers.add(results.getString(cname));
 
 			}
@@ -340,12 +327,11 @@ public class ComputerDAO {
 
 		try (Connection connection = Connexion.getInstance()) {
 
-			//Création du statement 
+
 			PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage);
-			//Création du ResultSet
+
 			ResultSet results = pstmt.executeQuery();
 
-			//Parcours du ResultSet
 			if(results.next()) {
 				maxPage = results.getInt(ccount);
 			}

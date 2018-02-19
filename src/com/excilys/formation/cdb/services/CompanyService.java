@@ -30,14 +30,18 @@ public class CompanyService {
 
 		return instance;
 	}
+	
+	private CompanyService() {
+		
+	}
 
 	/**
 	 * Liste les fabricants.
 	 * @return la liste des fabricants
 	 */
-	public List<String> getListCompanies() {
+	public List<String> getList() {
 		
-		return CompanyDAO.getInstance().getListCompanies();
+		return CompanyDAO.getInstance().getList();
 		
 	}
 	
@@ -46,8 +50,8 @@ public class CompanyService {
 	 * @param id, l'identifiant du fabricant.
 	 * @return le fabricant.
 	 */
-	public Company getCompanyDetails(int id) {
-		return CompanyDAO.getInstance().getCompanyByID(id).orElse(new Company());
+	public Company getDetails(int id) {
+		return CompanyDAO.getInstance().getByID(id).orElse(new Company());
 	}
 
 }
