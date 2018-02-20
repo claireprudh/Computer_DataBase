@@ -34,7 +34,7 @@ public class CompanyDAO {
 	 * Queries q-
 	 */
 	private final String qlistCompanies = "SELECT "+ cname +" FROM company";
-	private final String qgetCompanyId = "SELECT "+ cname +" FROM company WHERE id = ? ;";
+	private final String qgetCompanyId = "SELECT id, "+ cname +"  FROM company WHERE id = ? ;";
 	
 	
 	/**

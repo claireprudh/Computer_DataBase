@@ -168,34 +168,52 @@ public class IHM {
 	 */
 	private static void createNewComputer (Scanner scan, StringBuilder str, Command command) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-		String dateInString;
-
-		Computer computer = new Computer();
+		
 		str.setLength(0);
 
 		StringBuilder message = new StringBuilder();
 
 		message.append("Création d'un ordinateur :\n");
-		for (String s : Command.listcommands(TypeCommand.ARGUMENT)){
-			message.append(s + "\n");
-		}				
-		message.append("Arguments passés : \n");
 
+		Computer computer = new Computer();
+		fillComputer(scan, str, command, computer, message);
+
+		if (computer.getName() != null) {
+			ComputerService.getInstance().createNew(computer);
+
+		}
+		else {
+			System.out.println("Le nom est obligatoire pour la création d'un nouvel ordinateur, sortie");
+		}
+
+	}
+	
+	private static void fillComputer(Scanner scan, StringBuilder str, Command command, Computer computer, StringBuilder message) {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		String dateInString;
+		
+		System.out.println("Commandes :");
+		for(String s : Command.listcommands(TypeCommand.ARGUMENT)) {
+			System.out.println(s + " \n");
+		}
+		
 		do {
+			
 			System.out.println(message);
-			System.out.print("\n>");
-
+			
+			str.setLength(0);
 			str.append(scan.nextLine());
 
+			
+			
 
 			try {
-
 				command = Command.ValueOf(str.substring(0,str.indexOf(" =")).trim());
-
 			}catch(java.lang.StringIndexOutOfBoundsException e) {
 				command = Command.ValueOf(str.toString());
-			}
+			}			
+			
 
 			switch(command) {
 			case NAME : 
@@ -206,6 +224,7 @@ public class IHM {
 
 			case DATE_OF_INTRO : 
 
+				
 				dateInString = str.substring(str.indexOf("=")).replace('=', ' ').trim();
 
 				try {
@@ -261,14 +280,7 @@ public class IHM {
 
 
 		}while (command != Command.RETURN) ;
-
-		if (computer.getName() != null) {
-			ComputerService.getInstance().createNew(computer);
-		}
-		else {
-			System.out.println("Le nom est obligatoire pour la création d'un nouvel ordinateur, sortie");
-		}
-
+		
 	}
 
 	/**
@@ -279,25 +291,18 @@ public class IHM {
 	 */
 	private static void updateComputer(Scanner scan, StringBuilder str, Command command) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-		String dateInString;
-
 		Computer computer = new Computer();
-		str.setLength(0);
+		
 
 		StringBuilder message = new StringBuilder();
 
-		message.append("Veuillez caractériser l\'ordinateur à mettre à jour :\n");
-				for (String s : Command.listcommands(TypeCommand.ARGUMENT)) {
-					message.append(s);
-				}
-		message.append( Command.RETURN + " : Lancer la mise à jour\n\n"
-				+ "Arguments passés : \n");
+		message.append("Veuillez indiquer l\'id de l\'ordinateur à mettre à jour :\n");
 
 		do {
 
 			System.out.println(message);
 			System.out.print("\n>");
+			str.setLength(0);
 			str.append(scan.nextLine());
 
 
@@ -315,59 +320,9 @@ public class IHM {
 				int computer_id = Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim());
 				computer.setId(computer_id);	
 				message.append(Command.COMPUTER_ID + " : " + computer_id + "\n");
-				break;	
-
-			case NAME : 
-				String name = str.substring(str.indexOf("=")).replace('=', ' ').trim();
-				computer.setName(name);
-				message.append(Command.NAME + " : " + name + "\n");
-				break;
-
-			case DATE_OF_INTRO : 
-
-				dateInString = str.substring(str.indexOf("=")).replace('=', ' ').trim();
-
-				try {
-
-					Date date = new Date(formatter.parse(dateInString).getTime());
-
-					computer.setDateOfIntro(date.toLocalDate());
-
-					message.append(Command.DATE_OF_INTRO + " : " + date + "\n");
-
-				} catch (java.text.ParseException e) {
-					logger.error("Erreur de parsing de la date");
-
-				}
-				break;
-
-			case DATE_OF_DISC : 
-
-				dateInString = str.substring(str.indexOf("=")).replace('=', ' ').trim();
-
-				try {
-
-					Date date = new Date(formatter.parse(dateInString).getTime());
-
-					computer.setDateOfDisc(date.toLocalDate());
-
-					message.append(Command.DATE_OF_DISC + " : " + date + "\n");
-
-				} catch (java.text.ParseException e) {
-					logger.error("Erreur de parsing de la date");
-
-				}
-				break;
-
-			case COMPANY_ID : 
-				Company company = CompanyService.getInstance().getDetails(
-						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));
-
-				computer.setCompany(company);
-
-				message.append(Command.COMPANY_ID + " : " + company + "\n");
-
-				break;			
+				
+				fillComputer(scan, str, command, computer, message);
+				break;				
 
 			case RETURN :
 				break;
@@ -376,15 +331,10 @@ public class IHM {
 			break;
 			}
 
-
-			str.setLength(0);
-
-
-
 		}while (command != Command.RETURN) ;
 
-		if(computer.getId() != 0) {
-			ComputerService.getInstance().update(computer);
+		if(computer.getId() != 0) {			
+			ComputerService.getInstance().update(computer);			
 		}
 		else {
 			System.out.println("ID non mentionné, pas de changement, sortie");
@@ -552,5 +502,6 @@ public class IHM {
 
 
 	}
+	
 
 }
