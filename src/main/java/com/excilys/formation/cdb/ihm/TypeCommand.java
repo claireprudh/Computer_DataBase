@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.ihm;
+package main.java.com.excilys.formation.cdb.ihm;
 
 public enum TypeCommand {
 

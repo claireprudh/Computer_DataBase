@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.cdb.ihm;
+package main.java.com.excilys.formation.cdb.ihm;
 
 import java.util.ArrayList;
 import java.util.List;

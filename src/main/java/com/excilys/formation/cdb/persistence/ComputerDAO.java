@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.cdb.persistence;
+package main.java.com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -14,11 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
+import main.java.com.excilys.formation.cdb.model.Company;
+import main.java.com.excilys.formation.cdb.model.Computer;
+import main.java.com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
 
 /**
  * @author excilys
@@ -26,7 +27,7 @@ import com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
  */
 public class ComputerDAO {
 
-	final static Logger logger = Logger.getLogger(ComputerDAO.class);
+	final static Logger logger = LogManager.getLogger(ComputerDAO.class);
 
 	/**
 	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.

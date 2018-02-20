@@ -1,10 +1,10 @@
-package com.excilys.formation.cdb.services;
+package main.java.com.excilys.formation.cdb.services;
 
 
 import java.util.List;
 
-import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.persistence.CompanyDAO;
+import main.java.com.excilys.formation.cdb.model.Company;
+import main.java.com.excilys.formation.cdb.persistence.CompanyDAO;
 
 /**
  * @author excilys

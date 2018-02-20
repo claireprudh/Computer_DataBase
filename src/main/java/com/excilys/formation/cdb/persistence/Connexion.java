@@ -1,13 +1,14 @@
 /**
  * 
  */
-package com.excilys.formation.cdb.persistence;
+package main.java.com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 
@@ -18,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 public class Connexion {
 
-	final static Logger logger = Logger.getLogger(Connexion.class);
+	final static Logger logger = LogManager.getLogger(Connexion.class);
 
 	/**
 	 * La connexion à la base de données.

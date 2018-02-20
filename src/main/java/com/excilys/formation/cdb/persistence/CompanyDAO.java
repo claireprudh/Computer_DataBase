@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.cdb.persistence;
+package main.java.com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
-import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
+import org.apache.logging.log4j.Logger;
+
+import main.java.com.excilys.formation.cdb.model.Company;
+import main.java.com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
 
 /**
  * @author excilys
@@ -23,7 +25,7 @@ import com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
  */
 public class CompanyDAO {
 
-	final static Logger logger  = Logger.getLogger(ComputerDAO.class);
+	final static Logger logger  = LogManager.getLogger(ComputerDAO.class);
 	
 	/**
 	 * Columns c-

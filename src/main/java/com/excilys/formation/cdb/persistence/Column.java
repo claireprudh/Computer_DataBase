@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.excilys.formation.cdb.persistence;
+package main.java.com.excilys.formation.cdb.persistence;
 
 /**
  * @author excilys
