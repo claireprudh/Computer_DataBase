@@ -44,6 +44,46 @@ public class Computer {
 		this.setDateOfDisc(dateOfDisc);
 		this.setCompany(company);
 	}
+	
+	
+	/**
+	 * Pattern Builder.
+	 * @author excilys
+	 *
+	 */
+	class ComputerBuilder {
+		
+		int id;
+		String name;
+		LocalDate dateOfIntro;
+		LocalDate dateOfDisc;
+		Company company;
+		
+		ComputerBuilder withName(String name) {
+			this.name = name;
+			return this;
+		}
+		
+		ComputerBuilder withDateIntro(LocalDate introduced) {
+			this.dateOfIntro = introduced;
+			return this;
+		}
+		
+		ComputerBuilder withDateDisc(LocalDate discontinued) {
+			this.dateOfDisc = discontinued;
+			return this;
+		}
+		
+		ComputerBuilder withCompany(Company company) {
+			this.company = company;
+			return this;
+		}
+		
+		Computer build() {
+			return new Computer(this.name, this.dateOfIntro, this.dateOfDisc, this.company);
+		}
+ 		
+	}
 		
 	
 	/**
