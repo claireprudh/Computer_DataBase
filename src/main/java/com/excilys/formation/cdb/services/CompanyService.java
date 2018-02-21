@@ -19,7 +19,7 @@ public class CompanyService {
 	private static CompanyService instance;
 	
 	/**
-	 * Méthode permettant de récupérer l'instance du Singleton
+	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
 	 */
 	public static CompanyService getInstance() {

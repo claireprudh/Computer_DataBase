@@ -25,18 +25,18 @@ import main.java.com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
  */
 public class CompanyDAO {
 
-	final static Logger logger  = LogManager.getLogger(ComputerDAO.class);
+	static final Logger LOGGER  = LogManager.getLogger(ComputerDAO.class);
 	
-	/**
+	/*
 	 * Columns c-
 	 */
 	private final String cname = "name";
 	
-	/**
+	/*
 	 * Queries q-
 	 */
-	private final String qlistCompanies = "SELECT "+ cname +" FROM company";
-	private final String qgetCompanyId = "SELECT id, "+ cname +"  FROM company WHERE id = ? ;";
+	private final String qlistCompanies = "SELECT " + cname + " FROM company";
+	private final String qgetCompanyId = "SELECT id, " + cname + "  FROM company WHERE id = ? ;";
 	
 	
 	/**
@@ -45,7 +45,7 @@ public class CompanyDAO {
 	private static CompanyDAO instance;
 	
 	/**
-	 * Méthode permettant de récupérer l'instance du Singleton
+	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
 	 */
 	public static CompanyDAO getInstance() {
@@ -57,7 +57,7 @@ public class CompanyDAO {
 		return instance;
 	}
 	
-	private CompanyDAO(){
+	private CompanyDAO() {
 		
 	}
 	
@@ -70,19 +70,18 @@ public class CompanyDAO {
 
 		Company company = null;
 		
-		try(Connection connection = Connexion.getInstance()) {
+		try (Connection connection = Connexion.getInstance()) {
 			PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId);
 			pstmt.setInt(1, id);
 			ResultSet results = pstmt.executeQuery();
 			
-			if(results.next()) {
+			if (results.next()) {
 				company = CompanyMapper.getInstance().map(results);
 			}
 		
 			results.close();
-		}
-		catch (SQLException e) {
-			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+		} catch (SQLException e) {
+			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 		
 		return Optional.ofNullable(company);
@@ -93,16 +92,16 @@ public class CompanyDAO {
 	 * Récupère la liste des fabricants.
 	 * @return la liste des fabricants.
 	 */
-	public List<String> getList(){
+	public List<String> getList() {
 		
 		List<String> listCompanies = new ArrayList<String>();
 		
 	
-		try(Connection connection = Connexion.getInstance()) {
+		try (Connection connection = Connexion.getInstance()) {
 			Statement stmt = connection.createStatement();
 			ResultSet results = stmt.executeQuery(qlistCompanies);
 			
-			while(results.next()) {
+			while (results.next()) {
 				listCompanies.add(results.getString(cname));				
 										
 			}
@@ -110,7 +109,7 @@ public class CompanyDAO {
 			results.close();
 			
 		} catch (SQLException e) {
-			logger.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 		
 		return listCompanies;

@@ -32,7 +32,7 @@ public class Page {
 	}
 
 	public Page nextPage() {
-		if (noPage < pageMax-1) {
+		if (noPage < pageMax - 1) {
 			noPage++;
 			listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 		}
@@ -41,7 +41,7 @@ public class Page {
 	}
 
 	public Page previousPage() {
-		if(noPage > 0) {
+		if (noPage > 0) {
 			noPage--;
 			listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 		}
@@ -59,7 +59,7 @@ public class Page {
 			list.append(s + "\n");
 		}
 
-		list.append(noPage+1 + " / " + pageMax);
+		list.append(noPage + 1 + " / " + pageMax);
 
 		return list.toString();
 	}

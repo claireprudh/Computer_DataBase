@@ -47,15 +47,13 @@ public class ComputerMapper {
 		Date temp = results.getDate(Column.CDATE_OF_INTRO.getName());
 		if (temp != null) {
 			computer.setDateOfIntro(temp.toLocalDate());
-		}
-		else {
+		} else {
 			computer.setDateOfIntro(null);
 		}
 		temp = results.getDate(Column.CDATE_OF_DISC.getName());			
 		if (temp != null) {
 			computer.setDateOfDisc(temp.toLocalDate());
-		}
-		else {
+		} else {
 			computer.setDateOfDisc(null);
 		}
 

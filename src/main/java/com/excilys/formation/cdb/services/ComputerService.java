@@ -20,7 +20,7 @@ public class ComputerService {
 	private static ComputerService instance;
 	
 	/**
-	 * Méthode permettant de récupérer l'instance du Singleton
+	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
 	 */
 	public static ComputerService getInstance() {
@@ -40,7 +40,7 @@ public class ComputerService {
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
 	 */
-	public List<String> getList(){
+	public List<String> getList() {
 		
 		return ComputerDAO.getInstance().getList();
 		
@@ -48,7 +48,7 @@ public class ComputerService {
 	}
 	
 	/**
-	 * Récupère l'ordinateur identifié par id et tous ses attributs
+	 * Récupère l'ordinateur identifié par id et tous ses attributs.
 	 * @param id, l'identifiant du Computer.
 	 * @return le Computer avec tous ses détails.
 	 */
@@ -85,7 +85,7 @@ public class ComputerService {
 
 	public List<String> getPage(int nbComputer, int noPage) {
 		
-		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer*noPage);
+		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer * noPage);
 		
 		
 	}

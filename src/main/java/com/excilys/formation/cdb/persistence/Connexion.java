@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class Connexion {
 
-	final static Logger logger = LogManager.getLogger(Connexion.class);
+	static final Logger LOGGER = LogManager.getLogger(Connexion.class);
 
 	/**
 	 * La connexion à la base de données.
@@ -29,7 +29,7 @@ public class Connexion {
 
 
 	/**
-	 * Méthode permettant de récupérer l'instance du Singleton
+	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
 	 */
 	public static Connection getInstance() {
@@ -45,7 +45,7 @@ public class Connexion {
 
 			}
 		} catch (SQLException e) {
-			logger.error("Exception SQL à l\'ouverture de la session");
+			LOGGER.error("Exception SQL à l\'ouverture de la session");
 			
 		}
 
