@@ -114,7 +114,7 @@ public class ComputerDAO {
 	 * @param id, l'id du Computer recherché.
 	 * @return computer, le Computer à l'id recherché ou null 
 	 */
-	public Optional<Computer> getById(int id) {
+	public Optional<Computer> getByID(int id) {
 
 		Computer computer = null;
 
@@ -197,7 +197,7 @@ public class ComputerDAO {
 	 */
 	public void update(Computer ucomputer) {
 
-		if (this.getById(ucomputer.getId()).isPresent()) { 
+		if (this.getByID(ucomputer.getId()).isPresent()) { 
 
 			try (Connection connection = Connexion.getInstance()) {
 

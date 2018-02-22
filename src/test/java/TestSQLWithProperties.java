@@ -24,6 +24,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import main.java.com.excilys.formation.cdb.model.Company;
 import main.java.com.excilys.formation.cdb.model.Computer;
+import main.java.com.excilys.formation.cdb.persistence.CompanyDAO;
 import main.java.com.excilys.formation.cdb.persistence.ComputerDAO;
 import main.java.com.excilys.formation.cdb.persistence.Connexion;
 
@@ -34,8 +35,6 @@ import main.java.com.excilys.formation.cdb.persistence.Connexion;
 public class TestSQLWithProperties {
 
 
-
-
 	/**
 	 * Create a connection.
 	 * 
@@ -43,11 +42,11 @@ public class TestSQLWithProperties {
 	 * @throws SQLException
 	 */
 	private static Connection getConnection() throws SQLException {
-		
+
 		ResourceBundle bundle = ResourceBundle.getBundle("config");
 		String login = bundle.getString("login");
 		String password = bundle.getString("password");
-		
+
 		String url = bundle.getString("url");
 		return DriverManager.getConnection(url, login, password);
 	}
@@ -77,14 +76,14 @@ public class TestSQLWithProperties {
 			connection.commit();
 			statement.execute(
 					"  create table computer ("
-					+ "id bigint not null , "
-					+ "name varchar(255), "
-					+ "introduced date NULL, "
-					+ "company_id bigint NULL, \n" 
-					+ "discontinued date NULL,\n" 
-					+ "constraint pk_computer primary key (id), "
-					+ "constraint fk_computer_company_1 "
-					+ "foreign key (company_id) references company (id));");
+							+ "id bigint not null , "
+							+ "name varchar(255), "
+							+ "introduced date NULL, "
+							+ "company_id bigint NULL, \n" 
+							+ "discontinued date NULL,\n" 
+							+ "constraint pk_computer primary key (id), "
+							+ "constraint fk_computer_company_1 "
+							+ "foreign key (company_id) references company (id));");
 			connection.commit();
 
 			statement.executeUpdate(
@@ -110,53 +109,53 @@ public class TestSQLWithProperties {
 	}
 
 
-	
 	@Test
 	public void testGetListComputers() {
-		
+
 		List <String> ls = ComputerDAO.getInstance().getList();
 
 		assertEquals("MacBook Pro 15.4 inch", ls.get(0));
-		
+
 		assertEquals("CM-200" , ls.get(1));
 	}
-
-	/*
-	@Test 
-	public void testComputerGetCount() {
-
-
-
-		int pageMax = ComputerDAO.getInstance().getMaxPage(1);
-
-
-		assertEquals(2, pageMax);
-
-
-	}*/
 
 	@Test 
 	public void testComputerGetById() throws SQLException {
 
-		Computer computerActual = ComputerDAO.getInstance().getById(1).orElse(new Computer());
+		Computer computerActual = ComputerDAO.getInstance().getByID(1).orElse(new Computer());
 
 		Computer computerExpected = new Computer.ComputerBuilder().withId(1)
 				.withName("MacBook Pro 15.4 inch").withDateIntro(null).withDateDisc(null).withCompany(
 						new Company(1, "Apple Inc.")).build();
 
-
 		if (computerExpected != null && computerActual != null) {
 			assertTrue(computerExpected.equals(computerActual));
+		}
+
+	}
+
+	@Test 
+	public void testCompanyGetById() throws SQLException {
+
+		Company companyActual = CompanyDAO.getInstance().getByID(1).orElse(new Company());
+
+		Company companyExpected = new Company(1, "Apple Inc.");
+
+
+		if (companyExpected != null && companyActual != null) {
+			assertTrue(companyExpected.equals(companyActual));
 		}
 
 
 
 	}
-
-
-
-
-
+	
+	@Test
+	public void testComputerPaged() {
+		List<String> ls = ComputerDAO.getInstance().getPage(1, 1);
+		assertEquals(1,ls.size());
+		assertTrue(ls.get(0).equals("CM-200"));
+	}
 
 	@AfterClass
 	public static void destroy() throws SQLException, ClassNotFoundException, IOException {

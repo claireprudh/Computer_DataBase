@@ -53,7 +53,7 @@ public class ComputerService {
 	 * @return le Computer avec tous ses détails.
 	 */
 	public Computer getDetails(int id) {
-		return ComputerDAO.getInstance().getById(id).orElse(new Computer());
+		return ComputerDAO.getInstance().getByID(id).orElse(new Computer());
 	}
 
 
