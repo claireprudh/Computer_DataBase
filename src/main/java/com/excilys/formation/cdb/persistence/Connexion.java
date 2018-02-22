@@ -6,6 +6,7 @@ package main.java.com.excilys.formation.cdb.persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,10 +39,14 @@ public class Connexion {
 
 		try {
 			if (connexion == null || connexion.isClosed()) {
+				
+				ResourceBundle bundle = ResourceBundle.getBundle("config");
+				String login = bundle.getString("login");
+				String password = bundle.getString("password");
+				
+				String url = bundle.getString("url");
 
-				String url = "jdbc:mysql://127.0.0.1:3306/computer-database-db?useSSL=false";
-
-				connexion = DriverManager.getConnection(url, "admincdb", "qwerty1234");
+				connexion = DriverManager.getConnection(url, login, password);
 
 			}
 		} catch (SQLException e) {
