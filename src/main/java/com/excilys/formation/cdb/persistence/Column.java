@@ -15,7 +15,7 @@ public enum Column {
 	CDATE_OF_INTRO("introduced"),
 	CDATE_OF_DISC("discontinued"),
 	CCOMPANY_ID("company_id"),
-	CCOUNT("COUNT(*)");
+	CCOUNT("count(id)");
 	
 	private String name;
 	

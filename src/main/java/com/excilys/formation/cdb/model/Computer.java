@@ -45,13 +45,23 @@ public class Computer {
 		this.setCompany(company);
 	}
 	
+	public Computer(ComputerBuilder computerBuilder) {
+		
+		this.setId(computerBuilder.id);
+		this.setName(computerBuilder.name);
+		this.setDateOfIntro(computerBuilder.dateOfIntro);
+		this.setDateOfDisc(computerBuilder.dateOfDisc);
+		this.setCompany(computerBuilder.company);
+		
+	}
+	
 	
 	/**
 	 * Pattern Builder.
 	 * @author excilys
 	 *
 	 */
-	class ComputerBuilder {
+	public static class ComputerBuilder {
 		
 		int id;
 		String name;
@@ -59,28 +69,38 @@ public class Computer {
 		LocalDate dateOfDisc;
 		Company company;
 		
-		ComputerBuilder withName(String name) {
+		public ComputerBuilder() {
+			this.name = "default";
+			this.id = 0;
+		}
+		
+		public ComputerBuilder withId(int id) {
+			this.id = id;
+			return this;
+		}
+		
+		public ComputerBuilder withName(String name) {
 			this.name = name;
 			return this;
 		}
 		
-		ComputerBuilder withDateIntro(LocalDate introduced) {
+		public ComputerBuilder withDateIntro(LocalDate introduced) {
 			this.dateOfIntro = introduced;
 			return this;
 		}
 		
-		ComputerBuilder withDateDisc(LocalDate discontinued) {
+		public ComputerBuilder withDateDisc(LocalDate discontinued) {
 			this.dateOfDisc = discontinued;
 			return this;
 		}
 		
-		ComputerBuilder withCompany(Company company) {
+		public ComputerBuilder withCompany(Company company) {
 			this.company = company;
 			return this;
 		}
 		
-		Computer build() {
-			return new Computer(this.name, this.dateOfIntro, this.dateOfDisc, this.company);
+		public Computer build() {
+			return new Computer(this);
 		}
  		
 	}

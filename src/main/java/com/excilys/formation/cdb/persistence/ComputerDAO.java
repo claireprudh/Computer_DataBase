@@ -78,7 +78,7 @@ public class ComputerDAO {
 			+ "WHERE " + cid + " = ? ;";
 	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid + " = ? ;";
 	private final String qgetPageOfComputers = "SELECT " + cname + " FROM computer LIMIT ? OFFSET ? ;";
-	private final String qgetMaxPage = "SELECT COUNT(*) FROM computer ;";
+	private final String qgetMaxPage = "SELECT " + ccount + " FROM computer ;";
 
 	/**
 	 * Retourne la liste complète des ordinateurs.
@@ -103,7 +103,7 @@ public class ComputerDAO {
 			results.close();
 
 		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête" + e.getMessage());
+			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 
 		return listComputers;
@@ -286,7 +286,7 @@ public class ComputerDAO {
 			results.close();
 
 		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête" + e.getMessage());
+			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
 
 		return listComputers;
