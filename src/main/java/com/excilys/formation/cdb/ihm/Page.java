@@ -1,12 +1,11 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.ihm;
+package com.excilys.formation.cdb.ihm;
 
 import java.util.List;
 
-
-import main.java.com.excilys.formation.cdb.services.ComputerService;
+import com.excilys.formation.cdb.services.ComputerService;
 
 /**
  * @author excilys

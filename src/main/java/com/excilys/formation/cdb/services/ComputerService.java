@@ -1,12 +1,12 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.services;
+package com.excilys.formation.cdb.services;
 
 import java.util.List;
 
-import main.java.com.excilys.formation.cdb.model.Computer;
-import main.java.com.excilys.formation.cdb.persistence.ComputerDAO;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.ComputerDAO;
 
 /**
  * @author excilys

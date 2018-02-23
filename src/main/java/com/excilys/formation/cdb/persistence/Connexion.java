@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.persistence;
+package com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

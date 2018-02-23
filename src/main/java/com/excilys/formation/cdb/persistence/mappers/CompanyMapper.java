@@ -1,13 +1,13 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.persistence.mappers;
+package com.excilys.formation.cdb.persistence.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import main.java.com.excilys.formation.cdb.model.Company;
-import main.java.com.excilys.formation.cdb.persistence.Column;
+import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.persistence.Column;
 
 /**
  * @author excilys

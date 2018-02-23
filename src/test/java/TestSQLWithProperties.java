@@ -1,4 +1,3 @@
-package test.java;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -22,11 +21,11 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import main.java.com.excilys.formation.cdb.model.Company;
-import main.java.com.excilys.formation.cdb.model.Computer;
-import main.java.com.excilys.formation.cdb.persistence.CompanyDAO;
-import main.java.com.excilys.formation.cdb.persistence.ComputerDAO;
-import main.java.com.excilys.formation.cdb.persistence.Connexion;
+import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.CompanyDAO;
+import com.excilys.formation.cdb.persistence.ComputerDAO;
+import com.excilys.formation.cdb.persistence.Connexion;
 
 
 @RunWith(PowerMockRunner.class)

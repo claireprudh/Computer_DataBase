@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.model;
+package com.excilys.formation.cdb.model;
 
 /**
  * @author excilys

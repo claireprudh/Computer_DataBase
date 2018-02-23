@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.persistence;
+package com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -17,9 +17,9 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import main.java.com.excilys.formation.cdb.model.Company;
-import main.java.com.excilys.formation.cdb.model.Computer;
-import main.java.com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
+import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
 
 /**
  * @author excilys

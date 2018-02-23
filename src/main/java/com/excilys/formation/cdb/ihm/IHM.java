@@ -1,7 +1,7 @@
 /**
  * 
  */
-package main.java.com.excilys.formation.cdb.ihm;
+package com.excilys.formation.cdb.ihm;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -10,10 +10,10 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import main.java.com.excilys.formation.cdb.model.Company;
-import main.java.com.excilys.formation.cdb.model.Computer;
-import main.java.com.excilys.formation.cdb.services.CompanyService;
-import main.java.com.excilys.formation.cdb.services.ComputerService;
+import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.services.CompanyService;
+import com.excilys.formation.cdb.services.ComputerService;
 
 /**
  * @author excilys
