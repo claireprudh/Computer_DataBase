@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,8 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">121 Computers found</h1>
+			<h1 id="homeTitle">${ count } Computers found</h1>
+			
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
 					<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -67,19 +70,21 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
+					<c:forEach items = "${ list }" var = "computer" >
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">MacBook Pro</a></td>
+						<td><a href="editComputer" onclick="">"${ computer }"</a></td>
 						<td>2006-01-10</td>
 						<td></td>
 						<td>Apple Inc.</td>
 
 					</tr>
+					</c:forEach>
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Connection
+						<td><a href="editComputer" onclick="">Connection
 								Machine</a></td>
 						<td>1987-01-01</td>
 						<td></td>
@@ -89,7 +94,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">PowerBook</a></td>
+						<td><a href="editComputer" onclick="">PowerBook</a></td>
 						<td>1991-01-01</td>
 						<td>2006-01-01</td>
 						<td>Apple Inc.</td>
@@ -98,7 +103,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Commodore 64</a></td>
+						<td><a href="editComputer" onclick="">Commodore 64</a></td>
 						<td>1982-08-01</td>
 						<td>1994-01-01</td>
 						<td>Commodore International</td>
@@ -107,7 +112,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Altair 8800</a></td>
+						<td><a href="editComputer" onclick="">Altair 8800</a></td>
 						<td>1974-12-19</td>
 						<td></td>
 						<td>Micro Instrumentation and Telemetry Systems</td>
@@ -116,7 +121,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Canon Cat</a></td>
+						<td><a href="editComputer" onclick="">Canon Cat</a></td>
 						<td>1987-01-01</td>
 						<td></td>
 						<td>Canon</td>
@@ -125,7 +130,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Nokia 770</a></td>
+						<td><a href="editComputer" onclick="">Nokia 770</a></td>
 						<td></td>
 						<td></td>
 						<td>Nokia</td>
@@ -134,7 +139,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">NeXTcube</a></td>
+						<td><a href="editComputer" onclick="">NeXTcube</a></td>
 						<td>1988-01-01</td>
 						<td>1993-01-01</td>
 						<td>NeXT</td>
@@ -143,7 +148,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">IBM 650</a></td>
+						<td><a href="editComputer" onclick="">IBM 650</a></td>
 						<td>1953-01-01</td>
 						<td>1962-01-01</td>
 						<td>IBM</td>
@@ -152,7 +157,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">PlayStation 2</a>
+						<td><a href="editComputer" onclick="">PlayStation 2</a>
 						</td>
 						<td>2000-03-24</td>
 						<td></td>
@@ -162,7 +167,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Archos 101</a></td>
+						<td><a href="editComputer" onclick="">Archos 101</a></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -171,7 +176,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">Nintendo 3DS</a></td>
+						<td><a href="editComputer" onclick="">Nintendo 3DS</a></td>
 						<td>2010-03-23</td>
 						<td></td>
 						<td>Nintendo</td>

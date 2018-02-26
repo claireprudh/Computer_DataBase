@@ -45,13 +45,19 @@ public class Connexion {
 				String password = bundle.getString("password");
 				
 				String url = bundle.getString("url");
+				
+				String driver = bundle.getString("driverClassName");
+				
+				Class.forName(driver);
 
 				connexion = DriverManager.getConnection(url, login, password);
 
 			}
 		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l\'ouverture de la session");
+			LOGGER.error("Exception SQL à l\'ouverture de la session : " + e.getMessage());
 			
+		} catch (ClassNotFoundException e) {
+			LOGGER.error("La classe du driver n'a pas été trouvée : " + e.getMessage());
 		}
 
 
