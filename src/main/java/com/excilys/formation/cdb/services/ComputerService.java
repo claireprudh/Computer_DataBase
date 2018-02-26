@@ -85,7 +85,7 @@ public class ComputerService {
 
 	public List<Computer> getPage(int nbComputer, int noPage) {
 		
-		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer * noPage);
+		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer * (noPage - 1));
 		
 		
 	}

@@ -125,7 +125,7 @@ public class IHM {
 	private static void displayPages(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
-		Page page = new Page(COMPUTER_BY_PAGE);
+		Page page = new Page(COMPUTER_BY_PAGE, 1);
 		System.out.println(page.toString());
 
 		do {

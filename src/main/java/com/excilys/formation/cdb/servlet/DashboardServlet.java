@@ -21,14 +21,30 @@ public class DashboardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		int nbCompByPage = 30;
+		int page;
+		
 		request.setAttribute("count", ComputerService.getInstance().getList().size());
-		//String s = (String) request.getAttribute("maVariable1");
-		//System.out.println(s);
+		
+		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(nbCompByPage));
+		
+		if (request.getParameter("page") != null) {
+			page = Integer.valueOf(request.getParameter("page"));
+			
+		} else {
+			page = 1;
+			
+		}
+		request.setAttribute("page", page);
+		
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
-		for (Computer c : new Page(10).getListComputers()) {
+		for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
 			list.add(ComputerMapper.getInstance().map(c));
 		}
+		
 		request.setAttribute("list", list);
+		
+		
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
 

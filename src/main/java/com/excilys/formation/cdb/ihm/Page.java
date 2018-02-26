@@ -14,22 +14,24 @@ import com.excilys.formation.cdb.services.ComputerService;
  */
 public class Page {
 
-	public static int noPage = 0;
+	public static int noPage = 1;
 	public int nbComputer;
 	public int pageMax;
 
 	private List<Computer> listComputers;
 
 
-	public Page(int nbComputer) {
+	public Page(int nbComputer, int page) {
 		setNbComputer(nbComputer);
 
 		pageMax = ComputerService.getInstance().getMaxPage(nbComputer);
+		noPage = page;
 		listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
 
 
 
 	}
+	
 
 	public Page nextPage() {
 		if (noPage < pageMax - 1) {

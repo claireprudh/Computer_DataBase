@@ -21,7 +21,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${ count } Computers found</h1>
+			<h1 id="homeTitle"> ${ count } Computers found</h1>
 			
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -91,16 +91,20 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container text-center">
 			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span
+				<c:if test="${ page > 1}">
+				<li><a href="dashboard?page=${ page-1 }" aria-label="Previous"> <span
 						aria-hidden="true">&laquo;</span>
 				</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</c:if>
+				<c:forEach  begin="1" end="${ maxPage }" step = "1" var="i" >
+				
+				<li><a href="dashboard?page=${ i }">${ i }</a></li>
+				
+				</c:forEach>
+				<c:if test="${ page < maxPage }">
+				<li><a href="dashboard?page=${ page+1 }" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
+				</c:if>
 			</ul>
 		</div>
 		<div class="btn-group btn-group-sm pull-right" role="group">
