@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.persistence.mappers.ComputerMapper;
+import com.excilys.formation.cdb.mappers.ComputerMapper;
 
 /**
  * @author excilys
@@ -66,7 +66,7 @@ public class ComputerDAO {
 	/*
 	 * Queries q-
 	 */
-	private final String qlistComputers = "SELECT " + cname + " FROM computer";
+	private final String qlistComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " FROM computer";
 	private final String qgetComputerById = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " FROM computer WHERE " + cid + " = ?;";
 	private final String qcreateNewComputer = "INSERT INTO computer (" + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + ")"
 			+ "  VALUES (?, ?, ?, ?)";
@@ -77,30 +77,35 @@ public class ComputerDAO {
 			+ ccompanyID + " = ? "
 			+ "WHERE " + cid + " = ? ;";
 	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid + " = ? ;";
-	private final String qgetPageOfComputers = "SELECT " + cname + " FROM computer LIMIT ? OFFSET ? ;";
+	private final String qgetPageOfComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " FROM computer LIMIT ? OFFSET ? ;";
 	private final String qgetMaxPage = "SELECT " + ccount + " FROM computer ;";
 
 	/**
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
 	 */
-	public List<String> getList() {
+	public List<Computer> getList() {
 
-		List<String> listComputers = new ArrayList<String>();
+		List<Computer> listComputers = new ArrayList<Computer>();
 
+		ResultSet results = null;
 		try (Connection connection = Connexion.getInstance()) {
 
 			Statement stmt = connection.createStatement();
 
-			ResultSet results = stmt.executeQuery(qlistComputers);
+			results = stmt.executeQuery(qlistComputers);
 
 			while (results.next()) {
 
-				listComputers.add(results.getString(cname));
+				listComputers.add(ComputerMapper.getInstance().map(results));
 
 			}
-
+			
 			results.close();
+			
+			ComputerMapper.getInstance().mapCompany(listComputers);
+
+			
 
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
@@ -163,14 +168,14 @@ public class ComputerDAO {
 				pstmt.setString(1,  null);
 			}
 
-			if (computer.getDateOfIntro() != null) {
-				pstmt.setDate(2, Date.valueOf(computer.getDateOfIntro()));
+			if (computer.getDateOfIntro().isPresent()) {
+				pstmt.setDate(2, Date.valueOf(computer.getDateOfIntro().get()));
 			} else {
 				pstmt.setDate(2, null);
 			}
 
-			if (computer.getDateOfDisc() != null) {
-				pstmt.setDate(3, Date.valueOf(computer.getDateOfDisc()));
+			if (computer.getDateOfDisc().isPresent()) {
+				pstmt.setDate(3, Date.valueOf(computer.getDateOfDisc().get()));
 			} else {
 				pstmt.setDate(3, null);
 			}
@@ -207,14 +212,14 @@ public class ComputerDAO {
 
 				pstmt.setString(1, ucomputer.getName());
 
-				if (ucomputer.getDateOfIntro() != null) {
+				if (ucomputer.getDateOfIntro().isPresent()) {
 
-					pstmt.setDate(2, Date.valueOf(ucomputer.getDateOfIntro()));	
+					pstmt.setDate(2, Date.valueOf(ucomputer.getDateOfIntro().get()));	
 				} else {
 					pstmt.setDate(2, null);
 				}
-				if (ucomputer.getDateOfDisc() != null) {
-					pstmt.setDate(3, Date.valueOf(ucomputer.getDateOfDisc()));	
+				if (ucomputer.getDateOfDisc().isPresent()) {
+					pstmt.setDate(3, Date.valueOf(ucomputer.getDateOfDisc().get()));	
 				} else {
 					pstmt.setDate(3, null);
 				}
@@ -258,10 +263,10 @@ public class ComputerDAO {
 
 	}
 
-	public List<String> getPage(int nbComputer, int offset) {
+	public List<Computer> getPage(int nbComputer, int offset) {
 
 
-		List<String> listComputers = new ArrayList<String>();
+		List<Computer> listComputers = new ArrayList<Computer>();
 
 
 		try (Connection connection = Connexion.getInstance()) {
@@ -279,11 +284,13 @@ public class ComputerDAO {
 			while (results.next()) {
 
 
-				listComputers.add(results.getString(cname));
+				listComputers.add(ComputerMapper.getInstance().map(results));
 
 			}
 
 			results.close();
+			
+			ComputerMapper.getInstance().mapCompany(listComputers);
 
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());

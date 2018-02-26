@@ -1,6 +1,8 @@
 package com.excilys.formation.cdb.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.ihm.Page;
+import com.excilys.formation.cdb.mappers.ComputerMapper;
+import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.ComputerService;
 
 @WebServlet("/dashboard")
@@ -18,7 +24,11 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("count", ComputerService.getInstance().getList().size());
 		//String s = (String) request.getAttribute("maVariable1");
 		//System.out.println(s);
-		request.setAttribute("list", ComputerService.getInstance().getList());
+		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
+		for (Computer c : new Page(10).getListComputers()) {
+			list.add(ComputerMapper.getInstance().map(c));
+		}
+		request.setAttribute("list", list);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
 

@@ -111,11 +111,11 @@ public class TestSQLWithProperties {
 	@Test
 	public void testGetListComputers() {
 
-		List <String> ls = ComputerDAO.getInstance().getList();
+		List <Computer> ls = ComputerDAO.getInstance().getList();
 
-		assertEquals("MacBook Pro 15.4 inch", ls.get(0));
+		assertEquals("MacBook Pro 15.4 inch", ls.get(0).getName());
 
-		assertEquals("CM-200" , ls.get(1));
+		assertEquals("CM-200" , ls.get(1).getName());
 	}
 
 	@Test 
@@ -151,7 +151,7 @@ public class TestSQLWithProperties {
 	
 	@Test
 	public void testComputerPaged() {
-		List<String> ls = ComputerDAO.getInstance().getPage(1, 1);
+		List<Computer> ls = ComputerDAO.getInstance().getPage(1, 1);
 		assertEquals(1,ls.size());
 		assertTrue(ls.get(0).equals("CM-200"));
 	}

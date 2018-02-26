@@ -49,7 +49,7 @@ public class IHM {
 
 			switch (command) {
 			case LIST_COMPUTERS :
-				for (String s : ComputerService.getInstance().getList()) {
+				for (Computer s : ComputerService.getInstance().getList()) {
 					System.out.println(s);
 				}
 				break;

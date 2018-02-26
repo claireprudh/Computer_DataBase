@@ -137,8 +137,8 @@ public class Computer {
 	/**
 	 * @return
 	 */
-	public LocalDate getDateOfIntro() {
-		return dateOfIntro;
+	public Optional<LocalDate> getDateOfIntro() {
+		return Optional.ofNullable(dateOfIntro);
 	}
 	
 	/**
@@ -151,8 +151,8 @@ public class Computer {
 	/**
 	 * @return
 	 */
-	public LocalDate getDateOfDisc() {
-		return dateOfDisc;
+	public Optional<LocalDate> getDateOfDisc() {
+		return Optional.ofNullable(dateOfDisc);
 	}
 	
 	/**

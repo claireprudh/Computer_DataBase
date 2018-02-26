@@ -40,7 +40,7 @@ public class ComputerService {
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
 	 */
-	public List<String> getList() {
+	public List<Computer> getList() {
 		
 		return ComputerDAO.getInstance().getList();
 		
@@ -83,7 +83,7 @@ public class ComputerService {
 		ComputerDAO.getInstance().delete(idComputer);
 	}
 
-	public List<String> getPage(int nbComputer, int noPage) {
+	public List<Computer> getPage(int nbComputer, int noPage) {
 		
 		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer * noPage);
 		

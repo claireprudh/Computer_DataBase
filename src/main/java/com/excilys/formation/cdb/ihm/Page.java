@@ -5,6 +5,7 @@ package com.excilys.formation.cdb.ihm;
 
 import java.util.List;
 
+import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.ComputerService;
 
 /**
@@ -17,7 +18,7 @@ public class Page {
 	public int nbComputer;
 	public int pageMax;
 
-	private List<String> listComputers;
+	private List<Computer> listComputers;
 
 
 	public Page(int nbComputer) {
@@ -54,7 +55,7 @@ public class Page {
 	public String toString() {
 
 		StringBuilder list = new StringBuilder();
-		for (String s : listComputers) {
+		for (Computer s : listComputers) {
 			list.append(s + "\n");
 		}
 
@@ -74,5 +75,12 @@ public class Page {
 	 */
 	public void setNbComputer(int nbComputer) {
 		this.nbComputer = nbComputer;
+	}
+
+	/**
+	 * @return the listComputers
+	 */
+	public List<Computer> getListComputers() {
+		return listComputers;
 	}
 }

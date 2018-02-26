@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
+import com.excilys.formation.cdb.mappers.CompanyMapper;
 
 /**
  * @author excilys
@@ -24,7 +24,7 @@ import com.excilys.formation.cdb.persistence.mappers.CompanyMapper;
  */
 public class CompanyDAO {
 
-	static final Logger LOGGER  = LogManager.getLogger(ComputerDAO.class);
+	static final Logger LOGGER  = LogManager.getLogger(CompanyDAO.class);
 	
 	/*
 	 * Columns c-
@@ -68,19 +68,27 @@ public class CompanyDAO {
 	public Optional<Company> getByID(int id) {
 
 		Company company = null;
+		ResultSet results = null;
 		
 		try (Connection connection = Connexion.getInstance()) {
 			PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId);
 			pstmt.setInt(1, id);
-			ResultSet results = pstmt.executeQuery();
+			results = pstmt.executeQuery();
 			
 			if (results.next()) {
 				company = CompanyMapper.getInstance().map(results);
 			}
 		
-			results.close();
+			
+			
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+		} finally {
+			try {
+				results.close();
+			} catch (SQLException e) {
+				LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+			}
 		}
 		
 		return Optional.ofNullable(company);
