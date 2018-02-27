@@ -2,6 +2,9 @@
 .project
 .classpath
 .settings/
+.checkstyle
+checkstyle.xml
+suppressions.xml
 
 # Compiled class file
 *.class

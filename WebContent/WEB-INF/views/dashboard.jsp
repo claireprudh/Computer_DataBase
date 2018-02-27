@@ -41,7 +41,7 @@
 			</div>
 		</div>
 
-		<form id="deleteForm" action="#" method="POST">
+		<form id="deleteForm" action="dashboard" method="POST">
 			<input type="hidden" name="selection" value="">
 		</form>
 
@@ -53,9 +53,9 @@
 						<!-- Table header for Computer Name -->
 
 						<th class="editMode" style="width: 60px; height: 22px;"><input
-							type="checkbox" id="selectall" /> <span
-							style="vertical-align: top;"> - <a href="#"
-								id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
+							type="checkbox" id="selectall"/> <span
+							style="vertical-align: top;"> - 
+							<a id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
@@ -73,7 +73,7 @@
 					<c:forEach items = "${ list }" var = "computer" >
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="0"></td>
+							class="cb" value="${ computer.id }"></td>
 						<td><a href="editComputer" onclick="">${ computer.name }</a></td>
 						<td>${ computer.introduced }</td>
 						<td>${ computer.discontinued }</td>
@@ -116,7 +116,7 @@
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js"></script>
+	<script src="js/dashboard.js" ></script>
 
 </body>
 </html>

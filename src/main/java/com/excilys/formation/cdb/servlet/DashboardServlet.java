@@ -2,6 +2,7 @@ package com.excilys.formation.cdb.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -20,31 +21,33 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class DashboardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		System.out.println("CoucouGET");
 		int nbCompByPage = 30;
 		int page;
-		
+
 		request.setAttribute("count", ComputerService.getInstance().getList().size());
-		
+
 		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(nbCompByPage));
-		
+
 		if (request.getParameter("page") != null) {
 			page = Integer.valueOf(request.getParameter("page"));
-			
+
 		} else {
 			page = 1;
-			
+
 		}
 		request.setAttribute("page", page);
-		
+
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 		for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
 			list.add(ComputerMapper.getInstance().map(c));
 		}
-		
+
 		request.setAttribute("list", list);
+
 		
-		
+
+
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
 
@@ -61,8 +64,52 @@ public class DashboardServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Coucou");
+		int nbCompByPage = 30;
+		int page;
+
+		request.setAttribute("count", ComputerService.getInstance().getList().size());
+
+		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(nbCompByPage));
+
+		if (request.getParameter("page") != null) {
+			page = Integer.valueOf(request.getParameter("page"));
+
+		} else {
+			page = 1;
+
+		}
+		request.setAttribute("page", page);
+
+		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
+		for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
+			list.add(ComputerMapper.getInstance().map(c));
+		}
+
+		request.setAttribute("list", list);
+
+		if (request.getParameter("selection") != null) {
+
+			String selection = request.getParameter("selection");
+			System.out.println(selection);
+
+		}
+		
+		if (request.getParameter("selection") != null) {
+
+			List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
+			
+			for (String s : selection) {
+				ComputerService.getInstance().deleteComputer(Integer.valueOf(s));
+			}
+			
+			
+
+		}
+
+
+		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+
 	}
 }

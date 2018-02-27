@@ -31,6 +31,7 @@ $(function() {
     $.fn.setCheckboxValues = function(formFieldName, checkboxFieldName) {
 
         var str = $('.' + checkboxFieldName + ':checked').map(function() {
+        	console.log(this.value);
             return this.value;
         }).get().join();
         
