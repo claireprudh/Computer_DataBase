@@ -60,8 +60,8 @@ public class IHM {
 				break;
 
 			case LIST_COMPANIES :
-				for (String s : CompanyService.getInstance().getList()) {
-					System.out.println(s);
+				for (Company company : CompanyService.getInstance().getList()) {
+					System.out.println(company.getName());
 				}
 				break;
 

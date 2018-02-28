@@ -39,7 +39,7 @@ public class CompanyService {
 	 * Liste les fabricants.
 	 * @return la liste des fabricants
 	 */
-	public List<String> getList() {
+	public List<Company> getList() {
 		
 		return CompanyDAO.getInstance().getList();
 		

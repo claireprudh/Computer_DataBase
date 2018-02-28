@@ -34,7 +34,7 @@ public class CompanyDAO {
 	/*
 	 * Queries q-
 	 */
-	private final String qlistCompanies = "SELECT " + cname + " FROM company";
+	private final String qlistCompanies = "SELECT id, " + cname + " FROM company";
 	private final String qgetCompanyId = "SELECT id, " + cname + "  FROM company WHERE id = ? ;";
 	
 	
@@ -99,9 +99,9 @@ public class CompanyDAO {
 	 * Récupère la liste des fabricants.
 	 * @return la liste des fabricants.
 	 */
-	public List<String> getList() {
+	public List<Company> getList() {
 		
-		List<String> listCompanies = new ArrayList<String>();
+		List<Company> listCompanies = new ArrayList<Company>();
 		
 	
 		try (Connection connection = Connexion.getInstance()) {
@@ -109,7 +109,7 @@ public class CompanyDAO {
 			ResultSet results = stmt.executeQuery(qlistCompanies);
 			
 			while (results.next()) {
-				listCompanies.add(results.getString(cname));				
+				listCompanies.add(new Company(results.getInt("id"), results.getString(cname)));				
 										
 			}
 			

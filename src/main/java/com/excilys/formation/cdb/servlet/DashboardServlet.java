@@ -92,7 +92,6 @@ public class DashboardServlet extends HttpServlet {
 		if (request.getParameter("selection") != null) {
 
 			String selection = request.getParameter("selection");
-			System.out.println(selection);
 
 		}
 		

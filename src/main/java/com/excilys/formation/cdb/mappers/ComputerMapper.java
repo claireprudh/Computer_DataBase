@@ -104,16 +104,19 @@ public class ComputerMapper {
 	public Computer map(ComputerDTO dto) {
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date;
 		
 		Computer computer = new Computer();
+		
+		if (dto.getId() != 0) {
+			computer.setId(dto.getId());
+		}
 		
 		if (dto.getName() != null) {
 			computer.setName(dto.getName());
 		}
 	
-		if (dto.getIntroduced().length() == 10) {
-			
-			Date date;
+		if (dto.getIntroduced().length() == 10) {			
 			try {
 				date = new Date(formatter.parse(dto.getIntroduced()).getTime());
 				
@@ -126,11 +129,10 @@ public class ComputerMapper {
 		}
 		
 		if (dto.getDiscontinued().length() == 10) {
-			Date date;
 			try {
 				date = new Date(formatter.parse(dto.getDiscontinued()).getTime());
 				
-				computer.setDateOfIntro(date.toLocalDate());
+				computer.setDateOfDisc(date.toLocalDate());
 				
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -143,7 +145,6 @@ public class ComputerMapper {
 		if (dto.getCompanyId() != 0) {
 			computer.setCompany(new Company(dto.getCompanyId()));
 		}
-		
 		
 		return computer;
 	}
