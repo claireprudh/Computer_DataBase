@@ -21,7 +21,7 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class DashboardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("CoucouGET");
+
 		int nbCompByPage = 30;
 		int page;
 
@@ -56,7 +56,7 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 		super.doHead(req, resp);
 	}
 
@@ -65,7 +65,7 @@ public class DashboardServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Coucou");
+
 		int nbCompByPage = 30;
 		int page;
 
