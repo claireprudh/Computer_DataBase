@@ -145,7 +145,7 @@ public class ComputerDAO {
 		}
 
 		if (computer == null) {
-			LOGGER.error("Aucun ordinateur n'a l'ID spécifié");
+			LOGGER.error("Aucun ordinateur n'a l'ID spécifié : " + id);
 		}
 
 		return Optional.ofNullable(computer);

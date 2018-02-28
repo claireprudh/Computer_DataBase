@@ -6,6 +6,8 @@ package com.excilys.formation.cdb.mappers;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
@@ -60,7 +62,7 @@ public class ComputerMapper {
 		}
 
 		computer.setCompany(new Company(results.getInt(Column.CCOMPANY_ID.getName()), ""));
-		//CompanyDAO.getInstance().getByID(results.getInt(Column.CCOMPANY_ID.getName())).orElse(new Company())
+		
 		
 		return computer;
 	}
@@ -97,6 +99,53 @@ public class ComputerMapper {
 		
 		
 		return dto;
+	}
+	
+	public Computer map(ComputerDTO dto) {
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Computer computer = new Computer();
+		
+		if (dto.getName() != null) {
+			computer.setName(dto.getName());
+		}
+	
+		if (dto.getIntroduced().length() == 10) {
+			
+			Date date;
+			try {
+				date = new Date(formatter.parse(dto.getIntroduced()).getTime());
+				
+				computer.setDateOfIntro(date.toLocalDate());
+				
+			} catch (ParseException e) {
+
+				e.printStackTrace();
+			}
+		}
+		
+		if (dto.getDiscontinued().length() == 10) {
+			Date date;
+			try {
+				date = new Date(formatter.parse(dto.getDiscontinued()).getTime());
+				
+				computer.setDateOfIntro(date.toLocalDate());
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+		}
+		
+		if (dto.getCompanyId() != 0) {
+			computer.setCompany(new Company(dto.getCompanyId()));
+		}
+		
+		
+		return computer;
 	}
 	
 
