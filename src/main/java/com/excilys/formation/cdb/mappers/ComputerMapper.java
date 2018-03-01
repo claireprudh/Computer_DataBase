@@ -11,10 +11,15 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.exception.IDNotFoundException;
+import com.excilys.formation.cdb.exception.InvalidStringDateException;
+import com.excilys.formation.cdb.exception.NullException;
+import com.excilys.formation.cdb.exception.TimeLineException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.Column;
 import com.excilys.formation.cdb.persistence.CompanyDAO;
+import com.excilys.formation.cdb.validator.ComputerValidator;
 
 /**
  * @author excilys
@@ -108,15 +113,17 @@ public class ComputerMapper {
 		
 		Computer computer = new Computer();
 		
-		if (dto.getId() != 0) {
-			computer.setId(dto.getId());
-		}
-		
-		if (dto.getName() != null) {
-			computer.setName(dto.getName());
-		}
 	
-		if (dto.getIntroduced().length() == 10) {			
+			computer.setId(dto.getId());
+		
+		
+		try {
+			ComputerValidator.getInstance().validateName(dto.getName());
+			
+			computer.setName(dto.getName());
+			
+			ComputerValidator.getInstance().validateIntroduced(dto.getIntroduced());
+			
 			try {
 				date = new Date(formatter.parse(dto.getIntroduced()).getTime());
 				
@@ -124,28 +131,36 @@ public class ComputerMapper {
 				
 			} catch (ParseException e) {
 
-				e.printStackTrace();
 			}
-		}
-		
-		if (dto.getDiscontinued().length() == 10) {
+			
+			ComputerValidator.getInstance().validateDiscontinued(dto.getIntroduced(), dto.getDiscontinued());
+			
 			try {
 				date = new Date(formatter.parse(dto.getDiscontinued()).getTime());
 				
 				computer.setDateOfDisc(date.toLocalDate());
 				
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 			}
-
 			
-		}
-		
-		if (dto.getCompanyId() != 0) {
+			ComputerValidator.getInstance().validateCompany(new Company(dto.getCompanyId()));
+			
 			computer.setCompany(new Company(dto.getCompanyId()));
+			
+			
+		} catch (NullException ne) {
+			
+		} catch (InvalidStringDateException isde) {
+			
+		} catch (TimeLineException tle) {
+			
+		} catch (IDNotFoundException e) {
+	
 		}
+			
 		
+
 		return computer;
 	}
 	
