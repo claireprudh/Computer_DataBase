@@ -26,7 +26,10 @@ public class Company {
 	
 	public Company(int id) {
 		this.setId(id);
-		this.setName(CompanyService.getInstance().getDetails(id).getName());
+		String name = CompanyService.getInstance().getDetails(id).getName();
+		System.out.println(name);
+		this.setName(name);
+		
 	}
 	
 	/**

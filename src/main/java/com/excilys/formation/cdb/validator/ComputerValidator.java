@@ -1,9 +1,10 @@
 package com.excilys.formation.cdb.validator;
 
 import java.sql.Date;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import com.excilys.formation.cdb.exception.DuplicateIDException;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
@@ -73,9 +74,13 @@ public class ComputerValidator {
 
 	public void validateIntroduced(String sdate) throws InvalidStringDateException  {
 
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+		
+		
 		try {
 
-			DateFormat.getInstance().parse(sdate);
+			new Date(formatter.parse(sdate).getTime());
 
 		} catch (ParseException e) {
 
@@ -117,14 +122,20 @@ public class ComputerValidator {
 	
 	public void validateCompany(Company company) throws IDNotFoundException {
 		
-		LABEL : for (Company c : CompanyService.getInstance().getList()) {
-			if (c.getId() == company.getId()) {
-				break LABEL;
+		int count = 0;
+		List<Company> listCompanies = CompanyService.getInstance().getList();
+		for (Company c : listCompanies) {
+			
+			if (c.getId() != company.getId()) {
+				count++;
 			}
 
-			throw new IDNotFoundException();
-
+			
 		}
+		if (count == listCompanies.size()) {
+			throw new IDNotFoundException();
+		}
+
 	}
 
 }

@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
 import com.excilys.formation.cdb.exception.InvalidStringDateException;
@@ -26,31 +29,31 @@ import com.excilys.formation.cdb.validator.ComputerValidator;
  *
  */
 public class ComputerMapper {
-	
-	
-	
-	
+
+	static final Logger LOGGER  = LogManager.getLogger(ComputerMapper.class);
+
+
 	public static ComputerMapper instance;
-	
+
 	public static ComputerMapper getInstance() {
-		
+
 		if (instance == null) {
-			
+
 			instance = new ComputerMapper();
 		}
-		
+
 		return instance;
 	}
-	
+
 	private ComputerMapper() {
-		
+
 	}
-	
+
 	public Computer map(ResultSet results) throws SQLException {
-		
+
 		Computer computer = new Computer();
 
-		
+
 		computer.setId(results.getInt(Column.CID.getName()));
 		computer.setName(results.getString(Column.CNAME.getName()));
 		Date temp = results.getDate(Column.CDATE_OF_INTRO.getName());
@@ -67,22 +70,22 @@ public class ComputerMapper {
 		}
 
 		computer.setCompany(new Company(results.getInt(Column.CCOMPANY_ID.getName()), ""));
-		
-		
+
+
 		return computer;
 	}
-	
+
 	public void mapCompany(List<Computer> listcomputers) {
 		for (Computer c : listcomputers) {
 			c.setCompany(CompanyDAO.getInstance().getByID(
 					c.getCompany().get().getId()).orElse(new Company()));
 		}
 	}
-	
+
 	public ComputerDTO map(Computer computer) {
-		
+
 		ComputerDTO dto = new ComputerDTO();
-		
+
 		dto.id = computer.getId();
 		dto.name = computer.getName();
 		if (computer.getDateOfIntro().isPresent()) {
@@ -101,68 +104,92 @@ public class ComputerMapper {
 		} else {
 			dto.companyId = 0;
 		}
-		
-		
+
+
 		return dto;
 	}
-	
+
 	public Computer map(ComputerDTO dto) {
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date;
-		
+
 		Computer computer = new Computer();
-		
-	
-			computer.setId(dto.getId());
-		
-		
+
+
+		computer.setId(dto.getId());
+
+
 		try {
 			ComputerValidator.getInstance().validateName(dto.getName());
-			
+
 			computer.setName(dto.getName());
-			
+
+		} catch (NullException ne) {
+
+			LOGGER.error("valeur null");
+		} 
+
+		try {
 			ComputerValidator.getInstance().validateIntroduced(dto.getIntroduced());
-			
+
 			try {
 				date = new Date(formatter.parse(dto.getIntroduced()).getTime());
-				
+
 				computer.setDateOfIntro(date.toLocalDate());
-				
+
 			} catch (ParseException e) {
 
 			}
-			
+
+		} catch (InvalidStringDateException isde) {
+
+			LOGGER.error("Date invalide");
+
+		} 
+
+		try {
+
 			ComputerValidator.getInstance().validateDiscontinued(dto.getIntroduced(), dto.getDiscontinued());
-			
+
+
+
 			try {
 				date = new Date(formatter.parse(dto.getDiscontinued()).getTime());
-				
+
 				computer.setDateOfDisc(date.toLocalDate());
-				
+
 			} catch (ParseException e) {
-				
+
 			}
-			
-			ComputerValidator.getInstance().validateCompany(new Company(dto.getCompanyId()));
-			
-			computer.setCompany(new Company(dto.getCompanyId()));
-			
-			
-		} catch (NullException ne) {
-			
-		} catch (InvalidStringDateException isde) {
-			
 		} catch (TimeLineException tle) {
-			
-		} catch (IDNotFoundException e) {
-	
+
+			LOGGER.error("Chronologie douteuse");
+
+		} catch (InvalidStringDateException e1) {
+			LOGGER.error("Date invalide");
+		} catch (NullException e1) {
+			LOGGER.error("valeur null");
 		}
-			
-		
+
+		try {
+			ComputerValidator.getInstance().validateCompany(new Company(dto.getCompanyId()));
+
+			Company c = new Company(dto.getCompanyId());
+
+			System.out.println(c);
+
+			computer.setCompany(c);
+		} catch (IDNotFoundException e) {
+
+			LOGGER.error("Fabricant inexistant");
+
+		}
+
+
 
 		return computer;
 	}
-	
+
 
 }

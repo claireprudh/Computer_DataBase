@@ -37,9 +37,7 @@ public class EditComputerServlet extends HttpServlet {
 
 		ComputerDTO computer = remplirAffichage(request);
 		
-		if (request.getParameter("selected") != null) {
-			computer.setId(Integer.valueOf(request.getParameter("selected")));
-		}
+		
 
 		ComputerService.getInstance().update(ComputerMapper.getInstance().map(computer));
 
@@ -68,15 +66,17 @@ public class EditComputerServlet extends HttpServlet {
 		if (request.getParameter("companyId") != null) {
 			computer.setCompanyId(Integer.valueOf(request.getParameter("companyId")));
 		}
+		if (request.getParameter("selected") != null) {
+			computer.setId(Integer.valueOf(request.getParameter("selected")));
+		}
 
 		
-		ComputerService.getInstance().update(ComputerMapper.getInstance().map(computer));
 		
 		for (Company company : CompanyService.getInstance().getList()) {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
 
-		request.setAttribute("computer", computer);
+		//request.setAttribute("computer", computer);
 		request.setAttribute("listCompanies", listCompanies);
 		
 		return computer;
