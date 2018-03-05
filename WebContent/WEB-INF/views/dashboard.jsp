@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="custom" uri="/WEB-INF/taglib.tld"  %> 
 
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,7 @@
 		<div class="container">
 			<a class="navbar-brand" href="dashboard.html"> Application -
 				Computer Database </a>
+				
 		</div>
 	</header>
 
@@ -103,11 +105,12 @@
 						aria-hidden="true">&laquo;</span>
 				</a></li>
 				</c:if>
-				<c:forEach  begin="1" end="${ maxPage }" step = "1" var="i" >
+<%-- 				<c:forEach  begin="1" end="${ maxPage }" step = "1" var="i" > --%>
 				
-				<li><a href="dashboard?page=${ i }">${ i }</a></li>
+<%-- 				<li><a href="dashboard?page=${ i }">${ i }</a></li> --%>
 				
-				</c:forEach>
+<%-- 				</c:forEach> --%>
+					<custom:Pagination/>
 				<c:if test="${ page < maxPage }">
 				<li><a href="dashboard?page=${ page+1 }" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>

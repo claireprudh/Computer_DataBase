@@ -15,8 +15,8 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class Page {
 
 	public static int noPage = 1;
-	public int nbComputer;
-	public int pageMax;
+	public static int nbComputer;
+	public static int pageMax;
 
 	private List<Computer> listComputers;
 

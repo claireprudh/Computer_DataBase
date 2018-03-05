@@ -16,9 +16,11 @@ import com.excilys.formation.cdb.ihm.Page;
 import com.excilys.formation.cdb.mappers.ComputerMapper;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.ComputerService;
+import com.excilys.formation.cdb.tag.PageTag;
 
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
+	
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -31,11 +33,15 @@ public class DashboardServlet extends HttpServlet {
 
 		if (request.getParameter("page") != null) {
 			page = Integer.valueOf(request.getParameter("page"));
+			
 
 		} else {
 			page = 1;
+			
 
 		}
+		
+		
 		request.setAttribute("page", page);
 
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
@@ -45,7 +51,7 @@ public class DashboardServlet extends HttpServlet {
 
 		request.setAttribute("list", list);
 
-		
+		PageTag.setCurrent(page);
 
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
