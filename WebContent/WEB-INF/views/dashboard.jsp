@@ -105,12 +105,9 @@
 						aria-hidden="true">&laquo;</span>
 				</a></li>
 				</c:if>
-<%-- 				<c:forEach  begin="1" end="${ maxPage }" step = "1" var="i" > --%>
-				
-<%-- 				<li><a href="dashboard?page=${ i }">${ i }</a></li> --%>
-				
-<%-- 				</c:forEach> --%>
+
 					<custom:Pagination/>
+					
 				<c:if test="${ page < maxPage }">
 				<li><a href="dashboard?page=${ page+1 }" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>

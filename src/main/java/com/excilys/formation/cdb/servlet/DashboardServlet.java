@@ -18,13 +18,40 @@ import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.ComputerService;
 import com.excilys.formation.cdb.tag.PageTag;
 
+@SuppressWarnings("serial")
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 	
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		int nbCompByPage = 30;
+		managePage(request);
+
+		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		managePage(request);
+
+		if (request.getParameter("selection") != null) {
+
+			List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
+			
+			for (String s : selection) {
+				ComputerService.getInstance().deleteComputer(Integer.valueOf(s));
+			}			
+
+		}
+
+		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+
+	}
+	
+	public void managePage(HttpServletRequest request) {
+		int nbCompByPage = Page.nbComputer;
 		int page;
 
 		request.setAttribute("count", ComputerService.getInstance().getList().size());
@@ -33,14 +60,9 @@ public class DashboardServlet extends HttpServlet {
 
 		if (request.getParameter("page") != null) {
 			page = Integer.valueOf(request.getParameter("page"));
-			
-
 		} else {
 			page = 1;
-			
-
 		}
-		
 		
 		request.setAttribute("page", page);
 
@@ -52,69 +74,7 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("list", list);
 
 		PageTag.setCurrent(page);
-
-
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 	}
-
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doHead(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
-		super.doHead(req, resp);
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int nbCompByPage = 30;
-		int page;
-
-		request.setAttribute("count", ComputerService.getInstance().getList().size());
-
-		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(nbCompByPage));
-
-		if (request.getParameter("page") != null) {
-			page = Integer.valueOf(request.getParameter("page"));
-
-		} else {
-			page = 1;
-
-		}
-		request.setAttribute("page", page);
-
-		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
-		for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
-			list.add(ComputerMapper.getInstance().map(c));
-		}
-
-		request.setAttribute("list", list);
-
-		if (request.getParameter("selection") != null) {
-
-			String selection = request.getParameter("selection");
-
-		}
-		
-		if (request.getParameter("selection") != null) {
-
-			List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
-			
-			for (String s : selection) {
-				ComputerService.getInstance().deleteComputer(Integer.valueOf(s));
-			}
-			
-			
-
-		}
-
-
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
-
-	}
+	
 }
