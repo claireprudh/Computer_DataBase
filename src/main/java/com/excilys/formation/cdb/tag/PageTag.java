@@ -75,7 +75,7 @@ public class PageTag extends SimpleTagSupport {
 
 	public static void setCurrent(int current) {
 		PageTag.current = current;
-		System.out.println("Je suis passé par ici");
+		
 		if (current > span) {
 			PageTag.setBegin(current - span);
 		} else {
@@ -83,21 +83,14 @@ public class PageTag extends SimpleTagSupport {
 		}
 		if (current < Page.pageMax - span) {
 			PageTag.setEnd(current + span);
-			System.out.println("J'ai mis le end à sa valeur");
+			
 		} else {
 			PageTag.setEnd(Page.pageMax);
-			System.out.println("J'ai mis le end à une autre valeur");
+			
 		}
 		
-		System.out.println("begin : " + begin + " current : " + current + " end : " + end);
 	}
 	
-	
-//	"<c:forEach  begin=\"1\" end=\"${ maxPage }\" step = \"1\" var=\"i\" >\n" + 
-//		"				\n" + 
-//		"				<li><a href=\"dashboard?page=${ i }\">${ i }</a></li>\n" + 
-//		"				\n" + 
-//		"				</c:forEach>"
-//		+ "Hello Custom Tag!"
+
 
 }

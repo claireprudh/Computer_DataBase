@@ -25,8 +25,8 @@
                     <form action="addComputer" method="POST">
                         <fieldset>
                             <div class="form-group">
-                                <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" name="computerName" id="computerName" placeholder="Computer name">
+                                <label for="name">Computer name</label>
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Computer name">
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>

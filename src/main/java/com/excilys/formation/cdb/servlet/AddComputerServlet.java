@@ -47,8 +47,8 @@ public class AddComputerServlet extends HttpServlet {
 
 		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
 
-		if (request.getParameter("computerName") != null) {
-			computer.setName(request.getParameter("computerName"));
+		if (request.getParameter("name") != null) {
+			computer.setName(request.getParameter("name"));
 
 		} 
 		if (request.getParameter("introduced") != null) {

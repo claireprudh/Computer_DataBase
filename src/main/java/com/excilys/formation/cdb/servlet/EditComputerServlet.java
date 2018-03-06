@@ -76,7 +76,6 @@ public class EditComputerServlet extends HttpServlet {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
 
-		//request.setAttribute("computer", computer);
 		request.setAttribute("listCompanies", listCompanies);
 		
 		return computer;

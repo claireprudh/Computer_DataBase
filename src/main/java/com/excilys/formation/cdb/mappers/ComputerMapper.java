@@ -150,7 +150,7 @@ public class ComputerMapper {
 
 		try {
 
-			ComputerValidator.getInstance().validateDiscontinued(dto.getIntroduced(), dto.getDiscontinued());
+			ComputerValidator.getInstance().validateDiscontinued(dto.getDiscontinued(), dto.getIntroduced());
 
 
 
