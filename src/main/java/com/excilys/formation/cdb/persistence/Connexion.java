@@ -4,12 +4,14 @@
 package com.excilys.formation.cdb.persistence;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.pool.HikariProxyConnection;
 
 
 
@@ -22,12 +24,9 @@ public class Connexion {
 
 	static final Logger LOGGER = LogManager.getLogger(Connexion.class);
 
-	/**
-	 * La connexion à la base de données.
-	 */
-	private static Connection connexion;
-
-
+	private static HikariDataSource ds;
+	
+	private static HikariProxyConnection connection;
 
 	/**
 	 * Méthode permettant de récupérer l'instance du Singleton.
@@ -35,35 +34,22 @@ public class Connexion {
 	 */
 	public static Connection getInstance() {
 
-
-
+		
 		try {
-			if (connexion == null || connexion.isClosed()) {
-				
-				ResourceBundle bundle = ResourceBundle.getBundle("config");
-				String login = bundle.getString("login");
-				String password = bundle.getString("password");
-				
-				String url = bundle.getString("url");
-				
-				String driver = bundle.getString("driverClassName");
-				
-				Class.forName(driver);
+			if (connection == null || connection.isClosed()) {
+				HikariConfig config = new HikariConfig("/hikari.properties");
+				ds = new HikariDataSource(config);
+			
 
-				connexion = DriverManager.getConnection(url, login, password);
+				connection = (HikariProxyConnection) ds.getConnection();
 
 			}
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l\'ouverture de la session : " + e.getMessage());
 			
-		} catch (ClassNotFoundException e) {
-			LOGGER.error("La classe du driver n'a pas été trouvée : " + e.getMessage());
 		}
 
-
-
-
-		return connexion;
+		return connection;
 	}
 	
 	private Connexion() {

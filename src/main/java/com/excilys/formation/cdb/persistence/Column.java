@@ -10,11 +10,13 @@ package com.excilys.formation.cdb.persistence;
 public enum Column {
 
 	
-	CID("id"),
-	CNAME("name"),
-	CDATE_OF_INTRO("introduced"),
-	CDATE_OF_DISC("discontinued"),
-	CCOMPANY_ID("company_id"),
+	CID("computer.id"),
+	CCID("company.id"),
+	CNAME("computer.name"),
+	CCNAME("company.name"),
+	CDATE_OF_INTRO("computer.introduced"),
+	CDATE_OF_DISC("computer.discontinued"),
+	CCOMPANY_ID("computer.company_id"),
 	CCOUNT("COUNT(*)");
 	
 	private String name;

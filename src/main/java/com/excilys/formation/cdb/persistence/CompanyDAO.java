@@ -3,6 +3,7 @@
  */
 package com.excilys.formation.cdb.persistence;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,16 +27,12 @@ public class CompanyDAO {
 
 	static final Logger LOGGER  = LogManager.getLogger(CompanyDAO.class);
 	
-	/*
-	 * Columns c-
-	 */
-	private final String cname = "name";
 	
 	/*
 	 * Queries q-
 	 */
-	private final String qlistCompanies = "SELECT id, " + cname + " FROM company";
-	private final String qgetCompanyId = "SELECT id, " + cname + "  FROM company WHERE id = ? ;";
+	private final String qlistCompanies = "SELECT " + Column.CCID.getName() + " , " + Column.CCNAME.getName() + " FROM company";
+	private final String qgetCompanyId = "SELECT " + Column.CCID.getName() + ", " + Column.CCNAME + "  FROM company WHERE id = ? ;";
 	
 	
 	/**
@@ -79,17 +76,11 @@ public class CompanyDAO {
 				company = CompanyMapper.getInstance().map(results);
 			}
 		
-			
+			results.close();
 			
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		} finally {
-			try {
-				results.close();
-			} catch (SQLException e) {
-				LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-			}
-		}
+		} 
 		
 		return Optional.ofNullable(company);
 		
@@ -109,7 +100,7 @@ public class CompanyDAO {
 			ResultSet results = stmt.executeQuery(qlistCompanies);
 			
 			while (results.next()) {
-				listCompanies.add(new Company(results.getInt("id"), results.getString(cname)));				
+				listCompanies.add(new Company(results.getInt(Column.CCID.getName()), results.getString(Column.CCNAME.getName())));				
 										
 			}
 			

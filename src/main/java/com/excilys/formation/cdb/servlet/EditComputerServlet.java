@@ -19,6 +19,7 @@ import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
 
+@SuppressWarnings("serial")
 @WebServlet("/editComputer")
 public class EditComputerServlet extends HttpServlet {
 
@@ -51,7 +52,11 @@ public class EditComputerServlet extends HttpServlet {
 		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
 		
 		if (request.getParameter("id") != null) {
+			try {
 			computer.setId(Integer.valueOf(request.getParameter("id")));
+			} catch (NumberFormatException nfe) {
+				computer.setId(0); //TODO Ceci est une rustine de fortune à changer impérativement
+			}
 		}
 		if (request.getParameter("name") != null) {
 			computer.setName(request.getParameter("name"));

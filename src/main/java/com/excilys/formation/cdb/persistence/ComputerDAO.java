@@ -3,6 +3,7 @@
  */
 package com.excilys.formation.cdb.persistence;
 
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -66,8 +67,13 @@ public class ComputerDAO {
 	/*
 	 * Queries q-
 	 */
-	private final String qlistComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " FROM computer";
-	private final String qgetComputerById = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " FROM computer WHERE " + cid + " = ?;";
+	private final String qlistComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
+			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
+			+ "FROM computer "
+			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + ";";
+	private final String qgetComputerById = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " "
+			+ "FROM computer "
+			+ "WHERE " + cid + " = ?;";
 	private final String qcreateNewComputer = "INSERT INTO computer (" + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + ")"
 			+ "  VALUES (?, ?, ?, ?)";
 	private final String qupdateComputer = "UPDATE computer SET " 
@@ -77,7 +83,10 @@ public class ComputerDAO {
 			+ ccompanyID + " = ? "
 			+ "WHERE " + cid + " = ? ;";
 	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid + " = ? ;";
-	private final String qgetPageOfComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " FROM computer LIMIT ? OFFSET ? ;";
+	private final String qgetPageOfComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
+			+ ccompanyID + " , " + Column.CCNAME.getName() + " "
+			+ "FROM computer LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
+			+ "LIMIT ? , ? ;";
 	private final String qgetMaxPage = "SELECT " + ccount + " FROM computer ;";
 
 	/**
@@ -102,10 +111,6 @@ public class ComputerDAO {
 			}
 			
 			results.close();
-			
-			ComputerMapper.getInstance().mapCompany(listComputers);
-
-			
 
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
@@ -274,9 +279,8 @@ public class ComputerDAO {
 
 			PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers);
 
-			pstmt.setInt(1, nbComputer);
-			pstmt.setInt(2, offset);
-
+			pstmt.setInt(1, offset);
+			pstmt.setInt(2, nbComputer);
 
 			ResultSet results = pstmt.executeQuery();
 
@@ -289,9 +293,7 @@ public class ComputerDAO {
 			}
 
 			results.close();
-			
-			ComputerMapper.getInstance().mapCompany(listComputers);
-
+						
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}

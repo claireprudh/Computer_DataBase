@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +20,6 @@ import com.excilys.formation.cdb.exception.TimeLineException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.Column;
-import com.excilys.formation.cdb.persistence.CompanyDAO;
 import com.excilys.formation.cdb.validator.ComputerValidator;
 
 /**
@@ -69,17 +67,10 @@ public class ComputerMapper {
 			computer.setDateOfDisc(null);
 		}
 
-		computer.setCompany(new Company(results.getInt(Column.CCOMPANY_ID.getName()), ""));
+		computer.setCompany(new Company(results.getInt(Column.CCOMPANY_ID.getName()), results.getString(Column.CCNAME.getName())));
 
 
 		return computer;
-	}
-
-	public void mapCompany(List<Computer> listcomputers) {
-		for (Computer c : listcomputers) {
-			c.setCompany(CompanyDAO.getInstance().getByID(
-					c.getCompany().get().getId()).orElse(new Company()));
-		}
 	}
 
 	public ComputerDTO map(Computer computer) {
