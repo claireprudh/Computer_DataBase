@@ -255,8 +255,8 @@ public class ComputerDAO {
 	public void delete(int id) {
 
 
-		try (Connection connection = Connexion.getInstance()) {
-			PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer);
+		try (Connection connection = Connexion.getInstance(); PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer)) {
+			
 
 			pstmt.setInt(1, id);
 
@@ -275,10 +275,11 @@ public class ComputerDAO {
 		List<Computer> listComputers = new ArrayList<Computer>();
 
 
-		try (Connection connection = Connexion.getInstance()) {
+		try (Connection connection = Connexion.getInstance(); 
+				PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers)) {
 
 
-			PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers);
+			
 
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, nbComputer);
@@ -306,10 +307,11 @@ public class ComputerDAO {
 
 		int maxPage = 0;
 
-		try (Connection connection = Connexion.getInstance()) {
+		try (Connection connection = Connexion.getInstance(); 
+				PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage)) {
 
 
-			PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage);
+			
 
 			ResultSet results = pstmt.executeQuery();
 

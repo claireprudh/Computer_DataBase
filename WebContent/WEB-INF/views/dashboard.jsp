@@ -1,5 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="custom" uri="/WEB-INF/taglib.tld"  %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="custom" uri="/WEB-INF/taglib.tld"%>
 
 <!DOCTYPE html>
 <html>
@@ -17,17 +17,17 @@
 		<div class="container">
 			<a class="navbar-brand" href="dashboard.html"> Application -
 				Computer Database </a>
-				
+
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle"> ${ count } Computers found</h1>
-			
+			<h1 id="homeTitle">${ count } Computers found</h1>
+
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="#" method="GET" class="form-inline">
+					<form id="searchForm" action="dashboard" method="GET" class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
@@ -55,9 +55,9 @@
 						<!-- Table header for Computer Name -->
 
 						<th class="editMode" style="width: 60px; height: 22px;"><input
-							type="checkbox" id="selectall"/> <span
-							style="vertical-align: top;"> - 
-							<a id="deleteSelected" onclick="$.fn.deleteSelected();"> <i
+							type="checkbox" id="selectall" /> <span
+							style="vertical-align: top;"> - <a id="deleteSelected"
+								onclick="$.fn.deleteSelected();"> <i
 									class="fa fa-trash-o fa-lg"></i>
 							</a>
 						</span></th>
@@ -72,18 +72,18 @@
 				</thead>
 				<!-- Browse attribute computers -->
 				<tbody id="results">
-					<c:forEach items = "${ list }" var = "computer" >
-					<tr>
-						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="${ computer.id }"></td>
-						<td><a href="editComputer?id=${ computer.id }"onclick="">${ computer.name }</a></td>
-						<td>${ computer.introduced }</td>
-						<td>${ computer.discontinued }</td>
-						<td>${ computer.companyName }</td>
+					<c:forEach items="${ list }" var="computer">
+						<tr>
+							<td class="editMode"><input type="checkbox" name="cb"
+								class="cb" value="${ computer.id }"></td>
+							<td><a href="editComputer?id=${ computer.id }" onclick="">${ computer.name }</a></td>
+							<td>${ computer.introduced }</td>
+							<td>${ computer.discontinued }</td>
+							<td>${ computer.companyName }</td>
 
-					</tr>
+						</tr>
 					</c:forEach>
-					
+
 
 				</tbody>
 			</table>
@@ -94,29 +94,31 @@
 		<div class="container text-center">
 			<ul class="pagination">
 				<c:if test="${ page > 1}">
-				<li><a href="dashboard?page=${ page-1 }" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
+					<li><a href="dashboard?page=${ page-1 }" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+					</a></li>
 				</c:if>
 
-					<custom:Pagination/>
-					
+				<custom:Pagination />
+
 				<c:if test="${ page < maxPage }">
-				<li><a href="dashboard?page=${ page+1 }" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
+					<li><a href="dashboard?page=${ page+1 }" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+					</a></li>
 				</c:if>
 			</ul>
-		</div>
-		<div class="btn-group btn-group-sm pull-right" role="group">
-			<button type="button" class="btn btn-default">10</button>
-			<button type="button" class="btn btn-default">50</button>
-			<button type="button" class="btn btn-default">100</button>
+
+			<div class="btn-group btn-group-sm pull-right" role="group">
+				<button type="button" class="btn btn-default">10</button>
+				<button type="button" class="btn btn-default">50</button>
+				<button type="button" class="btn btn-default">100</button>
+			</div>
 		</div>
 
 	</footer>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/dashboard.js" ></script>
+	<script src="js/dashboard.js"></script>
 
 </body>
 </html>

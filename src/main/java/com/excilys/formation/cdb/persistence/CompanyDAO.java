@@ -67,8 +67,9 @@ public class CompanyDAO {
 		Company company = null;
 		ResultSet results = null;
 		
-		try (Connection connection = Connexion.getInstance()) {
-			PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId);
+		try (Connection connection = Connexion.getInstance(); 
+				PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId)) {
+			
 			pstmt.setInt(1, id);
 			results = pstmt.executeQuery();
 			
@@ -93,18 +94,14 @@ public class CompanyDAO {
 	public List<Company> getList() {
 		
 		List<Company> listCompanies = new ArrayList<Company>();
-		
 	
-		try (Connection connection = Connexion.getInstance()) {
-			Statement stmt = connection.createStatement();
-			ResultSet results = stmt.executeQuery(qlistCompanies);
+		try (Connection connection = Connexion.getInstance();
+				Statement stmt = connection.createStatement();
+				ResultSet results = stmt.executeQuery(qlistCompanies)) {
 			
 			while (results.next()) {
 				listCompanies.add(new Company(results.getInt(Column.CCID.getName()), results.getString(Column.CCNAME.getName())));				
-										
 			}
-			
-			results.close();
 			
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());

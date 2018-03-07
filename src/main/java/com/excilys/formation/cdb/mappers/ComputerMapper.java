@@ -170,8 +170,6 @@ public class ComputerMapper {
 
 			Company c = new Company(dto.getCompanyId());
 
-			System.out.println(c);
-
 			computer.setCompany(c);
 		} catch (IDNotFoundException e) {
 
