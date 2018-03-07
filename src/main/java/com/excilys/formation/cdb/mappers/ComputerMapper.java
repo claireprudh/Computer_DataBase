@@ -137,6 +137,8 @@ public class ComputerMapper {
 
 			LOGGER.error("Date invalide");
 
+		} catch (NullException ne) {
+			LOGGER.error("Chaîne de caractères inexistante");
 		} 
 
 		try {
@@ -176,8 +178,6 @@ public class ComputerMapper {
 			LOGGER.error("Fabricant inexistant");
 
 		}
-
-
 
 		return computer;
 	}

@@ -60,9 +60,12 @@ public class DashboardServlet extends HttpServlet {
 
 		if (request.getParameter("page") != null) {
 			page = Integer.valueOf(request.getParameter("page"));
+			
 		} else {
 			page = 1;
 		}
+		
+		Page.noPage = page;
 		
 		request.setAttribute("page", page);
 

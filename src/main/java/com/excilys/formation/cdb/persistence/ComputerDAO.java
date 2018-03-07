@@ -71,8 +71,10 @@ public class ComputerDAO {
 			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
 			+ "FROM computer "
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + ";";
-	private final String qgetComputerById = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + " "
+	private final String qgetComputerById = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
+			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
 			+ "FROM computer "
+			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
 			+ "WHERE " + cid + " = ?;";
 	private final String qcreateNewComputer = "INSERT INTO computer (" + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + ")"
 			+ "  VALUES (?, ?, ?, ?)";
@@ -212,13 +214,12 @@ public class ComputerDAO {
 			try (Connection connection = Connexion.getInstance()) {
 
 				PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
-
+				
 				pstmt.setInt(5, ucomputer.getId());
 
 				pstmt.setString(1, ucomputer.getName());
 
 				if (ucomputer.getDateOfIntro().isPresent()) {
-
 					pstmt.setDate(2, Date.valueOf(ucomputer.getDateOfIntro().get()));	
 				} else {
 					pstmt.setDate(2, null);
@@ -237,7 +238,7 @@ public class ComputerDAO {
 
 				pstmt.executeUpdate();
 
-
+								
 			} catch (SQLException e) {
 				LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 			}

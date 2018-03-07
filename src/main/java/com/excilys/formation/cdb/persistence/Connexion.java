@@ -24,9 +24,12 @@ public class Connexion {
 
 	static final Logger LOGGER = LogManager.getLogger(Connexion.class);
 
-	private static HikariDataSource ds;
+	private static final  HikariConfig CONFIG = new HikariConfig("/hikari.properties");
+	
+	private static final  HikariDataSource DS = new HikariDataSource(CONFIG);
 	
 	private static HikariProxyConnection connection;
+
 
 	/**
 	 * Méthode permettant de récupérer l'instance du Singleton.
@@ -37,11 +40,9 @@ public class Connexion {
 		
 		try {
 			if (connection == null || connection.isClosed()) {
-				HikariConfig config = new HikariConfig("/hikari.properties");
-				ds = new HikariDataSource(config);
-			
+				
 
-				connection = (HikariProxyConnection) ds.getConnection();
+				connection = (HikariProxyConnection) DS.getConnection();
 
 			}
 		} catch (SQLException e) {

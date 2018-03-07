@@ -36,8 +36,8 @@ public static CompanyMapper instance;
 	public Company map(ResultSet results) throws SQLException {
 		
 		Company company = new Company();
-		company.setId(results.getInt(Column.CID.getName()));
-		company.setName(results.getString(Column.CNAME.getName()));
+		company.setId(results.getInt(Column.CCID.getName()));
+		company.setName(results.getString(Column.CCNAME.getName()));
 		
 		return company;
 	

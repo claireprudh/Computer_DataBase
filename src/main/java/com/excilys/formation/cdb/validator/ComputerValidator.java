@@ -72,10 +72,11 @@ public class ComputerValidator {
 		}
 	}
 
-	public void validateIntroduced(String sdate) throws InvalidStringDateException  {
+	public void validateIntroduced(String sdate) throws InvalidStringDateException, NullException  {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
+		
+		if (sdate != null) {
 		
 		
 		try {
@@ -85,6 +86,10 @@ public class ComputerValidator {
 		} catch (ParseException e) {
 
 			throw new InvalidStringDateException();
+		}
+		
+		} else {
+			throw new NullException();
 		}
 
 	}
@@ -105,6 +110,7 @@ public class ComputerValidator {
 		Date dDiscontinued;
 		Date dIntroduced;
 		
+		if (discontinued != null) {
 		try {
 
 			dDiscontinued = new Date(formatter.parse(discontinued).getTime());
@@ -117,6 +123,10 @@ public class ComputerValidator {
 		}
 		
 		validateDiscontinued(dIntroduced, dDiscontinued);
+		
+		} else {
+			throw new NullException();
+		}
 
 	}
 	

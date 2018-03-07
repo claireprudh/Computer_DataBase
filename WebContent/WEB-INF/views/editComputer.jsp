@@ -13,8 +13,8 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> Application - Computer
+				Database </a>
 		</div>
 	</header>
 	<section id="main">
@@ -31,24 +31,26 @@
 							<div class="form-group">
 								<label for="name">Computer name</label> <input type="text"
 									class="form-control" name="name" id="name"
-									placeholder="${ computer.name }">
+									placeholder="${ computer.name }" value="${ computer.name }">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									type="date" class="form-control" name="introduced"
-									id="introduced" placeholder="${ computer.introduced }">
+									id="introduced" placeholder="${ computer.introduced }"
+									value="${ computer.introduced }">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									type="date" class="form-control" name="discontinued"
-									id="discontinued" placeholder="${ computer.discontinued }">
+									id="discontinued" placeholder="${ computer.discontinued }"
+									value="${ computer.discontinued }">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
 									class="form-control" name="companyId" id="companyId">
 									<c:forEach items="${ listCompanies }" var="company">
 										<c:choose>
-											<c:when test= "${ company.id == computer.companyId }" >
+											<c:when test="${ company.id == computer.companyId }">
 												<option value="${ company.id }" selected="selected">-${ company.name }-</option>
 											</c:when>
 											<c:otherwise>

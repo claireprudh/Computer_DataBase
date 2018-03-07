@@ -32,7 +32,7 @@ public class CompanyDAO {
 	 * Queries q-
 	 */
 	private final String qlistCompanies = "SELECT " + Column.CCID.getName() + " , " + Column.CCNAME.getName() + " FROM company";
-	private final String qgetCompanyId = "SELECT " + Column.CCID.getName() + ", " + Column.CCNAME + "  FROM company WHERE id = ? ;";
+	private final String qgetCompanyId = "SELECT " + Column.CCID.getName() + ", " + Column.CCNAME.getName() + "  FROM company WHERE id = ? ;";
 	
 	
 	/**

@@ -76,14 +76,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="${ computer.id }"></td>
-						<td>
-						<a href="editComputer?
-						id=${ computer.id }&
-						name=${ computer.name }&
-						introduced=${ computer.introduced }&
-						discontinued=${ computer.discontinued }&
-						companyid=${ computer.companyId }" 
-						onclick="">${ computer.name }</a></td>
+						<td><a href="editComputer?id=${ computer.id }"onclick="">${ computer.name }</a></td>
 						<td>${ computer.introduced }</td>
 						<td>${ computer.discontinued }</td>
 						<td>${ computer.companyName }</td>
