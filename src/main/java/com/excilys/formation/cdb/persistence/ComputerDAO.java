@@ -91,7 +91,7 @@ public class ComputerDAO {
 	private final String qgetMaxPage = "SELECT " + ccount + " FROM computer ;";
 	private final String qsearchByName = allComputer
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
-			+ "WHERE " + cname + " LIKE ? "
+			+ "WHERE " + cname + " LIKE ? or " + Column.CCNAME.getName() + " LIKE ? "
 			+ "LIMIT ? , ? ;";
 	private final String qlistComputers2delete = allComputer
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
@@ -349,14 +349,13 @@ public class ComputerDAO {
 						PreparedStatement pstmt = connection.prepareStatement(qsearchByName)) {
 
 					pstmt.setString(1, "%" + part + "%");
-					pstmt.setInt(2, offset);
-					pstmt.setInt(3, nbComputer);
+					pstmt.setString(2, "%" + part + "%");
+					pstmt.setInt(3, offset);
+					pstmt.setInt(4, nbComputer);
 
 					ResultSet results = pstmt.executeQuery();
-					System.out.println(pstmt.toString());
 					while (results.next()) {
 						Computer c = ComputerMapper.getInstance().map(results);
-						System.out.println(c);
 						listComputers.add(c);
 					}
 				} catch (SQLException e) {

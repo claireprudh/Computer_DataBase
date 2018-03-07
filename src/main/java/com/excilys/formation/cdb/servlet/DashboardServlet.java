@@ -71,7 +71,6 @@ public class DashboardServlet extends HttpServlet {
 
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
-		System.out.println(request.getParameter("search"));
 		if (request.getParameter("search") == null) {
 
 			for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
@@ -79,7 +78,7 @@ public class DashboardServlet extends HttpServlet {
 			}
 		} else {
 			for (Computer c : new Page(nbCompByPage, page, request.getParameter("search")).getListComputers()) {
-				System.out.println(c);
+
 				list.add(ComputerMapper.getInstance().map(c));
 			}
 		}
