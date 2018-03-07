@@ -85,6 +85,9 @@ public class IHM {
 			case DELETE_COMPUTER :
 				deleteComputer(scan, str, command);
 				break;
+			case DELETE_COMPANY :
+				deleteCompany(scan, str, command);
+				break;
 
 			case HELP :
 				for (String s : Command.listcommands(TypeCommand.ARGUMENT_LESS)) {
@@ -435,6 +438,56 @@ public class IHM {
 				System.out.println(
 						CompanyService.getInstance().getDetails(
 								Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim())));			
+				break;			
+
+			case RETURN :
+				break;
+
+			default : LOGGER.error("commande non reconnue");
+			break;
+			}
+
+
+			str.setLength(0);
+
+		} while (command != Command.RETURN);
+
+
+	}
+	/**
+	 * 
+	 * @param scan
+	 * @param str
+	 * @param command
+	 */
+	private static void deleteCompany(Scanner scan, StringBuilder str, Command command) {
+
+		str.setLength(0);
+
+
+		do {
+			System.out.print("Indiquez l'ID du fabricant souhaité :\n"
+					+ Command.COMPANY_ID + " = <company_id> : ID du fabricant\n"
+					+ Command.RETURN + " : Sortir\n"
+					+ ">");
+
+			str.append(scan.nextLine());
+
+
+			try {
+
+				command = Command.convert(str.substring(0, str.indexOf(" =")).trim());
+
+			} catch (java.lang.StringIndexOutOfBoundsException e) {
+				command = Command.convert(str.toString());
+			}
+
+			switch (command) {
+
+			case COMPANY_ID : 
+				int id = Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim());
+				CompanyService.getInstance().delete(id);
+					
 				break;			
 
 			case RETURN :

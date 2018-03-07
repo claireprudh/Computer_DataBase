@@ -53,5 +53,9 @@ public class CompanyService {
 	public Company getDetails(int id) {
 		return CompanyDAO.getInstance().getByID(id).orElse(new Company());
 	}
+	
+	public void delete(int id) {
+		CompanyDAO.getInstance().delete(id);
+	}
 
 }

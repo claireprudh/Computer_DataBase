@@ -27,6 +27,7 @@ public enum Command {
 	CREATE_COMPUTER(TypeCommand.ARGUMENT_NEEDED, "createcomputer", "crée un nouvel ordinateur"),
 	UPDATE_COMPUTER(TypeCommand.ARGUMENT_NEEDED, "updatecomputer", "applique des changements sur un ordinateur"),
 	DELETE_COMPUTER(TypeCommand.ARGUMENT_NEEDED, "deletecomputer", "supprime un ordinateur"),
+	DELETE_COMPANY(TypeCommand.ARGUMENT_NEEDED, "deletecompany", "supprime un fabricant"),
 
 	//arguments
 	COMPUTER_ID(TypeCommand.ARGUMENT, "computerid", "ID de l'ordinateur à modifier"),

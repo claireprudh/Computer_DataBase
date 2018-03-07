@@ -67,13 +67,13 @@ public class ComputerDAO {
 	/*
 	 * Queries q-
 	 */
-	private final String qlistComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
+	private final String allComputer = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
 			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
-			+ "FROM computer "
+			+ "FROM computer ";
+
+	private final String qlistComputers = allComputer
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + ";";
-	private final String qgetComputerById = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
-			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
-			+ "FROM computer "
+	private final String qgetComputerById = allComputer
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
 			+ "WHERE " + cid + " = ?;";
 	private final String qcreateNewComputer = "INSERT INTO computer (" + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + ")"
@@ -85,285 +85,332 @@ public class ComputerDAO {
 			+ ccompanyID + " = ? "
 			+ "WHERE " + cid + " = ? ;";
 	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid + " = ? ;";
-	private final String qgetPageOfComputers = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
-			+ ccompanyID + " , " + Column.CCNAME.getName() + " "
-			+ "FROM computer LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
+	private final String qgetPageOfComputers = allComputer
+			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
 			+ "LIMIT ? , ? ;";
 	private final String qgetMaxPage = "SELECT " + ccount + " FROM computer ;";
-	private final String qsearchByName = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
-			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
-			+ "FROM computer "
+	private final String qsearchByName = allComputer
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
 			+ "WHERE " + cname + " LIKE ? "
 			+ "LIMIT ? , ? ;";
-
-	/**
-	 * Retourne la liste complète des ordinateurs.
-	 * @return la liste des ordinateurs.
-	 */
-	public List<Computer> getList() {
-
-		List<Computer> listComputers = new ArrayList<Computer>();
-
-		ResultSet results = null;
-		try (Connection connection = Connexion.getInstance()) {
-
-			Statement stmt = connection.createStatement();
-
-			results = stmt.executeQuery(qlistComputers);
-
-			while (results.next()) {
-
-				listComputers.add(ComputerMapper.getInstance().map(results));
-
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
-
-		return listComputers;
-	}
-
-	/**
-	 * Recherche en base le Computer ayant l'ID indiqué.
-	 * @param id, l'id du Computer recherché.
-	 * @return computer, le Computer à l'id recherché ou null 
-	 */
-	public Optional<Computer> getByID(int id) {
-
-		Computer computer = null;
+	private final String qlistComputers2delete = allComputer
+			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
+			+ "WHERE " + ccompanyID + " = ?;";;
 
 
-		try (Connection connection = Connexion.getInstance()) {
+			/**
+			 * Retourne la liste complète des ordinateurs.
+			 * @return la liste des ordinateurs.
+			 */
+			public List<Computer> getList() {
 
+				List<Computer> listComputers = new ArrayList<Computer>();
 
-			PreparedStatement pstmt = connection.prepareStatement(qgetComputerById);
-			pstmt.setInt(1, id);
+				ResultSet results = null;
+				try (Connection connection = Connexion.getInstance()) {
 
-			ResultSet results = pstmt.executeQuery();
+					Statement stmt = connection.createStatement();
 
+					results = stmt.executeQuery(qlistComputers);
 
-			if (results.next()) {
+					while (results.next()) {
 
-				computer = ComputerMapper.getInstance().map(results);
-			}
+						listComputers.add(ComputerMapper.getInstance().map(results));
 
-			results.close();
+					}
 
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+					results.close();
 
-		if (computer == null) {
-			LOGGER.error("Aucun ordinateur n'a l'ID spécifié : " + id);
-		}
-
-		return Optional.ofNullable(computer);
-	}
-
-	/**
-	 * Création d'un ordinateur en base.
-	 * @param computer, l'ordinateur à insérer dans la base.
-	 */
-	public void create(Computer computer) {
-
-
-		try (Connection connection = Connexion.getInstance()) {
-			PreparedStatement pstmt = connection.prepareStatement(qcreateNewComputer);
-
-
-			if (computer.getName() != null) {
-				pstmt.setString(1, computer.getName());
-			} else {
-				pstmt.setString(1,  null);
-			}
-
-			if (computer.getDateOfIntro().isPresent()) {
-				pstmt.setDate(2, Date.valueOf(computer.getDateOfIntro().get()));
-			} else {
-				pstmt.setDate(2, null);
-			}
-
-			if (computer.getDateOfDisc().isPresent()) {
-				pstmt.setDate(3, Date.valueOf(computer.getDateOfDisc().get()));
-			} else {
-				pstmt.setDate(3, null);
-			}
-
-			if (computer.getCompany().isPresent() && computer.getCompany().get().getId() != 0) {
-				pstmt.setInt(4, computer.getCompany().orElse(new Company()).getId());
-			} else {
-				pstmt.setNull(4, Types.INTEGER);
-			}
-
-			pstmt.executeUpdate();			
-
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
-
-	}
-
-
-	/**
-	 * Modification d'un Computer.
-	 * @param ucomputer, the updated computer
-	 */
-	public void update(Computer ucomputer) {
-
-		if (this.getByID(ucomputer.getId()).isPresent()) { 
-
-			try (Connection connection = Connexion.getInstance()) {
-
-				PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
-
-				pstmt.setInt(5, ucomputer.getId());
-
-				pstmt.setString(1, ucomputer.getName());
-
-				if (ucomputer.getDateOfIntro().isPresent()) {
-					pstmt.setDate(2, Date.valueOf(ucomputer.getDateOfIntro().get()));	
-				} else {
-					pstmt.setDate(2, null);
-				}
-				if (ucomputer.getDateOfDisc().isPresent()) {
-					pstmt.setDate(3, Date.valueOf(ucomputer.getDateOfDisc().get()));	
-				} else {
-					pstmt.setDate(3, null);
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 				}
 
-				if (ucomputer.getCompany().isPresent() && ucomputer.getCompany().get().getId() != 0) {
-					pstmt.setInt(4, ucomputer.getCompany().orElse(new Company()).getId());
-				} else {
-					pstmt.setNull(4, Types.INTEGER);
+				return listComputers;
+			}
+
+			/**
+			 * Recherche en base le Computer ayant l'ID indiqué.
+			 * @param id, l'id du Computer recherché.
+			 * @return computer, le Computer à l'id recherché ou null 
+			 */
+			public Optional<Computer> getByID(int id) {
+
+				Computer computer = null;
+
+
+				try (Connection connection = Connexion.getInstance()) {
+
+
+					PreparedStatement pstmt = connection.prepareStatement(qgetComputerById);
+					pstmt.setInt(1, id);
+
+					ResultSet results = pstmt.executeQuery();
+
+
+					if (results.next()) {
+
+						computer = ComputerMapper.getInstance().map(results);
+					}
+
+					results.close();
+
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 				}
 
-				pstmt.executeUpdate();
+				if (computer == null) {
+					LOGGER.error("Aucun ordinateur n'a l'ID spécifié : " + id);
+				}
 
-
-			} catch (SQLException e) {
-				LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+				return Optional.ofNullable(computer);
 			}
-		} else {
-			LOGGER.error("Pas d'ordinateur reçu à mettre à jour");
-		}
 
-	}
-
-	/**
-	 * Suppression de l'ordinateur à l'ID spécifié.
-	 * @param id, l'id de l'ordinateur concerné.
-	 */
-	public void delete(int id) {
+			/**
+			 * Création d'un ordinateur en base.
+			 * @param computer, l'ordinateur à insérer dans la base.
+			 */
+			public void create(Computer computer) {
 
 
-		try (Connection connection = Connexion.getInstance(); PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer)) {
+				try (Connection connection = Connexion.getInstance()) {
+					PreparedStatement pstmt = connection.prepareStatement(qcreateNewComputer);
 
 
-			pstmt.setInt(1, id);
+					if (computer.getName() != null) {
+						pstmt.setString(1, computer.getName());
+					} else {
+						pstmt.setString(1,  null);
+					}
 
-			pstmt.executeUpdate();
+					if (computer.getDateOfIntro().isPresent()) {
+						pstmt.setDate(2, Date.valueOf(computer.getDateOfIntro().get()));
+					} else {
+						pstmt.setDate(2, null);
+					}
 
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+					if (computer.getDateOfDisc().isPresent()) {
+						pstmt.setDate(3, Date.valueOf(computer.getDateOfDisc().get()));
+					} else {
+						pstmt.setDate(3, null);
+					}
 
+					if (computer.getCompany().isPresent() && computer.getCompany().get().getId() != 0) {
+						pstmt.setInt(4, computer.getCompany().orElse(new Company()).getId());
+					} else {
+						pstmt.setNull(4, Types.INTEGER);
+					}
 
-	}
-
-	public List<Computer> getPage(int nbComputer, int offset) {
-
-
-		List<Computer> listComputers = new ArrayList<Computer>();
-
-
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers)) {
-
-
-
-
-			pstmt.setInt(1, offset);
-			pstmt.setInt(2, nbComputer);
-
-			ResultSet results = pstmt.executeQuery();
+					pstmt.executeUpdate();			
 
 
-			while (results.next()) {
-
-
-				listComputers.add(ComputerMapper.getInstance().map(results));
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+				}
 
 			}
 
-			results.close();
 
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+			/**
+			 * Modification d'un Computer.
+			 * @param ucomputer, the updated computer
+			 */
+			public void update(Computer ucomputer) {
 
-		return listComputers;
-	}
+				if (this.getByID(ucomputer.getId()).isPresent()) { 
 
-	public int getMaxPage(int nbComputer) {
+					try (Connection connection = Connexion.getInstance()) {
 
-		int maxPage = 0;
+						PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
 
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage)) {
+						pstmt.setInt(5, ucomputer.getId());
+
+						pstmt.setString(1, ucomputer.getName());
+
+						if (ucomputer.getDateOfIntro().isPresent()) {
+							pstmt.setDate(2, Date.valueOf(ucomputer.getDateOfIntro().get()));	
+						} else {
+							pstmt.setDate(2, null);
+						}
+						if (ucomputer.getDateOfDisc().isPresent()) {
+							pstmt.setDate(3, Date.valueOf(ucomputer.getDateOfDisc().get()));	
+						} else {
+							pstmt.setDate(3, null);
+						}
+
+						if (ucomputer.getCompany().isPresent() && ucomputer.getCompany().get().getId() != 0) {
+							pstmt.setInt(4, ucomputer.getCompany().orElse(new Company()).getId());
+						} else {
+							pstmt.setNull(4, Types.INTEGER);
+						}
+
+						pstmt.executeUpdate();
 
 
+					} catch (SQLException e) {
+						LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+					}
+				} else {
+					LOGGER.error("Pas d'ordinateur reçu à mettre à jour");
+				}
 
-
-			ResultSet results = pstmt.executeQuery();
-
-			if (results.next()) {
-				maxPage = results.getInt(ccount);
 			}
 
-			results.close();
+			/**
+			 * Suppression de l'ordinateur à l'ID spécifié.
+			 * @param id, l'id de l'ordinateur concerné.
+			 */
+			public void delete(int id) {
 
-			maxPage = maxPage / nbComputer; 
-			if (maxPage % nbComputer > 0) {
-				maxPage++;
+
+				try (Connection connection = Connexion.getInstance(); PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer)) {
+
+
+					pstmt.setInt(1, id);
+
+					pstmt.executeUpdate();
+
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+				}
+
+
 			}
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+
+			public List<Computer> getPage(int nbComputer, int offset) {
 
 
-		return maxPage;
+				List<Computer> listComputers = new ArrayList<Computer>();
 
-	}
 
-	public List<Computer> searchByName(int nbComputer, int offset, String part) {
+				try (Connection connection = Connexion.getInstance(); 
+						PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers)) {
 
-		List<Computer> listComputers = new ArrayList<Computer>();
 
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qsearchByName)) {
 
-			pstmt.setString(1, "%" + part + "%");
-			pstmt.setInt(2, offset);
-			pstmt.setInt(3, nbComputer);
 
-			ResultSet results = pstmt.executeQuery();
-			System.out.println(pstmt.toString());
-			while (results.next()) {
-				Computer c = ComputerMapper.getInstance().map(results);
-				System.out.println(c);
-				listComputers.add(c);
+					pstmt.setInt(1, offset);
+					pstmt.setInt(2, nbComputer);
+
+					ResultSet results = pstmt.executeQuery();
+
+
+					while (results.next()) {
+
+
+						listComputers.add(ComputerMapper.getInstance().map(results));
+
+					}
+
+					results.close();
+
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+				}
+
+				return listComputers;
 			}
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la recherche : " + e.getMessage());
-		}
 
-		return listComputers;
-	}
+			public int getMaxPage(int nbComputer) {
+
+				int maxPage = 0;
+
+				try (Connection connection = Connexion.getInstance(); 
+						PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage)) {
+
+
+
+
+					ResultSet results = pstmt.executeQuery();
+
+					if (results.next()) {
+						maxPage = results.getInt(ccount);
+					}
+
+					results.close();
+
+					maxPage = maxPage / nbComputer; 
+					if (maxPage % nbComputer > 0) {
+						maxPage++;
+					}
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+				}
+
+
+				return maxPage;
+
+			}
+
+			public List<Computer> searchByName(int nbComputer, int offset, String part) {
+
+				List<Computer> listComputers = new ArrayList<Computer>();
+
+				try (Connection connection = Connexion.getInstance(); 
+						PreparedStatement pstmt = connection.prepareStatement(qsearchByName)) {
+
+					pstmt.setString(1, "%" + part + "%");
+					pstmt.setInt(2, offset);
+					pstmt.setInt(3, nbComputer);
+
+					ResultSet results = pstmt.executeQuery();
+					System.out.println(pstmt.toString());
+					while (results.next()) {
+						Computer c = ComputerMapper.getInstance().map(results);
+						System.out.println(c);
+						listComputers.add(c);
+					}
+				} catch (SQLException e) {
+					LOGGER.error("Exception SQL à l'exécution de la recherche : " + e.getMessage());
+				}
+
+				return listComputers;
+			}
+
+			public boolean deletecomputers(Connection connection, int id) {
+
+				List<Computer> listComputers = new ArrayList<Computer>();
+				listComputers = getComputers2delete(connection, id);
+				boolean success = true;
+
+				for (Computer c : listComputers) {
+					try (PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer)) {
+
+
+						pstmt.setInt(1, c.getId());
+
+						pstmt.executeUpdate();
+
+					} catch (SQLException e) {
+						LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
+						success = false;
+					}
+				}
+
+				return success;
+
+			}
+
+			public List<Computer> getComputers2delete(Connection connection, int id) {
+
+				List<Computer> listComputers = new ArrayList<Computer>();
+
+				try (PreparedStatement pstmt = connection.prepareStatement(qlistComputers2delete)) {
+
+					pstmt.setInt(1, id);
+
+					ResultSet results = pstmt.executeQuery();
+
+					while (results.next()) {
+						listComputers.add(ComputerMapper.getInstance().map(results));
+					}
+
+				} catch (SQLException e) {
+
+				}
+				return listComputers;
+			}
+
+
 
 
 }
