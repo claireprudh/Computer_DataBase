@@ -94,6 +94,10 @@ public class ComputerService {
 		
 		return ComputerDAO.getInstance().getMaxPage(nbComputer);
 	}
+	
+	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
+		return ComputerDAO.getInstance().searchByName(nbComputer, noPage, part);
+	}
 
 
 

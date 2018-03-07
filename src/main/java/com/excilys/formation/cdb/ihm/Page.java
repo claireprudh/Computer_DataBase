@@ -32,6 +32,20 @@ public class Page {
 
 	}
 	
+	public Page(int nbComputer, int page, String part) {
+		setNbComputer(nbComputer);
+		
+		noPage = page;
+		listComputers = ComputerService.getInstance().searchByName(nbComputer, page, part);
+		
+		if (listComputers.size() % Page.nbComputer == 0) {
+			pageMax = listComputers.size() / Page.nbComputer;
+		} else {
+			pageMax = listComputers.size() / Page.nbComputer + 1;
+		}
+
+	}
+	
 
 	public Page nextPage() {
 		if (noPage < pageMax - 1) {
@@ -76,7 +90,7 @@ public class Page {
 	 * @param nbComputer the nbComputer to set
 	 */
 	public void setNbComputer(int nbComputer) {
-		this.nbComputer = nbComputer;
+		Page.nbComputer = nbComputer;
 	}
 
 	/**

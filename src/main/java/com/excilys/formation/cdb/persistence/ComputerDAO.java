@@ -47,9 +47,9 @@ public class ComputerDAO {
 
 		return instance;
 	}
-	
+
 	private ComputerDAO() {
-		
+
 	}
 
 
@@ -90,6 +90,12 @@ public class ComputerDAO {
 			+ "FROM computer LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
 			+ "LIMIT ? , ? ;";
 	private final String qgetMaxPage = "SELECT " + ccount + " FROM computer ;";
+	private final String qsearchByName = "SELECT " + cid + ", " + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " 
+			+ ccompanyID + ", " + Column.CCNAME.getName() + " "
+			+ "FROM computer "
+			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
+			+ "WHERE " + cname + " LIKE ? "
+			+ "LIMIT ? , ? ;";
 
 	/**
 	 * Retourne la liste complète des ordinateurs.
@@ -111,7 +117,7 @@ public class ComputerDAO {
 				listComputers.add(ComputerMapper.getInstance().map(results));
 
 			}
-			
+
 			results.close();
 
 		} catch (SQLException e) {
@@ -139,9 +145,9 @@ public class ComputerDAO {
 
 			ResultSet results = pstmt.executeQuery();
 
-	
+
 			if (results.next()) {
-	
+
 				computer = ComputerMapper.getInstance().map(results);
 			}
 
@@ -214,7 +220,7 @@ public class ComputerDAO {
 			try (Connection connection = Connexion.getInstance()) {
 
 				PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
-				
+
 				pstmt.setInt(5, ucomputer.getId());
 
 				pstmt.setString(1, ucomputer.getName());
@@ -238,7 +244,7 @@ public class ComputerDAO {
 
 				pstmt.executeUpdate();
 
-								
+
 			} catch (SQLException e) {
 				LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 			}
@@ -256,7 +262,7 @@ public class ComputerDAO {
 
 
 		try (Connection connection = Connexion.getInstance(); PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer)) {
-			
+
 
 			pstmt.setInt(1, id);
 
@@ -279,7 +285,7 @@ public class ComputerDAO {
 				PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers)) {
 
 
-			
+
 
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, nbComputer);
@@ -295,7 +301,7 @@ public class ComputerDAO {
 			}
 
 			results.close();
-						
+
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
 		}
@@ -311,7 +317,7 @@ public class ComputerDAO {
 				PreparedStatement pstmt = connection.prepareStatement(qgetMaxPage)) {
 
 
-			
+
 
 			ResultSet results = pstmt.executeQuery();
 
@@ -332,6 +338,31 @@ public class ComputerDAO {
 
 		return maxPage;
 
+	}
+
+	public List<Computer> searchByName(int nbComputer, int offset, String part) {
+
+		List<Computer> listComputers = new ArrayList<Computer>();
+
+		try (Connection connection = Connexion.getInstance(); 
+				PreparedStatement pstmt = connection.prepareStatement(qsearchByName)) {
+
+			pstmt.setString(1, "%" + part + "%");
+			pstmt.setInt(2, offset);
+			pstmt.setInt(3, nbComputer);
+
+			ResultSet results = pstmt.executeQuery();
+			System.out.println(pstmt.toString());
+			while (results.next()) {
+				Computer c = ComputerMapper.getInstance().map(results);
+				System.out.println(c);
+				listComputers.add(c);
+			}
+		} catch (SQLException e) {
+			LOGGER.error("Exception SQL à l'exécution de la recherche : " + e.getMessage());
+		}
+
+		return listComputers;
 	}
 
 

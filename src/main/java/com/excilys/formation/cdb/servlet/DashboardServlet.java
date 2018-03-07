@@ -21,7 +21,7 @@ import com.excilys.formation.cdb.tag.PageTag;
 @SuppressWarnings("serial")
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
-	
+
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,7 +39,7 @@ public class DashboardServlet extends HttpServlet {
 		if (request.getParameter("selection") != null) {
 
 			List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
-			
+
 			for (String s : selection) {
 				ComputerService.getInstance().deleteComputer(Integer.valueOf(s));
 			}			
@@ -49,7 +49,7 @@ public class DashboardServlet extends HttpServlet {
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
 
 	}
-	
+
 	public void managePage(HttpServletRequest request) {
 		int nbCompByPage = Page.nbComputer;
 		int page;
@@ -60,24 +60,34 @@ public class DashboardServlet extends HttpServlet {
 
 		if (request.getParameter("page") != null) {
 			page = Integer.valueOf(request.getParameter("page"));
-			
+
 		} else {
 			page = 1;
 		}
-		
+
 		Page.noPage = page;
-		
+
 		request.setAttribute("page", page);
 
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
-		for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
-			list.add(ComputerMapper.getInstance().map(c));
+
+		System.out.println(request.getParameter("search"));
+		if (request.getParameter("search") == null) {
+
+			for (Computer c : new Page(nbCompByPage, page).getListComputers()) {
+				list.add(ComputerMapper.getInstance().map(c));
+			}
+		} else {
+			for (Computer c : new Page(nbCompByPage, page, request.getParameter("search")).getListComputers()) {
+				System.out.println(c);
+				list.add(ComputerMapper.getInstance().map(c));
+			}
 		}
 
 		request.setAttribute("list", list);
 
 		PageTag.setCurrent(page);
 	}
-	
-	
+
+
 }
