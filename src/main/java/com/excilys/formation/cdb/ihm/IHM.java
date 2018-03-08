@@ -160,7 +160,7 @@ public class IHM {
 
 		} while (command != Command.RETURN);
 
-		Page.noPage = 1;
+		Page.setNoPage(1);
 
 	}
 

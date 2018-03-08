@@ -14,9 +14,9 @@ import com.excilys.formation.cdb.services.ComputerService;
  */
 public class Page {
 
-	public static int noPage = 1;
-	public static int nbComputer = 50;
-	public static int pageMax;
+	private static int noPage = 1;
+	private static int nbComputer = 50;
+	private static int pageMax;
 
 	private List<Computer> listComputers;
 
@@ -27,8 +27,6 @@ public class Page {
 		pageMax = ComputerService.getInstance().getMaxPage(nbComputer);
 		noPage = page;
 		listComputers = ComputerService.getInstance().getPage(nbComputer, noPage);
-
-
 
 	}
 	
@@ -83,16 +81,43 @@ public class Page {
 	/**
 	 * @return the nbComputer
 	 */
-	public int getNbComputer() {
+	public static int getNbComputer() {
 		return nbComputer;
 	}
 	/**
 	 * @param nbComputer the nbComputer to set
 	 */
-	public void setNbComputer(int nbComputer) {
+	public static void setNbComputer(int nbComputer) {
 		Page.nbComputer = nbComputer;
 	}
+	/**
+	 * @return the noPage
+	 */
+	public static int getNoPage() {
+		return noPage;
+	}
 
+	/**
+	 * @param noPage the noPage to set
+	 */
+	public static void setNoPage(int noPage) {
+		Page.noPage = noPage;
+	}
+
+	/**
+	 * @return the pageMax
+	 */
+	public static int getPageMax() {
+		return pageMax;
+	}
+
+	/**
+	 * @param pageMax the pageMax to set
+	 */
+	public static void setPageMax(int pageMax) {
+		Page.pageMax = pageMax;
+	}
+	
 	/**
 	 * @return the listComputers
 	 */

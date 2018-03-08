@@ -56,31 +56,31 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("count", ComputerService.getInstance().getList().size());
 
 		if (request.getParameter("page") != null) {
-			Page.noPage = Integer.valueOf(request.getParameter("page"));
+			Page.setNoPage(Integer.valueOf(request.getParameter("page")));
 
 		} else {
-			Page.noPage = 1;
+			Page.setNoPage(1);
 		}
 
-		request.setAttribute("page", Page.noPage);
+		request.setAttribute("page", Page.getNoPage());
 		
 		if (request.getParameter("nbbypage") != null) {
-			Page.nbComputer = Integer.valueOf(request.getParameter("nbbypage"));
+			Page.setNbComputer(Integer.valueOf(request.getParameter("nbbypage")));
 		}
 		
-		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(Page.nbComputer));
+		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(Page.getNbComputer()));
 		
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
 		if (request.getParameter("search") == null) {
 
-			for (Computer c : new Page(Page.nbComputer, Page.noPage).getListComputers()) {
+			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage()).getListComputers()) {
 				list.add(ComputerMapper.getInstance().map(c));
 			}
 			
 		} else {
 			
-			for (Computer c : new Page(Page.nbComputer, Page.noPage, request.getParameter("search")).getListComputers()) {
+			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage(), request.getParameter("search")).getListComputers()) {
 				list.add(ComputerMapper.getInstance().map(c));
 			}
 			
@@ -88,7 +88,7 @@ public class DashboardServlet extends HttpServlet {
 
 		request.setAttribute("list", list);
 
-		PageTag.setCurrent(Page.noPage);
+		PageTag.setCurrent(Page.getNoPage());
 	}
 
 

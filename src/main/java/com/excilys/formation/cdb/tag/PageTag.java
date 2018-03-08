@@ -29,7 +29,7 @@ public class PageTag extends SimpleTagSupport {
 	      for (int i = begin; i <= end; i++) {
 	    	  listPages.append("<li><a href=\"dashboard?page=" +  (i) + " \">" + (i) + "</a></li>\n");
 	      }
-	      if (end < Page.pageMax) {
+	      if (end < Page.getPageMax()) {
 	    	  listPages.append("<li><a> ... </a></li>\n");
 	      }
 	      
@@ -81,11 +81,11 @@ public class PageTag extends SimpleTagSupport {
 		} else {
 			PageTag.setBegin(1);
 		}
-		if (current < Page.pageMax - span) {
+		if (current < Page.getPageMax() - span) {
 			PageTag.setEnd(current + span);
 			
 		} else {
-			PageTag.setEnd(Page.pageMax);
+			PageTag.setEnd(Page.getPageMax());
 			
 		}
 		
