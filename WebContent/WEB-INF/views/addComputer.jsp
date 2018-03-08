@@ -27,8 +27,9 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="name">Computer name</label> <input type="text"
+									data-validation="alphanumeric" data-validation-allowing="-_"
 									class="form-control" name="name" id="name"
-									placeholder="Computer name" required>
+									placeholder="Computer name" maxlength="35" required>
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date (YYYY-MM-DD)</label> <input
@@ -37,10 +38,11 @@
 									id="introduced" placeholder="Introduced date">
 							</div>
 							<div class="form-group">
-								<label for="discontinued">Discontinued date (YYYY-MM-DD)</label> <input
-								data-validation="date" data-validation-format="yyyy-mm-dd"
-									type="date" class="form-control" name="discontinued"
-									id="discontinued" placeholder="Discontinued date">
+								<label for="discontinued">Discontinued date (YYYY-MM-DD)</label>
+								<input data-validation="date"
+									data-validation-format="yyyy-mm-dd" type="date"
+									class="form-control" name="discontinued" id="discontinued"
+									placeholder="Discontinued date">
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
@@ -69,11 +71,11 @@
 		src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script
 		src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-		<script>
-  $.validate({
-    lang: 'fr'
-   	modules : 'date'
-  });
-</script>
+	<script>
+		$.validate({
+			lang : 'fr',
+			modules : 'date , security'
+		});
+	</script>
 </body>
 </html>

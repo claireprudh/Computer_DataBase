@@ -22,6 +22,7 @@ import com.excilys.formation.cdb.tag.PageTag;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
+	String searchValue = "";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,8 +54,6 @@ public class DashboardServlet extends HttpServlet {
 	public void managePage(HttpServletRequest request) {
 
 
-		request.setAttribute("count", ComputerService.getInstance().getList().size());
-
 		if (request.getParameter("page") != null) {
 			Page.setNoPage(Integer.valueOf(request.getParameter("page")));
 
@@ -72,14 +71,15 @@ public class DashboardServlet extends HttpServlet {
 		
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
-		if (request.getParameter("search") == null) {
+		if (searchValue.equals("")) {
 
 			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage()).getListComputers()) {
 				list.add(ComputerMapper.getInstance().map(c));
 			}
 			
 		} else {
-			
+			searchValue = request.getParameter("search");
+			request.setAttribute("searchValue", searchValue);
 			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage(), request.getParameter("search")).getListComputers()) {
 				list.add(ComputerMapper.getInstance().map(c));
 			}
@@ -87,6 +87,8 @@ public class DashboardServlet extends HttpServlet {
 		}
 
 		request.setAttribute("list", list);
+		
+		request.setAttribute("count", list.size());
 
 		PageTag.setCurrent(Page.getNoPage());
 	}

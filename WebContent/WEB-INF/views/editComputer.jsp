@@ -30,8 +30,10 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="name">Computer name</label> <input type="text"
+									data-validation="alphanumeric" data-validation-allowing="-_ "
 									class="form-control" name="name" id="name"
-									placeholder="${ computer.name }" value="${ computer.name }">
+									placeholder="${ computer.name }" value="${ computer.name }"
+									maxlength="35">
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
@@ -82,8 +84,8 @@
 		src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 	<script>
 		$.validate({
-			lang : 'fr'
-			modules : 'date'
+			lang : 'fr',
+			modules : 'date , security'
 		});
 	</script>
 </body>

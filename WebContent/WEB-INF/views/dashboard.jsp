@@ -23,7 +23,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${ count }Computers found</h1>
+			<h1 id="homeTitle">${ count } Computers found</h1>
 
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -31,17 +31,16 @@
 						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
-							class="form-control" placeholder="Search name" /> <input
-							type="submit" id="searchsubmit" value="Filter by name"
-							class="btn btn-primary" />
+							data-validation="alphanumeric" data-validation-allowing="-_ "
+							type="text" class="form-control" placeholder="Search name"
+							value="${ searchValue }" /> <input type="submit"
+							id="searchsubmit" value="Filter by name" class="btn btn-primary" />
 					</form>
-					<script>
-						$("#searchForm").validate();
-					</script>
+
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer"
+						Computer</a> <a href="#" class="btn btn-default" id="editComputer"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
 			</div>
@@ -126,6 +125,19 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>
+	<script>
+		$("#searchForm").validate();
+	</script>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+	<script>
+		$.validate({
+			lang : 'fr',
+			modules : 'security'
+		});
+	</script>
 
 </body>
 </html>
