@@ -95,7 +95,7 @@ public class ComputerDAO {
 			+ "LIMIT ? , ? ;";
 	private final String qlistComputers2delete = allComputer
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
-			+ "WHERE " + ccompanyID + " = ?;";;
+			+ "WHERE " + ccompanyID + " = ?;";
 
 
 			/**

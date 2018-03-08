@@ -25,7 +25,7 @@
 					</div>
 					<h1>Edit Computer</h1>
 
-					<form action="editComputer" method="POST">
+					<form id="editForm" action="editComputer" method="POST">
 						<input type="hidden" value="${ computer.id }" name="id" id="id" />
 						<fieldset>
 							<div class="form-group">
@@ -35,12 +35,14 @@
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
+									data-validation="date" data-validation-format="yyyy-mm-dd"
 									type="date" class="form-control" name="introduced"
 									id="introduced" placeholder="${ computer.introduced }"
 									value="${ computer.introduced }">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
+									data-validation="date" data-validation-format="yyyy-mm-dd"
 									type="date" class="form-control" name="discontinued"
 									id="discontinued" placeholder="${ computer.discontinued }"
 									value="${ computer.discontinued }">
@@ -67,9 +69,22 @@
 							or <a href="dashboard" class="btn btn-default">Cancel</a>
 						</div>
 					</form>
+					<script>
+						$("#editForm").validate();
+					</script>
 				</div>
 			</div>
 		</div>
 	</section>
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+	<script>
+		$.validate({
+			lang : 'fr'
+			modules : 'date'
+		});
+	</script>
 </body>
 </html>

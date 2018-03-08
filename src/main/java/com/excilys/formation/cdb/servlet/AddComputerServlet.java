@@ -19,6 +19,7 @@ import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
+@SuppressWarnings("serial")
 @WebServlet("/addComputer")
 public class AddComputerServlet extends HttpServlet {
 
@@ -67,6 +68,7 @@ public class AddComputerServlet extends HttpServlet {
 		for (Company company : CompanyService.getInstance().getList()) {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
+		listCompanies.add(new CompanyDTO());
 
 		request.setAttribute("listCompanies", listCompanies);
 

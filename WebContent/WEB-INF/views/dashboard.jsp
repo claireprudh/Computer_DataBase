@@ -15,25 +15,29 @@
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="dashboard"> Application - Computer
+				Database </a>
 
 		</div>
 	</header>
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${ count } Computers found</h1>
+			<h1 id="homeTitle">${ count }Computers found</h1>
 
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
-					<form id="searchForm" action="dashboard" method="GET" class="form-inline">
+					<form id="searchForm" action="dashboard" method="GET"
+						class="form-inline">
 
 						<input type="search" id="searchbox" name="search"
 							class="form-control" placeholder="Search name" /> <input
 							type="submit" id="searchsubmit" value="Filter by name"
 							class="btn btn-primary" />
 					</form>
+					<script>
+						$("#searchForm").validate();
+					</script>
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">Add
@@ -109,9 +113,12 @@
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<a href="dashboard?nbbypage=10"><button type="button" class="btn btn-default"> 10</button></a>
-				<a href="dashboard?nbbypage=50"><button type="button" class="btn btn-default">50</button></a>
-				<a href="dashboard?nbbypage=100"><button type="button" class="btn btn-default">100</button></a>
+				<a href="dashboard?nbbypage=10"><button type="button"
+						class="btn btn-default">10</button></a> <a
+					href="dashboard?nbbypage=50"><button type="button"
+						class="btn btn-default">50</button></a> <a
+					href="dashboard?nbbypage=100"><button type="button"
+						class="btn btn-default">100</button></a>
 			</div>
 		</div>
 
