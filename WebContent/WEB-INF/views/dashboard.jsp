@@ -37,7 +37,7 @@
 				</div>
 				<div class="pull-right">
 					<a class="btn btn-success" id="addComputer" href="addComputer">Add
-						Computer</a> <a class="btn btn-default" id="editComputer" href="#"
+						Computer</a> <a class="btn btn-default" id="editComputer" href="dashboard"
 						onclick="$.fn.toggleEditMode();">Edit</a>
 				</div>
 			</div>
@@ -109,9 +109,9 @@
 			</ul>
 
 			<div class="btn-group btn-group-sm pull-right" role="group">
-				<button type="button" class="btn btn-default">10</button>
-				<button type="button" class="btn btn-default">50</button>
-				<button type="button" class="btn btn-default">100</button>
+				<a href="dashboard?nbbypage=10"><button type="button" class="btn btn-default"> 10</button></a>
+				<a href="dashboard?nbbypage=50"><button type="button" class="btn btn-default">50</button></a>
+				<a href="dashboard?nbbypage=100"><button type="button" class="btn btn-default">100</button></a>
 			</div>
 		</div>
 
