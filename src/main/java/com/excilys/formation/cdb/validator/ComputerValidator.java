@@ -5,9 +5,12 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.excilys.formation.cdb.exception.DuplicateIDException;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
+import com.excilys.formation.cdb.exception.InvalidNameException;
 import com.excilys.formation.cdb.exception.InvalidStringDateException;
 import com.excilys.formation.cdb.exception.NullException;
 import com.excilys.formation.cdb.exception.TimeLineException;
@@ -59,10 +62,18 @@ public class ComputerValidator {
 
 		}
 	}
-	public void validateName(String name) throws NullException {
+	public void validateName(String name) throws NullException, InvalidNameException {
 
+		Pattern pattern;
+		Matcher matcher;
 		if (name == null) {
 			throw new NullException();
+		} else {
+			pattern = Pattern.compile("[<>|\\^*\\t\\n]");
+			matcher = pattern.matcher(name);
+			if (matcher.find()) {
+				throw new InvalidNameException();
+			}
 		}
 	}
 

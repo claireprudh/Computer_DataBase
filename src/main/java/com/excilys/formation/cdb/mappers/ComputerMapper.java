@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
+import com.excilys.formation.cdb.exception.InvalidNameException;
 import com.excilys.formation.cdb.exception.InvalidStringDateException;
 import com.excilys.formation.cdb.exception.NullException;
 import com.excilys.formation.cdb.exception.TimeLineException;
@@ -119,6 +120,8 @@ public class ComputerMapper {
 		} catch (NullException ne) {
 
 			LOGGER.error("valeur null");
+		} catch (InvalidNameException e) {
+			LOGGER.error("caractère interdit détecté");
 		} 
 
 		try {
