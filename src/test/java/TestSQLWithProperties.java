@@ -30,7 +30,7 @@ import com.excilys.formation.cdb.persistence.Connexion;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Connexion.class)
-@PowerMockIgnore( {"javax.management.*"})
+@PowerMockIgnore({"javax.management.*"})
 public class TestSQLWithProperties {
 
 
@@ -111,11 +111,11 @@ public class TestSQLWithProperties {
 	@Test
 	public void testGetListComputers() {
 
-		List <Computer> ls = ComputerDAO.getInstance().getList();
+		List<Computer> ls = ComputerDAO.getInstance().getList();
 
 		assertEquals("MacBook Pro 15.4 inch", ls.get(0).getName());
 
-		assertEquals("CM-200" , ls.get(1).getName());
+		assertEquals("CM-200", ls.get(1).getName());
 	}
 
 	@Test 
@@ -152,8 +152,8 @@ public class TestSQLWithProperties {
 	@Test
 	public void testComputerPaged() {
 		List<Computer> ls = ComputerDAO.getInstance().getPage(1, 1);
-		assertEquals(1,ls.size());
-		assertTrue(ls.get(0).equals("CM-200"));
+		assertEquals(1, ls.size());
+		assertTrue(ls.get(0).getName().equals("CM-200"));
 	}
 
 	@AfterClass
