@@ -22,7 +22,7 @@ import com.excilys.formation.cdb.tag.PageTag;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
-	String searchValue = "";
+	private String searchValue = "";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,24 +71,29 @@ public class DashboardServlet extends HttpServlet {
 		
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
-		if (searchValue.equals("")) {
+		if (request.getParameter("search") == null) {
 
 			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage()).getListComputers()) {
 				list.add(ComputerMapper.getInstance().map(c));
 			}
 			
+			request.setAttribute("count", ComputerService.getInstance().getCount());
+			
 		} else {
 			searchValue = request.getParameter("search");
+
 			request.setAttribute("searchValue", searchValue);
-			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage(), request.getParameter("search")).getListComputers()) {
+			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage(), searchValue).getListComputers()) {
 				list.add(ComputerMapper.getInstance().map(c));
 			}
+			
+			request.setAttribute("count", ComputerService.getInstance().getSearchCount(searchValue));
 			
 		}
 
 		request.setAttribute("list", list);
 		
-		request.setAttribute("count", list.size());
+		
 
 		PageTag.setCurrent(Page.getNoPage());
 	}

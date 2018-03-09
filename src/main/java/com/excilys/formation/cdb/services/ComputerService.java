@@ -99,6 +99,16 @@ public class ComputerService {
 		return ComputerDAO.getInstance().searchByName(nbComputer, noPage, part);
 	}
 
+	public int getCount() {
+		
+		return ComputerDAO.getInstance().getCount();
+	}
+
+	public int getSearchCount(String part) {
+		
+		return ComputerDAO.getInstance().getSearchCount(part);
+	}
+
 
 
 
