@@ -27,20 +27,23 @@
 						<fieldset>
 							<div class="form-group">
 								<label for="name">Computer name</label> <input type="text"
-									data-validation="alphanumeric" data-validation-allowing="-_"
-									class="form-control" name="name" id="name"
-									placeholder="Computer name" maxlength="35" required>
+									data-validation="alphanumeric"
+									data-validation-allowing="-_ /+&.()" class="form-control"
+									name="name" id="name" placeholder="Computer name"
+									maxlength="35" required>
 							</div>
 							<div class="form-group">
 								<label for="introduced">Introduced date (YYYY-MM-DD)</label> <input
 									data-validation="date" data-validation-format="yyyy-mm-dd"
-									type="date" class="form-control" name="introduced"
-									id="introduced" placeholder="Introduced date">
+									data-validation-optional="true" type="date"
+									class="form-control" name="introduced" id="introduced"
+									placeholder="Introduced date">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date (YYYY-MM-DD)</label>
 								<input data-validation="date"
-									data-validation-format="yyyy-mm-dd" type="date"
+									data-validation-format="yyyy-mm-dd"
+									data-validation-optional="true" type="date"
 									class="form-control" name="discontinued" id="discontinued"
 									placeholder="Discontinued date">
 							</div>

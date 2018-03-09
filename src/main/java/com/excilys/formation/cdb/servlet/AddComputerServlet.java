@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.dto.CompanyDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
+import com.excilys.formation.cdb.ihm.Page;
 import com.excilys.formation.cdb.mappers.CompanyMapper;
 import com.excilys.formation.cdb.mappers.ComputerMapper;
 import com.excilys.formation.cdb.model.Company;
@@ -35,10 +36,10 @@ public class AddComputerServlet extends HttpServlet {
 
 
 		Computer computer = ComputerMapper.getInstance().map(remplirAffichage(request));
-		
+
 		ComputerService.getInstance().createNew(computer);
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
+		response.sendRedirect("dashboard?page=" + Page.getNoPage());
 
 	}
 
@@ -62,7 +63,7 @@ public class AddComputerServlet extends HttpServlet {
 
 			computer.setCompanyId(Integer.valueOf(request.getParameter("companyId")));
 		}
-		
+
 
 
 		for (Company company : CompanyService.getInstance().getList()) {

@@ -38,15 +38,17 @@
 							<div class="form-group">
 								<label for="introduced">Introduced date</label> <input
 									data-validation="date" data-validation-format="yyyy-mm-dd"
-									type="date" class="form-control" name="introduced"
-									id="introduced" placeholder="${ computer.introduced }"
+									data-validation-optional="true" type="date"
+									class="form-control" name="introduced" id="introduced"
+									placeholder="${ computer.introduced }"
 									value="${ computer.introduced }">
 							</div>
 							<div class="form-group">
 								<label for="discontinued">Discontinued date</label> <input
 									data-validation="date" data-validation-format="yyyy-mm-dd"
-									type="date" class="form-control" name="discontinued"
-									id="discontinued" placeholder="${ computer.discontinued }"
+									data-validation-optional="true" type="date"
+									class="form-control" name="discontinued" id="discontinued"
+									placeholder="${ computer.discontinued }"
 									value="${ computer.discontinued }">
 							</div>
 							<div class="form-group">
