@@ -72,7 +72,9 @@ public class EditComputerServlet extends HttpServlet {
 		
 		ComputerService.getInstance().update(ComputerMapper.getInstance().map(computerdto));
 		
-		this.getServletContext().getRequestDispatcher("/dashboard?page=" + Page.getNoPage()).forward(request, response);
+		response.sendRedirect("dashboard?page=" + Page.getNoPage());
+		
+		this.getServletContext().getRequestDispatcher("/editComputer").forward(request, response);
 	}
 
 	
