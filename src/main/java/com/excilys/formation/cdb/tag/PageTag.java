@@ -6,8 +6,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-import com.excilys.formation.cdb.ihm.Page;
-
 
 public class PageTag extends SimpleTagSupport {
 	
@@ -15,6 +13,7 @@ public class PageTag extends SimpleTagSupport {
 	private static int current;
 	private static int end;
 	private static int span = 5;
+	private static int max;
 	
 
 	public void doTag() throws JspException, IOException {
@@ -29,7 +28,7 @@ public class PageTag extends SimpleTagSupport {
 	      for (int i = begin; i <= end; i++) {
 	    	  listPages.append("<li><a href=\"dashboard?page=" +  (i) + " \">" + (i) + "</a></li>\n");
 	      }
-	      if (end < Page.getPageMax()) {
+	      if (end < max) {
 	    	  listPages.append("<li><a> ... </a></li>\n");
 	      }
 	      
@@ -81,15 +80,30 @@ public class PageTag extends SimpleTagSupport {
 		} else {
 			PageTag.setBegin(1);
 		}
-		if (current < Page.getPageMax() - span) {
+		if (current < max - span) {
 			PageTag.setEnd(current + span);
 			
 		} else {
-			PageTag.setEnd(Page.getPageMax());
+			PageTag.setEnd(max);
 			
 		}
 		
 	}
+
+	/**
+	 * @return the max
+	 */
+	public static int getMax() {
+		return max;
+	}
+
+	/**
+	 * @param max the max to set
+	 */
+	public static void setMax(int max) {
+		PageTag.max = max;
+	}
+	
 	
 
 

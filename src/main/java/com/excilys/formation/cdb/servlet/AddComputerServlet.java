@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.dto.CompanyDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.ihm.Page;
 import com.excilys.formation.cdb.mappers.CompanyMapper;
 import com.excilys.formation.cdb.mappers.ComputerMapper;
 import com.excilys.formation.cdb.model.Company;
@@ -39,7 +38,7 @@ public class AddComputerServlet extends HttpServlet {
 
 		ComputerService.getInstance().createNew(computer);
 
-		response.sendRedirect("dashboard?page=" + Page.getNoPage());
+		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
 
 	}
 

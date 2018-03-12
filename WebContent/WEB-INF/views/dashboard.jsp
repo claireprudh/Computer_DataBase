@@ -23,7 +23,7 @@
 
 	<section id="main">
 		<div class="container">
-			<h1 id="homeTitle">${ count } Computers found</h1>
+			<h1 id="homeTitle">${ count }Computers found</h1>
 
 			<div id="actions" class="form-horizontal">
 				<div class="pull-left">
@@ -32,9 +32,10 @@
 
 						<input type="search" id="searchbox" name="search"
 							data-validation="alphanumeric" data-validation-allowing="-_ "
-							type="text" class="form-control" placeholder="Search name"
-							value="${ searchValue }" /> <input type="submit"
-							id="searchsubmit" value="Filter by name" class="btn btn-primary" />
+							data-validation-optional="true" type="text" class="form-control"
+							placeholder="Search name" value="${ searchValue }" /> <input
+							type="submit" id="searchsubmit" value="Filter by name"
+							class="btn btn-primary" />
 					</form>
 
 				</div>
@@ -122,13 +123,13 @@
 		</div>
 
 	</footer>
-	
-	
+
+
 	<script src="js/jquery.min.js"></script>
 
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/dashboard.js"></script>
-	
+
 	<!-- <script
 		src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
 	<script
@@ -142,8 +143,8 @@
 			modules : 'security'
 		});
 	</script>
-	
-	
+
+
 
 
 </body>

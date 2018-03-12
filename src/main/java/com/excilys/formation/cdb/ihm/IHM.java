@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.pagination.Book;
+import com.excilys.formation.cdb.pagination.Page;
 import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
@@ -23,6 +25,7 @@ public class IHM {
 
 	static final Logger LOGGER = LogManager.getLogger(IHM.class);
 	static final int COMPUTER_BY_PAGE = 500;
+	static Book book;
 
 	public static void main(String[] args) {
 
@@ -160,7 +163,7 @@ public class IHM {
 
 		} while (command != Command.RETURN);
 
-		Page.setNoPage(1);
+		page.setNoPage(1);
 
 	}
 

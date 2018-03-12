@@ -3,6 +3,7 @@
  */
 package com.excilys.formation.cdb.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Computer;
@@ -90,10 +91,10 @@ public class ComputerService {
 		
 	}
 
-	public int getMaxPage(int nbComputer) {
+	/*public int getMaxPage(int nbComputer) {
 		
-		return ComputerDAO.getInstance().getMaxPage(nbComputer);
-	}
+		return ComputerDAO.getInstance().getMaxPage(nbComputer, ComputerDAO.getInstance().getCount());
+	}*/
 	
 	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
 		return ComputerDAO.getInstance().searchByName(nbComputer, noPage, part);
@@ -107,6 +108,23 @@ public class ComputerService {
 	public int getSearchCount(String part) {
 		
 		return ComputerDAO.getInstance().getSearchCount(part);
+	}
+
+	/*public int getMaxPage(int nbComputer, String part) {
+
+		return ComputerDAO.getInstance().getMaxPage(nbComputer, part);
+	}*/
+
+	public List<Computer> getPage(int nbComputer, int noPage, String contenu) {
+		List<Computer> list = new ArrayList<Computer>();
+		
+		if (contenu == null) {
+			list = this.getPage(nbComputer, noPage);
+		} else {
+			list = this.searchByName(nbComputer, noPage, contenu);
+		}
+		
+		return list;
 	}
 
 

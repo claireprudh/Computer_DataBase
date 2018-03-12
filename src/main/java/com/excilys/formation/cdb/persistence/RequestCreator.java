@@ -29,7 +29,6 @@ public class RequestCreator {
 		sb.replace(sb.length() - 2, sb.length() - 1, " ");
 		sb.append("FROM computer ");
 		
-		System.out.println(sb.toString());
 		return sb.toString();
 	}
 

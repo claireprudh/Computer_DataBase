@@ -318,23 +318,11 @@ public class ComputerDAO {
 		return listComputers;
 	}
 
-	public int getMaxPage(int nbComputer) {
+	
 
-		int maxPage = this.getCount();				
+	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
 
-		maxPage = maxPage / nbComputer; 
-		if (maxPage % nbComputer > 0) {
-			maxPage++;
-		}
-
-
-
-		return maxPage;
-
-	}
-
-	public List<Computer> searchByName(int nbComputer, int offset, String part) {
-
+		int offset = (noPage - 1) * nbComputer;
 		List<Computer> listComputers = new ArrayList<Computer>();
 
 		try (Connection connection = Connexion.getInstance(); 
@@ -444,6 +432,12 @@ public class ComputerDAO {
 
 		return count;
 	}
+
+	/*public int getMaxPage(int nbComputer, String part) {
+		int max = this.getSearchCount(part);
+			
+		return getMaxPage(nbComputer, max);
+	}*/
 
 
 

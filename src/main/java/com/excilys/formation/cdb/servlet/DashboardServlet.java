@@ -12,9 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.ihm.Page;
 import com.excilys.formation.cdb.mappers.ComputerMapper;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.pagination.Book;
+import com.excilys.formation.cdb.pagination.Page;
 import com.excilys.formation.cdb.services.ComputerService;
 import com.excilys.formation.cdb.tag.PageTag;
 
@@ -23,6 +24,15 @@ import com.excilys.formation.cdb.tag.PageTag;
 public class DashboardServlet extends HttpServlet {
 
 	private String searchValue = "";
+	public static int noPage = 1;
+	private Book book;
+	private Page page;
+	
+	{
+		int count = ComputerService.getInstance().getSearchCount(searchValue);
+		book = new Book(50, count, searchValue);
+		page = book.getPage(noPage);
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,7 +54,6 @@ public class DashboardServlet extends HttpServlet {
 			for (String s : selection) {
 				ComputerService.getInstance().deleteComputer(Integer.valueOf(s));
 			}			
-
 		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
@@ -54,48 +63,52 @@ public class DashboardServlet extends HttpServlet {
 	public void managePage(HttpServletRequest request) {
 
 
+		//Gestion no de page
 		if (request.getParameter("page") != null) {
-			Page.setNoPage(Integer.valueOf(request.getParameter("page")));
-
+			noPage = Integer.valueOf(request.getParameter("page"));
 		} else {
-			Page.setNoPage(1);
+			noPage = 1;
 		}
 
-		request.setAttribute("page", Page.getNoPage());
+		request.setAttribute("page", noPage);
 		
+		//Gestion nb de computers par page 
 		if (request.getParameter("nbbypage") != null) {
-			Page.setNbComputer(Integer.valueOf(request.getParameter("nbbypage")));
+			book.setNbComputer(Integer.valueOf(request.getParameter("nbbypage")));
 		}
 		
-		request.setAttribute("maxPage", ComputerService.getInstance().getMaxPage(Page.getNbComputer()));
-		
+		//Gestion contenu de la page
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
+		//Valeur de recherche
 		if (request.getParameter("search") == null) {
-
-			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage()).getListComputers()) {
-				list.add(ComputerMapper.getInstance().map(c));
-			}
-			
-			request.setAttribute("count", ComputerService.getInstance().getCount());
-			
+			searchValue = "";
 		} else {
 			searchValue = request.getParameter("search");
-
-			request.setAttribute("searchValue", searchValue);
-			for (Computer c : new Page(Page.getNbComputer(), Page.getNoPage(), searchValue).getListComputers()) {
-				list.add(ComputerMapper.getInstance().map(c));
-			}
-			
-			request.setAttribute("count", ComputerService.getInstance().getSearchCount(searchValue));
-			
 		}
 
+		request.setAttribute("searchValue", searchValue);
+		
+		//Nombre de résultats
+		int count = ComputerService.getInstance().getSearchCount(searchValue);
+		request.setAttribute("count", count);
+		
+		//Nombre de pages
+		book.setPageMax(count);
+		request.setAttribute("maxPage", book.getPageMax());	
+		
+		 //Récupération de la page
+		page = book.getPage(noPage);
+		
+		//Récupération de la liste à afficher
+		for (Computer c : page.getListComputers()) {
+			list.add(ComputerMapper.getInstance().map(c));
+		}
+		
 		request.setAttribute("list", list);
 		
-		
-
-		PageTag.setCurrent(Page.getNoPage());
+		PageTag.setMax(book.getPageMax());
+		PageTag.setCurrent(page.getNoPage());
 	}
 
 
