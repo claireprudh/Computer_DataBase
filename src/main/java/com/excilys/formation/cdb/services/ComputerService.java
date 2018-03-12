@@ -47,7 +47,6 @@ public class ComputerService {
 		
 		return computerDAO.getList();
 		
-			
 	}
 	
 	/**
@@ -90,13 +89,7 @@ public class ComputerService {
 		
 		return computerDAO.getPage(nbComputer, nbComputer * (noPage - 1));
 		
-		
 	}
-
-	/*public int getMaxPage(int nbComputer) {
-		
-		return computerDAO.getMaxPage(nbComputer, computerDAO.getCount());
-	}*/
 	
 	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
 		return computerDAO.searchByName(nbComputer, noPage, part);
@@ -112,14 +105,9 @@ public class ComputerService {
 		return computerDAO.getSearchCount(part);
 	}
 
-	/*public int getMaxPage(int nbComputer, String part) {
-
-		return computerDAO.getMaxPage(nbComputer, part);
-	}*/
-
 	public List<Computer> getPage(int nbComputer, int noPage, String contenu) {
 		List<Computer> list = new ArrayList<Computer>();
-		
+
 		if (contenu == null) {
 			list = this.getPage(nbComputer, noPage);
 		} else {

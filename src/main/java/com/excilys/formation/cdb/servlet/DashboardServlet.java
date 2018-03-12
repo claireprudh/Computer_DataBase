@@ -76,12 +76,14 @@ public class DashboardServlet extends HttpServlet {
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
 		//Valeur de recherche
-		if (request.getParameter("search") == null) {
-			searchValue = "";
-		} else {
+		if (request.getParameter("search") != null) {
+
 			searchValue = request.getParameter("search");
+			
+			book.setContenu(searchValue);
 		}
 
+		System.out.println(searchValue);
 		request.setAttribute("searchValue", searchValue);
 		
 		//Nombre de résultats
@@ -92,6 +94,7 @@ public class DashboardServlet extends HttpServlet {
 		book.setPageMax(count);
 		request.setAttribute("maxPage", book.getPageMax());	
 		
+		System.out.println("contenu = " + book.getContenu());
 		 //Récupération de la page
 		page = book.getPage(noPage);
 		
