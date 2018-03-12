@@ -14,6 +14,7 @@ import com.excilys.formation.cdb.services.ComputerService;
  */
 public class Page {
 
+	private ComputerService computerService = ComputerService.getInstance();
 	
 	/**
 	 * Caractéristiques de la page.
@@ -25,28 +26,28 @@ public class Page {
 	protected Page(Book livre, int noPage) {
 		this.livre = livre;
 		this.noPage = noPage;
-		this.listComputers = ComputerService.getInstance().getPage(livre.getNbComputer(), noPage, livre.getContenu());
+		this.listComputers = computerService.getPage(livre.getNbComputer(), noPage, livre.getContenu());
 		
 	}
 
 	public Page(int page) {
 
 		noPage = page;
-		listComputers = ComputerService.getInstance().getPage(livre.getNbComputer(), noPage);
+		listComputers = computerService.getPage(livre.getNbComputer(), noPage);
 
 	}
 	
 	public Page(int page, int max) {
 
 		noPage = page;
-		listComputers = ComputerService.getInstance().getPage(livre.getNbComputer(), noPage);
+		listComputers = computerService.getPage(livre.getNbComputer(), noPage);
 
 	}
 	
 	public Page(int page, int max, String part) {
 		
 		noPage = page;
-		listComputers = ComputerService.getInstance().searchByName(livre.getNbComputer(), noPage, part);
+		listComputers = computerService.searchByName(livre.getNbComputer(), noPage, part);
 		
 	}
 	
@@ -54,7 +55,7 @@ public class Page {
 	public Page nextPage() {
 		if (noPage < livre.getPageMax() - 1) {
 			noPage++;
-			listComputers = ComputerService.getInstance().getPage(livre.getNbComputer(), noPage);
+			listComputers = computerService.getPage(livre.getNbComputer(), noPage);
 		}
 
 		return this;
@@ -63,7 +64,7 @@ public class Page {
 	public Page previousPage() {
 		if (noPage > 0) {
 			noPage--;
-			listComputers = ComputerService.getInstance().getPage(livre.getNbComputer(), noPage);
+			listComputers = computerService.getPage(livre.getNbComputer(), noPage);
 		}
 
 		return this;

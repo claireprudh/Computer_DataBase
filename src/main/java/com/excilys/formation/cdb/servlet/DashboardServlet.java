@@ -23,17 +23,12 @@ import com.excilys.formation.cdb.tag.PageTag;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
+	private ComputerService computerService = ComputerService.getInstance();
 	private String searchValue = "";
 	public static int noPage = 1;
-	private Book book;
-	private Page page;
+	private Book book = new Book(50, computerService.getSearchCount(searchValue), searchValue);
+	private Page page = book.getPage(noPage);
 	
-	{
-		int count = ComputerService.getInstance().getSearchCount(searchValue);
-		book = new Book(50, count, searchValue);
-		page = book.getPage(noPage);
-	}
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -52,7 +47,7 @@ public class DashboardServlet extends HttpServlet {
 			List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
 
 			for (String s : selection) {
-				ComputerService.getInstance().deleteComputer(Integer.valueOf(s));
+				computerService.deleteComputer(Integer.valueOf(s));
 			}			
 		}
 
@@ -90,7 +85,7 @@ public class DashboardServlet extends HttpServlet {
 		request.setAttribute("searchValue", searchValue);
 		
 		//Nombre de résultats
-		int count = ComputerService.getInstance().getSearchCount(searchValue);
+		int count = computerService.getSearchCount(searchValue);
 		request.setAttribute("count", count);
 		
 		//Nombre de pages

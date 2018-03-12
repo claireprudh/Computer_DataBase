@@ -20,6 +20,8 @@ public class ComputerService {
 	 */
 	private static ComputerService instance;
 	
+	private static ComputerDAO computerDAO = ComputerDAO.getInstance();
+	
 	/**
 	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
@@ -43,7 +45,7 @@ public class ComputerService {
 	 */
 	public List<Computer> getList() {
 		
-		return ComputerDAO.getInstance().getList();
+		return computerDAO.getList();
 		
 			
 	}
@@ -54,7 +56,7 @@ public class ComputerService {
 	 * @return le Computer avec tous ses détails.
 	 */
 	public Computer getDetails(int id) {
-		return ComputerDAO.getInstance().getByID(id).orElse(new Computer());
+		return computerDAO.getByID(id).orElse(new Computer());
 	}
 
 
@@ -64,7 +66,7 @@ public class ComputerService {
 	 */
 	public void createNew(Computer c) {
 		
-		ComputerDAO.getInstance().create(c);
+		computerDAO.create(c);
 		
 	}
 	
@@ -73,7 +75,7 @@ public class ComputerService {
 	 * @param c, l'ordinateur modifié.
 	 */
 	public void update(Computer c) {
-		ComputerDAO.getInstance().update(c);
+		computerDAO.update(c);
 	}
 	
 	/**
@@ -81,38 +83,38 @@ public class ComputerService {
 	 * @param c, l'ordinateur à supprimer.
 	 */
 	public void deleteComputer(int idComputer) {
-		ComputerDAO.getInstance().delete(idComputer);
+		computerDAO.delete(idComputer);
 	}
 
 	public List<Computer> getPage(int nbComputer, int noPage) {
 		
-		return ComputerDAO.getInstance().getPage(nbComputer, nbComputer * (noPage - 1));
+		return computerDAO.getPage(nbComputer, nbComputer * (noPage - 1));
 		
 		
 	}
 
 	/*public int getMaxPage(int nbComputer) {
 		
-		return ComputerDAO.getInstance().getMaxPage(nbComputer, ComputerDAO.getInstance().getCount());
+		return computerDAO.getMaxPage(nbComputer, computerDAO.getCount());
 	}*/
 	
 	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
-		return ComputerDAO.getInstance().searchByName(nbComputer, noPage, part);
+		return computerDAO.searchByName(nbComputer, noPage, part);
 	}
 
 	public int getCount() {
 		
-		return ComputerDAO.getInstance().getCount();
+		return computerDAO.getCount();
 	}
 
 	public int getSearchCount(String part) {
 		
-		return ComputerDAO.getInstance().getSearchCount(part);
+		return computerDAO.getSearchCount(part);
 	}
 
 	/*public int getMaxPage(int nbComputer, String part) {
 
-		return ComputerDAO.getInstance().getMaxPage(nbComputer, part);
+		return computerDAO.getMaxPage(nbComputer, part);
 	}*/
 
 	public List<Computer> getPage(int nbComputer, int noPage, String contenu) {

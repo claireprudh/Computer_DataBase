@@ -23,6 +23,8 @@ import com.excilys.formation.cdb.services.ComputerService;
 @WebServlet("/addComputer")
 public class AddComputerServlet extends HttpServlet {
 
+	private ComputerService computerService = ComputerService.getInstance();
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		remplirAffichage(request);
@@ -36,7 +38,7 @@ public class AddComputerServlet extends HttpServlet {
 
 		Computer computer = ComputerMapper.getInstance().map(remplirAffichage(request));
 
-		ComputerService.getInstance().createNew(computer);
+		computerService.createNew(computer);
 
 		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
 

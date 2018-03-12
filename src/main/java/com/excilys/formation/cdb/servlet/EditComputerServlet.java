@@ -24,8 +24,9 @@ import com.excilys.formation.cdb.services.ComputerService;
 @WebServlet("/editComputer")
 public class EditComputerServlet extends HttpServlet {
 
-	ComputerDTO computerdto;
-	Computer computer;
+	private ComputerService computerService = ComputerService.getInstance();
+	private ComputerDTO computerdto;
+	private Computer computer;
 	
 	List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
 	int id;
@@ -37,7 +38,7 @@ public class EditComputerServlet extends HttpServlet {
 			try {
 				
 			id = Integer.valueOf(request.getParameter("id"));
-			computer = ComputerService.getInstance().getDetails(id);
+			computer = computerService.getDetails(id);
 			computerdto = ComputerMapper.getInstance().map(computer);
 			} catch (NumberFormatException nfe) {
 				
@@ -69,7 +70,7 @@ public class EditComputerServlet extends HttpServlet {
 		computerdto.setDiscontinued(request.getParameter("discontinued"));
 		computerdto.setCompanyId(Integer.valueOf(request.getParameter("companyId")));
 		
-		ComputerService.getInstance().update(ComputerMapper.getInstance().map(computerdto));
+		computerService.update(ComputerMapper.getInstance().map(computerdto));
 		
 		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
 	}
