@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.formation.cdb.exception.DuplicateIDException;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
 import com.excilys.formation.cdb.exception.InvalidNameException;
@@ -22,6 +24,9 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class ComputerValidator {
 
 	private static ComputerValidator instance;
+	
+	@Autowired
+	private ComputerService computerService;
 	
 	private ComputerValidator() {
 		
@@ -39,7 +44,7 @@ public class ComputerValidator {
 	public void validateId(int id, String action) throws DuplicateIDException, IDNotFoundException {
 		switch (action) {
 		case "create" : 
-			for (Computer c : ComputerService.getInstance().getList()) {
+			for (Computer c : computerService.getList()) {
 				if (c.getId() == id) {
 					throw new DuplicateIDException();
 				}
@@ -49,7 +54,7 @@ public class ComputerValidator {
 		case "update" :
 
 		case "delete" :
-			LABEL : for (Computer c : ComputerService.getInstance().getList()) {
+			LABEL : for (Computer c : computerService.getList()) {
 				if (c.getId() == id) {
 					break LABEL;
 				}
