@@ -55,16 +55,12 @@ public class EditComputerServlet extends HttpServlet {
 
 		request.setAttribute("listCompanies", listCompanies);
 
-
-
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/editComputer.jsp").forward(request, response);
 
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
-		
 		computerdto.setName(request.getParameter("name"));
 		computerdto.setIntroduced(request.getParameter("introduced"));
 		computerdto.setDiscontinued(request.getParameter("discontinued"));
@@ -74,7 +70,5 @@ public class EditComputerServlet extends HttpServlet {
 		
 		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
 	}
-
-	
 
 }

@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,46 +21,42 @@ import com.excilys.formation.cdb.services.ComputerService;
 public class ComputerValidator {
 
 	private static ComputerValidator instance;
-	
+
 	private ComputerValidator() {
-		
+
 	}
-	
+
 	public static ComputerValidator getInstance() {
-		
+
 		if (instance == null) {
 			instance = new ComputerValidator();
 		}
-		
+
 		return instance;
 	}
 
 	public void validateId(int id, String action) throws DuplicateIDException, IDNotFoundException {
+		Computer computer = ComputerService.getInstance().getDetails(id);
 		switch (action) {
 		case "create" : 
-			for (Computer c : ComputerService.getInstance().getList()) {
-				if (c.getId() == id) {
-					throw new DuplicateIDException();
-				}
 
+			if (computer.getId() != 0) {
+				throw new DuplicateIDException();
 			}
+
 			break;
 		case "update" :
 
 		case "delete" :
-			LABEL : for (Computer c : ComputerService.getInstance().getList()) {
-				if (c.getId() == id) {
-					break LABEL;
-				}
 
+			if (computer.getId() == 0) {
 				throw new IDNotFoundException();
-
 			}
-		break;
-
+			break;
 
 		}
 	}
+	
 	public void validateName(String name) throws NullException, InvalidNameException {
 
 		Pattern pattern;
@@ -86,25 +81,25 @@ public class ComputerValidator {
 	public void validateIntroduced(String sdate) throws InvalidStringDateException, NullException  {
 
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		
+
 		if (sdate != null) {
-		
-		
-		try {
 
-			new Date(formatter.parse(sdate).getTime());
 
-		} catch (ParseException e) {
+			try {
 
-			throw new InvalidStringDateException();
-		}
-		
+				new Date(formatter.parse(sdate).getTime());
+
+			} catch (ParseException e) {
+
+				throw new InvalidStringDateException();
+			}
+
 		} else {
 			throw new NullException();
 		}
 
 	}
-	
+
 	public void validateDiscontinued(Date introduced, Date discontinued) throws NullException, TimeLineException {
 		if (discontinued == null) {
 			throw new NullException();
@@ -120,40 +115,31 @@ public class ComputerValidator {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date dDiscontinued;
 		Date dIntroduced;
-		
+
 		if (discontinued != null) {
-		try {
+			try {
 
-			dDiscontinued = new Date(formatter.parse(discontinued).getTime());
-			dIntroduced = new Date(formatter.parse(introduced).getTime());
-			
+				dDiscontinued = new Date(formatter.parse(discontinued).getTime());
+				dIntroduced = new Date(formatter.parse(introduced).getTime());
 
-		} catch (ParseException e) {
 
-			throw new InvalidStringDateException();
-		}
-		
-		validateDiscontinued(dIntroduced, dDiscontinued);
-		
+			} catch (ParseException e) {
+
+				throw new InvalidStringDateException();
+			}
+
+			validateDiscontinued(dIntroduced, dDiscontinued);
+
 		} else {
 			throw new NullException();
 		}
 
 	}
-	
-	public void validateCompany(Company company) throws IDNotFoundException {
-		
-		int count = 0;
-		List<Company> listCompanies = CompanyService.getInstance().getList();
-		for (Company c : listCompanies) {
-			
-			if (c.getId() != company.getId()) {
-				count++;
-			}
 
-			
-		}
-		if (count == listCompanies.size()) {
+	public void validateCompany(Company company) throws IDNotFoundException {
+
+		Company test = CompanyService.getInstance().getDetails(company.getId());
+		if (test.getId() == 0) {		
 			throw new IDNotFoundException();
 		}
 

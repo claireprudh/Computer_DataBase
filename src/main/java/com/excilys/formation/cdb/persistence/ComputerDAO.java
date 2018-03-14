@@ -203,7 +203,7 @@ public class ComputerDAO {
 			}
 
 			if (computer.getCompany().isPresent() && computer.getCompany().get().getId() != 0) {
-				pstmt.setInt(4, computer.getCompany().orElse(new Company()).getId());
+				pstmt.setInt(4, computer.getCompany().get().getId());
 			} else {
 				pstmt.setNull(4, Types.INTEGER);
 			}
@@ -432,14 +432,5 @@ public class ComputerDAO {
 
 		return count;
 	}
-
-	/*public int getMaxPage(int nbComputer, String part) {
-		int max = this.getSearchCount(part);
-			
-		return getMaxPage(nbComputer, max);
-	}*/
-
-
-
 
 }

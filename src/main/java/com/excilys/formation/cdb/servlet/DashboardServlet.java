@@ -83,7 +83,6 @@ public class DashboardServlet extends HttpServlet {
 			book.setContenu(searchValue);
 		}
 
-		System.out.println(searchValue);
 		request.setAttribute("searchValue", searchValue);
 		
 		//Nombre de résultats
@@ -94,8 +93,7 @@ public class DashboardServlet extends HttpServlet {
 		book.setPageMax(count);
 		request.setAttribute("maxPage", book.getPageMax());	
 		
-		System.out.println("contenu = " + book.getContenu());
-		 //Récupération de la page
+		//Récupération de la page
 		page = book.getPage(noPage);
 		
 		//Récupération de la liste à afficher
