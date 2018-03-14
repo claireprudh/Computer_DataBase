@@ -55,7 +55,7 @@ public class ComputerService {
 	 * @return le Computer avec tous ses détails.
 	 */
 	public Computer getDetails(int id) {
-		return computerDAO.getByID(id).orElse(new Computer());
+		return computerDAO.getByID(id).orElse(new Computer.ComputerBuilder().build());
 	}
 
 

@@ -50,7 +50,7 @@ public class ComputerMapper {
 
 	public Computer map(ResultSet results) throws SQLException {
 
-		Computer computer = new Computer();
+		Computer computer = new Computer.ComputerBuilder().build();
 
 
 		computer.setId(results.getInt(Column.CID.getName()));
@@ -106,7 +106,7 @@ public class ComputerMapper {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date date;
 
-		Computer computer = new Computer();
+		Computer computer = new Computer.ComputerBuilder().build();
 
 
 		computer.setId(dto.getId());

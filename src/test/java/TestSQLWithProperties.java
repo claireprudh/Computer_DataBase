@@ -121,7 +121,7 @@ public class TestSQLWithProperties {
 	@Test 
 	public void testComputerGetById() throws SQLException {
 
-		Computer computerActual = ComputerDAO.getInstance().getByID(1).orElse(new Computer());
+		Computer computerActual = ComputerDAO.getInstance().getByID(1).orElse(new Computer.ComputerBuilder().build());
 
 		Computer computerExpected = new Computer.ComputerBuilder().withId(1)
 				.withName("MacBook Pro 15.4 inch").withDateIntro(null).withDateDisc(null).withCompany(

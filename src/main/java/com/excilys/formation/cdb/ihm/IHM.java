@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.model.Computer.ComputerBuilder;
 import com.excilys.formation.cdb.pagination.Book;
 import com.excilys.formation.cdb.pagination.Page;
 import com.excilys.formation.cdb.services.CompanyService;
@@ -182,8 +183,9 @@ public class IHM {
 
 		message.append("Création d'un ordinateur :\n");
 
-		Computer computer = new Computer();
-		fillComputer(scan, str, command, computer, message);
+		ComputerBuilder computerBuilder = new Computer.ComputerBuilder();
+		fillComputer(scan, str, command, computerBuilder, message);
+		Computer computer = computerBuilder.build();
 
 		if (computer.getName() != null) {
 			ComputerService.getInstance().createNew(computer);
@@ -202,7 +204,7 @@ public class IHM {
 	 * @param computer
 	 * @param message
 	 */
-	private static void fillComputer(Scanner scan, StringBuilder str, Command command, Computer computer, StringBuilder message) {
+	private static void fillComputer(Scanner scan, StringBuilder str, Command command, ComputerBuilder computer, StringBuilder message) {
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		String dateInString;
@@ -232,7 +234,7 @@ public class IHM {
 			switch (command) {
 			case NAME : 
 				String name = str.substring(str.indexOf("=")).replace('=', ' ').trim();
-				computer.setName(name);
+				computer.withName(name);
 				message.append(Command.NAME + " : " + name + "\n");
 				break;
 
@@ -245,7 +247,7 @@ public class IHM {
 
 					Date date = new Date(formatter.parse(dateInString).getTime());
 
-					computer.setDateOfIntro(date.toLocalDate());
+					computer.withDateIntro(date.toLocalDate());
 					message.append(Command.DATE_OF_INTRO + " : " + date + "\n");
 
 				} catch (java.text.ParseException e) {
@@ -262,7 +264,7 @@ public class IHM {
 
 					Date date = new Date(formatter.parse(dateInString).getTime());
 
-					computer.setDateOfDisc(date.toLocalDate());
+					computer.withDateDisc(date.toLocalDate());
 					message.append(Command.DATE_OF_DISC + " : " + date + "\n");
 
 				} catch (java.text.ParseException e) {
@@ -275,7 +277,7 @@ public class IHM {
 				Company company = CompanyService.getInstance().getDetails(
 						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));
 
-				computer.setCompany(company);
+				computer.withCompany(company);
 
 				message.append(Command.COMPANY_ID + " : " + company + "\n");
 
@@ -305,7 +307,7 @@ public class IHM {
 	 */
 	private static void updateComputer(Scanner scan, StringBuilder str, Command command) {
 
-		Computer computer = new Computer();
+		ComputerBuilder computerBuilder = new Computer.ComputerBuilder();
 		
 
 		StringBuilder message = new StringBuilder();
@@ -332,10 +334,10 @@ public class IHM {
 
 			case COMPUTER_ID : 
 				int computerID = Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim());
-				computer.setId(computerID);	
+				computerBuilder.withId(computerID);	
 				message.append(Command.COMPUTER_ID + " : " + computerID + "\n");
 				
-				fillComputer(scan, str, command, computer, message);
+				fillComputer(scan, str, command, computerBuilder, message);
 				break;				
 
 			case RETURN :
@@ -347,6 +349,7 @@ public class IHM {
 
 		} while (command != Command.RETURN);
 
+		Computer computer = computerBuilder.build();
 		if (computer.getId() != 0) {			
 			ComputerService.getInstance().update(computer);			
 		} else {
