@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -28,9 +27,6 @@ public class IHM {
 	static final int COMPUTER_BY_PAGE = 500;
 	static Book book;
 
-	@Autowired
-	private static ComputerService computerService;
-	
 	public static void main(String[] args) {
 
 		Scanner scan = new Scanner(System.in);
@@ -56,7 +52,7 @@ public class IHM {
 
 			switch (command) {
 			case LIST_COMPUTERS :
-				for (Computer s : computerService.getList()) {
+				for (Computer s : ComputerService.getInstance().getList()) {
 					System.out.println(s);
 				}
 				break;
@@ -135,9 +131,7 @@ public class IHM {
 	private static void displayPages(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
-		int noPage = 1;
-		Page page = book.getPage(noPage);
-		computerService.fillPage(page);
+		Page page = new Page(COMPUTER_BY_PAGE, 1);
 		System.out.println(page.toString());
 
 		do {
@@ -192,7 +186,7 @@ public class IHM {
 		fillComputer(scan, str, command, computer, message);
 
 		if (computer.getName() != null) {
-			computerService.createNew(computer);
+			ComputerService.getInstance().createNew(computer);
 
 		} else {
 			System.out.println("Le nom est obligatoire pour la création d'un nouvel ordinateur, sortie");
@@ -354,7 +348,7 @@ public class IHM {
 		} while (command != Command.RETURN);
 
 		if (computer.getId() != 0) {			
-			computerService.update(computer);			
+			ComputerService.getInstance().update(computer);			
 		} else {
 			System.out.println("ID non mentionné, pas de changement, sortie");
 		}
@@ -393,7 +387,7 @@ public class IHM {
 
 			case COMPUTER_ID : 
 				System.out.println(
-						computerService.getDetails(
+						ComputerService.getInstance().getDetails(
 								Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim())));			
 				break;			
 
@@ -548,7 +542,7 @@ public class IHM {
 			switch (command) {
 
 			case COMPUTER_ID : 
-				computerService.deleteComputer(
+				ComputerService.getInstance().deleteComputer(
 						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));	
 				computerErased++;
 				break;			

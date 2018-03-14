@@ -3,9 +3,6 @@ package com.excilys.formation.cdb.services;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.CompanyDAO;
 
@@ -13,8 +10,6 @@ import com.excilys.formation.cdb.persistence.CompanyDAO;
  * @author excilys
  *
  */
-@Scope("singleton")
-@Component
 public class CompanyService {
 
 	private CompanyDAO companyDAO = CompanyDAO.getInstance();
