@@ -3,8 +3,6 @@
  */
 package com.excilys.formation.cdb.model;
 
-import com.excilys.formation.cdb.services.CompanyService;
-
 /**
  * @author excilys
  *
@@ -25,34 +23,20 @@ public class Company {
 	}
 	
 	public Company(int id) {
-		this.setId(id);
-		String name = CompanyService.getInstance().getDetails(id).getName();
-		System.out.println(name);
-		this.setName(name);
-		
+		this.setId(id);		
 	}
 	
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
-	/**
-	 * @param id the id to set
-	 */
+	
 	public void setId(int id) {
 		this.id = id;
 	}
-	/**
-	 * @return the name
-	 */
+	
 	public String getName() {
 		return name;
 	}
-	/**
-	 * @param name the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -70,9 +54,6 @@ public class Company {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -81,9 +62,6 @@ public class Company {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

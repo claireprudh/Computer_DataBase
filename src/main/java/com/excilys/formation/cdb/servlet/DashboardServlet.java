@@ -5,19 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.mappers.ComputerMapper;
@@ -27,27 +19,19 @@ import com.excilys.formation.cdb.pagination.Page;
 import com.excilys.formation.cdb.services.ComputerService;
 import com.excilys.formation.cdb.tag.PageTag;
 
-@Controller
+@SuppressWarnings("serial")
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8114638763563191433L;
-
-	@Autowired
-	private ComputerService computerService /*= ComputerService.getInstance()*/;
-	
+	private ComputerService computerService = ComputerService.getInstance();
 	private String searchValue = "";
 	public static int noPage = 1;
-	private Book book;
-	private Page page;
+	private Book book = new Book(50, computerService.getSearchCount(searchValue), searchValue);
+	private Page page = book.getPage(noPage);
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		book = new Book(50, computerService.getSearchCount(searchValue), searchValue);
-		page = book.getPage(noPage);
+
 		managePage(request);
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
@@ -112,8 +96,6 @@ public class DashboardServlet extends HttpServlet {
 		//Récupération de la page
 		page = book.getPage(noPage);
 		
-		computerService.fillPage(page);
-		
 		//Récupération de la liste à afficher
 		for (Computer c : page.getListComputers()) {
 			list.add(ComputerMapper.getInstance().map(c));
@@ -125,12 +107,5 @@ public class DashboardServlet extends HttpServlet {
 		PageTag.setCurrent(page.getNoPage());
 	}
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-	    autowireCapableBeanFactory.autowireBean(this);
-	}
+
 }

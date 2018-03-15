@@ -13,22 +13,22 @@ import java.util.Optional;
 
 public class Computer {
 	
-	int id;
-	String name;
-	LocalDate dateOfIntro;
-	LocalDate dateOfDisc;
-	Company company;
+	private int id;
+	private String name;
+	private LocalDate dateOfIntro;
+	private LocalDate dateOfDisc;
+	private Company company;
 	
 	
-	public Computer() {
+	private Computer() {
 		
 	}
 	
-	public Computer(int id) {
+	private Computer(int id) {
 		this.setId(id);
 	}
 	
-	public Computer(String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
+	private Computer(String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
 		
 		this.setName(name);
 		this.setDateOfIntro(dateOfIntro);
@@ -36,7 +36,7 @@ public class Computer {
 		this.setCompany(company);
 	}
 	
-	public Computer(int id, String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
+	private Computer(int id, String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
 		
 		this.setId(id);
 		this.setName(name);
@@ -45,7 +45,7 @@ public class Computer {
 		this.setCompany(company);
 	}
 	
-	public Computer(ComputerBuilder computerBuilder) {
+	private Computer(ComputerBuilder computerBuilder) {
 		
 		this.setId(computerBuilder.id);
 		this.setName(computerBuilder.name);
@@ -56,11 +56,6 @@ public class Computer {
 	}
 	
 	
-	/**
-	 * Pattern Builder.
-	 * @author excilys
-	 *
-	 */
 	public static class ComputerBuilder {
 		
 		int id;
@@ -106,72 +101,42 @@ public class Computer {
 	}
 		
 	
-	/**
-	 * @return
-	 */
 	public int getId() {
 		return id;
 	}
 	
-	/**
-	 * @param id
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 	
-	/**
-	 * @return
-	 */
 	public String getName() {
 		return name;
 	}
 	
-	/**
-	 * @param name
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	/**
-	 * @return
-	 */
 	public Optional<LocalDate> getDateOfIntro() {
 		return Optional.ofNullable(dateOfIntro);
 	}
 	
-	/**
-	 * @param dateOfIntro
-	 */
 	public void setDateOfIntro(LocalDate dateOfIntro) {
 		this.dateOfIntro = dateOfIntro;
 	}
 	
-	/**
-	 * @return
-	 */
 	public Optional<LocalDate> getDateOfDisc() {
 		return Optional.ofNullable(dateOfDisc);
 	}
 	
-	/**
-	 * @param dateOfDisc
-	 */
 	public void setDateOfDisc(LocalDate dateOfDisc) {
 		this.dateOfDisc = dateOfDisc;
 	}
 	
-	/**
-	 * @return
-	 */
 	public Optional<Company> getCompany() {
 		return Optional.ofNullable(company);
 	}
 	
-	/**
-	 * @param companyID
-	 */
 	public void setCompany(Company companyID) {
 		this.company = companyID;
 	}
@@ -183,9 +148,7 @@ public class Computer {
 		return s;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -194,9 +157,6 @@ public class Computer {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
