@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.mappers.CompanyMapper;
@@ -23,6 +24,7 @@ import com.excilys.formation.cdb.mappers.CompanyMapper;
  * @author excilys
  *
  */
+@Repository
 public class CompanyDAO {
 
 	static final Logger LOGGER  = LogManager.getLogger(CompanyDAO.class);

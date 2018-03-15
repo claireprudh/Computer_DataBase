@@ -6,6 +6,8 @@ package com.excilys.formation.cdb.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.ComputerDAO;
 
@@ -13,6 +15,7 @@ import com.excilys.formation.cdb.persistence.ComputerDAO;
  * @author excilys
  *
  */
+@Service
 public class ComputerService {
 	
 	/**

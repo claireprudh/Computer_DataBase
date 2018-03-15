@@ -39,6 +39,8 @@ public class EditComputerServlet extends HttpServlet {
 	
 	@Autowired
 	private ComputerService computerService /* = ComputerService.getInstance()*/;
+	@Autowired
+	private CompanyService companyService;
 	private ComputerDTO computerdto;
 	private Computer computer;
 	
@@ -46,6 +48,15 @@ public class EditComputerServlet extends HttpServlet {
 	int id;
 	
 
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		ServletContext servletContext = config.getServletContext();
+		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
+	    autowireCapableBeanFactory.autowireBean(this);
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if (request.getParameter("id") != null) {
@@ -62,7 +73,7 @@ public class EditComputerServlet extends HttpServlet {
 		
 		request.setAttribute("computer", computerdto);
 		
-		for (Company company : CompanyService.getInstance().getList()) {
+		for (Company company : companyService.getList()) {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
 		listCompanies.add(new CompanyDTO());
@@ -89,14 +100,7 @@ public class EditComputerServlet extends HttpServlet {
 		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
 	}
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-	    autowireCapableBeanFactory.autowireBean(this);
-	}
+	
 
 	
 

@@ -3,8 +3,6 @@
  */
 package com.excilys.formation.cdb.model;
 
-import com.excilys.formation.cdb.services.CompanyService;
-
 /**
  * @author excilys
  *
@@ -26,10 +24,6 @@ public class Company {
 	
 	public Company(int id) {
 		this.setId(id);
-		String name = CompanyService.getInstance().getDetails(id).getName();
-		System.out.println(name);
-		this.setName(name);
-		
 	}
 	
 	/**

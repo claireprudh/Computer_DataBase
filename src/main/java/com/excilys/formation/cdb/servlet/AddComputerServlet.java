@@ -39,6 +39,18 @@ public class AddComputerServlet extends HttpServlet {
 	@Autowired
 	private ComputerService computerService/* = ComputerService.getInstance()*/;
 	
+	@Autowired
+	private CompanyService companyService;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		ServletContext servletContext = config.getServletContext();
+		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
+	    autowireCapableBeanFactory.autowireBean(this);
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -48,6 +60,7 @@ public class AddComputerServlet extends HttpServlet {
 
 	}
 
+	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -83,7 +96,7 @@ public class AddComputerServlet extends HttpServlet {
 
 
 
-		for (Company company : CompanyService.getInstance().getList()) {
+		for (Company company : companyService.getList()) {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
 		listCompanies.add(new CompanyDTO());
@@ -93,12 +106,5 @@ public class AddComputerServlet extends HttpServlet {
 		return computer;
 	}
 	
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-	    autowireCapableBeanFactory.autowireBean(this);
-	}
+	
 }

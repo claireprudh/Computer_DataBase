@@ -1,14 +1,13 @@
 package com.excilys.formation.cdb.validator;
 
 import java.sql.Date;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.exception.DuplicateIDException;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
@@ -21,13 +20,16 @@ import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
+@Component
 public class ComputerValidator {
 
-	private static ComputerValidator instance;
-	
 	@Autowired
 	private ComputerService computerService;
+	@Autowired
+	private CompanyService companyService;
 	
+	private static ComputerValidator instance;
+		
 	private ComputerValidator() {
 		
 	}
@@ -145,17 +147,10 @@ public class ComputerValidator {
 	
 	public void validateCompany(Company company) throws IDNotFoundException {
 		
-		int count = 0;
-		List<Company> listCompanies = CompanyService.getInstance().getList();
-		for (Company c : listCompanies) {
-			
-			if (c.getId() != company.getId()) {
-				count++;
-			}
-
-			
-		}
-		if (count == listCompanies.size()) {
+		int id = company.getId();
+		Company testCompany = companyService.getDetails(id);
+	
+		if (testCompany.getId() == 0) {		
 			throw new IDNotFoundException();
 		}
 
