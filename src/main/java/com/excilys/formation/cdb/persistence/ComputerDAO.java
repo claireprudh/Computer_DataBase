@@ -17,11 +17,12 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.excilys.formation.cdb.mappers.ComputerMapper;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.mappers.ComputerMapper;
 
 /**
  * @author excilys
@@ -32,16 +33,19 @@ public class ComputerDAO {
 
 	static final Logger LOGGER = LogManager.getLogger(ComputerDAO.class);
 
+	@Autowired
+	ComputerMapper computerMapper;
+	
 	/**
 	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
 	 */
-	private static ComputerDAO instance;
+	//private static ComputerDAO instance;
 
 	/**
 	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
 	 */
-	public static ComputerDAO getInstance() {
+/*	public static ComputerDAO getInstance() {
 
 		if (instance == null) {
 			instance = new ComputerDAO();
@@ -52,7 +56,7 @@ public class ComputerDAO {
 
 	private ComputerDAO() {
 
-	}
+	}*/
 
 
 
@@ -125,7 +129,7 @@ public class ComputerDAO {
 
 			while (results.next()) {
 
-				listComputers.add(ComputerMapper.getInstance().map(results));
+				listComputers.add(computerMapper.map(results));
 
 			}
 
@@ -159,7 +163,7 @@ public class ComputerDAO {
 
 			if (results.next()) {
 
-				computer = ComputerMapper.getInstance().map(results);
+				computer = computerMapper.map(results);
 			}
 
 			results.close();
@@ -295,19 +299,14 @@ public class ComputerDAO {
 		try (Connection connection = Connexion.getInstance(); 
 				PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers)) {
 
-
-
-
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, nbComputer);
 
 			ResultSet results = pstmt.executeQuery();
 
-
 			while (results.next()) {
 
-
-				listComputers.add(ComputerMapper.getInstance().map(results));
+				listComputers.add(computerMapper.map(results));
 
 			}
 
@@ -337,7 +336,7 @@ public class ComputerDAO {
 
 			ResultSet results = pstmt.executeQuery();
 			while (results.next()) {
-				Computer c = ComputerMapper.getInstance().map(results);
+				Computer c = computerMapper.map(results);
 				listComputers.add(c);
 			}
 		} catch (SQLException e) {
@@ -382,7 +381,7 @@ public class ComputerDAO {
 			ResultSet results = pstmt.executeQuery();
 
 			while (results.next()) {
-				listComputers.add(ComputerMapper.getInstance().map(results));
+				listComputers.add(computerMapper.map(results));
 			}
 
 		} catch (SQLException e) {
@@ -434,15 +433,6 @@ public class ComputerDAO {
 
 		return count;
 	}
-
-	/*public int getMaxPage(int nbComputer, String part) {
-		int max = this.getSearchCount(part);
-			
-		return getMaxPage(nbComputer, max);
-	}*/
-
-
-
 
 }
 

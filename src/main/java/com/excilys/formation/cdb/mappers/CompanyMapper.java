@@ -6,6 +6,8 @@ package com.excilys.formation.cdb.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.formation.cdb.dto.CompanyDTO;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.persistence.Column;
@@ -14,12 +16,13 @@ import com.excilys.formation.cdb.persistence.Column;
  * @author excilys
  *
  */
+@Component
 public class CompanyMapper {
 
 	
-public static CompanyMapper instance;
+//public static CompanyMapper instance;
 	
-	public static CompanyMapper getInstance() {
+	/*public static CompanyMapper getInstance() {
 		
 		if (instance == null) {
 			
@@ -31,7 +34,7 @@ public static CompanyMapper instance;
 	
 	private CompanyMapper() {
 		
-	}
+	}*/
 	
 	public Company map(ResultSet results) throws SQLException {
 		

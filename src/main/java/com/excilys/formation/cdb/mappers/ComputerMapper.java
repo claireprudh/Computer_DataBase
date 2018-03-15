@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.exception.IDNotFoundException;
@@ -27,14 +29,17 @@ import com.excilys.formation.cdb.validator.ComputerValidator;
  * @author excilys
  *
  */
+@Component
 public class ComputerMapper {
 
 	static final Logger LOGGER  = LogManager.getLogger(ComputerMapper.class);
 
+	@Autowired
+	ComputerValidator computerValidator;
 
-	public static ComputerMapper instance;
+	//public static ComputerMapper instance;
 
-	public static ComputerMapper getInstance() {
+	/*public static ComputerMapper getInstance() {
 
 		if (instance == null) {
 
@@ -46,7 +51,7 @@ public class ComputerMapper {
 
 	private ComputerMapper() {
 
-	}
+	}*/
 
 	public Computer map(ResultSet results) throws SQLException {
 
@@ -113,7 +118,7 @@ public class ComputerMapper {
 
 
 		try {
-			ComputerValidator.getInstance().validateName(dto.getName());
+			computerValidator.validateName(dto.getName());
 
 			computer.setName(dto.getName());
 
@@ -125,7 +130,7 @@ public class ComputerMapper {
 		} 
 
 		try {
-			ComputerValidator.getInstance().validateIntroduced(dto.getIntroduced());
+			computerValidator.validateIntroduced(dto.getIntroduced());
 
 			try {
 				date = new Date(formatter.parse(dto.getIntroduced()).getTime());
@@ -146,7 +151,7 @@ public class ComputerMapper {
 
 		try {
 
-			ComputerValidator.getInstance().validateDiscontinued(dto.getDiscontinued(), dto.getIntroduced());
+			computerValidator.validateDiscontinued(dto.getDiscontinued(), dto.getIntroduced());
 
 
 
@@ -169,7 +174,7 @@ public class ComputerMapper {
 		}
 
 		try {
-			ComputerValidator.getInstance().validateCompany(new Company(dto.getCompanyId()));
+			computerValidator.validateCompany(new Company(dto.getCompanyId()));
 
 			Company c = new Company(dto.getCompanyId());
 

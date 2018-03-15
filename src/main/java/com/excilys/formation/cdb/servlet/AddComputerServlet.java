@@ -42,6 +42,12 @@ public class AddComputerServlet extends HttpServlet {
 	@Autowired
 	private CompanyService companyService;
 	
+	@Autowired
+	private ComputerMapper computerMapper;
+	
+	@Autowired
+	private CompanyMapper companyMapper;
+	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
@@ -65,7 +71,7 @@ public class AddComputerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 
-		Computer computer = ComputerMapper.getInstance().map(remplirAffichage(request));
+		Computer computer = computerMapper.map(remplirAffichage(request));
 
 		computerService.createNew(computer);
 
@@ -97,7 +103,7 @@ public class AddComputerServlet extends HttpServlet {
 
 
 		for (Company company : companyService.getList()) {
-			listCompanies.add(CompanyMapper.getInstance().map(company));
+			listCompanies.add(companyMapper.map(company));
 		}
 		listCompanies.add(new CompanyDTO());
 

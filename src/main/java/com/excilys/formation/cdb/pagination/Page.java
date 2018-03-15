@@ -6,7 +6,7 @@ package com.excilys.formation.cdb.pagination;
 import java.util.List;
 
 import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.services.ComputerService;
+
 
 /**
  * @author excilys
@@ -14,8 +14,6 @@ import com.excilys.formation.cdb.services.ComputerService;
  */
 public class Page {
 
-	private ComputerService computerService = ComputerService.getInstance();
-	
 	/**
 	 * Caractéristiques de la page.
 	 */
@@ -26,36 +24,19 @@ public class Page {
 	protected Page(Book livre, int noPage) {
 		this.livre = livre;
 		this.noPage = noPage;
-		this.listComputers = computerService.getPage(livre.getNbComputer(), noPage, livre.getContenu());
+		this.listComputers = null;
 		
 	}
 
 	public Page(int page) {
 
 		noPage = page;
-		listComputers = computerService.getPage(livre.getNbComputer(), noPage);
-
-	}
-	
-	public Page(int page, int max) {
-
-		noPage = page;
-		listComputers = computerService.getPage(livre.getNbComputer(), noPage);
-
-	}
-	
-	public Page(int page, int max, String part) {
-		
-		noPage = page;
-		listComputers = computerService.searchByName(livre.getNbComputer(), noPage, part);
 		
 	}
-	
 
 	public Page nextPage() {
 		if (noPage < livre.getPageMax() - 1) {
 			noPage++;
-			listComputers = computerService.getPage(livre.getNbComputer(), noPage);
 		}
 
 		return this;
@@ -64,14 +45,11 @@ public class Page {
 	public Page previousPage() {
 		if (noPage > 0) {
 			noPage--;
-			listComputers = computerService.getPage(livre.getNbComputer(), noPage);
 		}
 
 		return this;
 	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+	
 	@Override
 	public String toString() {
 
@@ -106,5 +84,27 @@ public class Page {
 	 */
 	public List<Computer> getListComputers() {
 		return listComputers;
+	}
+	
+	/**
+	 * 
+	 * @param list
+	 */
+	public void setListComputers(List<Computer> list) {
+		this.listComputers = list;
+	}
+
+	/**
+	 * @return the livre
+	 */
+	public Book getLivre() {
+		return livre;
+	}
+
+	/**
+	 * @param livre the livre to set
+	 */
+	public void setLivre(Book livre) {
+		this.livre = livre;
 	}
 }

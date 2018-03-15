@@ -28,9 +28,9 @@ public class ComputerValidator {
 	@Autowired
 	private CompanyService companyService;
 	
-	private static ComputerValidator instance;
+	//private static ComputerValidator instance;
 		
-	private ComputerValidator() {
+	/*private ComputerValidator() {
 		
 	}
 	
@@ -41,7 +41,7 @@ public class ComputerValidator {
 		}
 		
 		return instance;
-	}
+	}*/
 
 	public void validateId(int id, String action) throws DuplicateIDException, IDNotFoundException {
 		Computer computer = computerService.getDetails(id);

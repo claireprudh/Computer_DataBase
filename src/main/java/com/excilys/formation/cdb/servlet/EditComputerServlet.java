@@ -27,7 +27,6 @@ import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
-
 @Controller
 @WebServlet("/editComputer")
 public class EditComputerServlet extends HttpServlet {
@@ -41,6 +40,10 @@ public class EditComputerServlet extends HttpServlet {
 	private ComputerService computerService /* = ComputerService.getInstance()*/;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private ComputerMapper computerMapper;
+	@Autowired
+	private CompanyMapper companyMapper;
 	private ComputerDTO computerdto;
 	private Computer computer;
 	
@@ -64,7 +67,7 @@ public class EditComputerServlet extends HttpServlet {
 				
 			id = Integer.valueOf(request.getParameter("id"));
 			computer = computerService.getDetails(id);
-			computerdto = ComputerMapper.getInstance().map(computer);
+			computerdto = computerMapper.map(computer);
 			} catch (NumberFormatException nfe) {
 				
 			}
@@ -74,7 +77,7 @@ public class EditComputerServlet extends HttpServlet {
 		request.setAttribute("computer", computerdto);
 		
 		for (Company company : companyService.getList()) {
-			listCompanies.add(CompanyMapper.getInstance().map(company));
+			listCompanies.add(companyMapper.map(company));
 		}
 		listCompanies.add(new CompanyDTO());
 
@@ -95,7 +98,7 @@ public class EditComputerServlet extends HttpServlet {
 		computerdto.setDiscontinued(request.getParameter("discontinued"));
 		computerdto.setCompanyId(Integer.valueOf(request.getParameter("companyId")));
 		
-		computerService.update(ComputerMapper.getInstance().map(computerdto));
+		computerService.update(computerMapper.map(computerdto));
 		
 		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
 	}

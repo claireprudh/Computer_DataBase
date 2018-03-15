@@ -3,6 +3,7 @@ package com.excilys.formation.cdb.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excilys.formation.cdb.model.Company;
@@ -15,7 +16,8 @@ import com.excilys.formation.cdb.persistence.CompanyDAO;
 @Service
 public class CompanyService {
 
-	private CompanyDAO companyDAO = CompanyDAO.getInstance();
+	@Autowired
+	private CompanyDAO companyDAO/* = CompanyDAO.getInstance()*/;
 	/**
 	 * instance, l'instance de CompanyService pour appliquer le pattern Singleton.
 	 */

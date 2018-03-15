@@ -15,10 +15,11 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.mappers.CompanyMapper;
+import com.excilys.formation.cdb.model.Company;
 
 /**
  * @author excilys
@@ -28,7 +29,10 @@ import com.excilys.formation.cdb.mappers.CompanyMapper;
 public class CompanyDAO {
 
 	static final Logger LOGGER  = LogManager.getLogger(CompanyDAO.class);
-
+	@Autowired
+	ComputerDAO computerDAO;
+	@Autowired
+	CompanyMapper companyMapper;
 
 	/*
 	 * Queries q-
@@ -40,13 +44,13 @@ public class CompanyDAO {
 	/**
 	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
 	 */
-	private static CompanyDAO instance;
+	//private static CompanyDAO instance;
 
 	/**
 	 * Méthode permettant de récupérer l'instance du Singleton.
 	 * @return l'instance
 	 */
-	public static CompanyDAO getInstance() {
+	/*public static CompanyDAO getInstance() {
 
 		if (instance == null) {
 			instance = new CompanyDAO();
@@ -57,7 +61,7 @@ public class CompanyDAO {
 
 	private CompanyDAO() {
 
-	}
+	}*/
 
 	/**
 	 * Récupère un fabriquant à partir de son identifiant.
@@ -76,7 +80,7 @@ public class CompanyDAO {
 			results = pstmt.executeQuery();
 
 			if (results.next()) {
-				company = CompanyMapper.getInstance().map(results);
+				company = companyMapper.map(results);
 			}
 
 			results.close();
@@ -123,7 +127,7 @@ public class CompanyDAO {
 
 
 
-			success = ComputerDAO.getInstance().deletecomputers(connection, id);
+			success = computerDAO.deletecomputers(connection, id);
 
 			pstmt.setInt(1, id);
 
