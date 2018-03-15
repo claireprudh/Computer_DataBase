@@ -1,5 +1,8 @@
 package com.excilys.formation.cdb.persistence;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RequestCreator {
 	
 	private static RequestCreator instance;

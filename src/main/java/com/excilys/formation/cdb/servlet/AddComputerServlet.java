@@ -39,6 +39,9 @@ public class AddComputerServlet extends HttpServlet {
 	@Autowired
 	private ComputerService computerService/* = ComputerService.getInstance()*/;
 	
+	@Autowired
+	private CompanyService companyService;
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -83,7 +86,7 @@ public class AddComputerServlet extends HttpServlet {
 
 
 
-		for (Company company : CompanyService.getInstance().getList()) {
+		for (Company company : companyService.getList()) {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
 		listCompanies.add(new CompanyDTO());
