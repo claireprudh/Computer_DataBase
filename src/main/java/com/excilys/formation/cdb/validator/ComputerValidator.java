@@ -42,27 +42,23 @@ public class ComputerValidator {
 	}
 
 	public void validateId(int id, String action) throws DuplicateIDException, IDNotFoundException {
+		Computer computer = computerService.getDetails(id);
 		switch (action) {
 		case "create" : 
-			for (Computer c : computerService.getList()) {
-				if (c.getId() == id) {
-					throw new DuplicateIDException();
-				}
 
+			if (computer.getId() != 0) {
+				throw new DuplicateIDException();
 			}
+
 			break;
 		case "update" :
 
 		case "delete" :
-			LABEL : for (Computer c : computerService.getList()) {
-				if (c.getId() == id) {
-					break LABEL;
-				}
 
+			if (computer.getId() == 0) {
 				throw new IDNotFoundException();
-
 			}
-		break;
+			break;
 
 
 		}
@@ -128,6 +124,7 @@ public class ComputerValidator {
 		
 		if (discontinued != null) {
 		try {
+
 
 			dDiscontinued = new Date(formatter.parse(discontinued).getTime());
 			dIntroduced = new Date(formatter.parse(introduced).getTime());
