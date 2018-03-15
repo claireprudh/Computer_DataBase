@@ -38,9 +38,7 @@ public class EditComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 625646021789794121L;
 	
 	@Autowired
-	private ComputerService computerService;
-	@Autowired
-	private CompanyService companyService;
+	private ComputerService computerService /* = ComputerService.getInstance()*/;
 	private ComputerDTO computerdto;
 	private Computer computer;
 	
@@ -64,7 +62,7 @@ public class EditComputerServlet extends HttpServlet {
 		
 		request.setAttribute("computer", computerdto);
 		
-		for (Company company : companyService.getList()) {
+		for (Company company : CompanyService.getInstance().getList()) {
 			listCompanies.add(CompanyMapper.getInstance().map(company));
 		}
 		listCompanies.add(new CompanyDTO());
