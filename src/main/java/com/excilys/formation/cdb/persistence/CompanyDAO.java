@@ -11,15 +11,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.mappers.CompanyMapper;
+import com.excilys.formation.cdb.mappers.ComputerMapper;
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Computer;
 
 /**
  * @author excilys
@@ -40,6 +44,15 @@ public class CompanyDAO {
 	private final String qlistCompanies = "SELECT " + Column.CCID.getName() + " , " + Column.CCNAME.getName() + " FROM company";
 	private final String qgetCompanyId = "SELECT " + Column.CCID.getName() + ", " + Column.CCNAME.getName() + "  FROM company WHERE id = ? ;";
 	private final String qdeleteComputer = "DELETE FROM company WHERE " + Column.CCID.getName() + " = ? ;";
+
+	
+	
+	JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	public CompanyDAO(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	/**
 	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
@@ -68,7 +81,7 @@ public class CompanyDAO {
 	 * @param id, l'identifiant du fabriquant à récupérer.
 	 * @return le fabriquant récupéré
 	 */
-	public Optional<Company> getByID(int id) {
+	/*public Optional<Company> getByID(int id) {
 
 		Company company = null;
 		ResultSet results = null;
@@ -91,32 +104,22 @@ public class CompanyDAO {
 
 		return Optional.ofNullable(company);
 
-	}
+	}*/
 
 	/**
 	 * Récupère la liste des fabricants.
 	 * @return la liste des fabricants.
 	 */
 	public List<Company> getList() {
+		List<Company> listCompany = new ArrayList<>();
 
-		List<Company> listCompanies = new ArrayList<Company>();
+		listCompany = getJdbcTemplate().query(qlistCompanies, new CompanyMapper());
 
-		try (Connection connection = Connexion.getInstance();
-				Statement stmt = connection.createStatement();
-				ResultSet results = stmt.executeQuery(qlistCompanies)) {
-
-			while (results.next()) {
-				listCompanies.add(new Company(results.getInt(Column.CCID.getName()), results.getString(Column.CCNAME.getName())));				
-			}
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
-
-		return listCompanies;
+		return listCompany;
+		
 	}
 
-	public void delete(int id) {
+/*	public void delete(int id) {
 		Connection connection = null;
 
 		boolean success = false;
@@ -157,6 +160,10 @@ public class CompanyDAO {
 		} catch (SQLException e) {
 			LOGGER.error("Exception SQL à la remise en autocommit : " + e.getMessage());
 		}
+	}*/
+	
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
 	}
 
 

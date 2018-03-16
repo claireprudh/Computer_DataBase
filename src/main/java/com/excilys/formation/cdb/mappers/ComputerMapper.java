@@ -8,10 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
@@ -22,6 +26,7 @@ import com.excilys.formation.cdb.exception.NullException;
 import com.excilys.formation.cdb.exception.TimeLineException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
+import com.excilys.formation.cdb.model.Computer.ComputerBuilder;
 import com.excilys.formation.cdb.persistence.Column;
 import com.excilys.formation.cdb.validator.ComputerValidator;
 
@@ -30,7 +35,7 @@ import com.excilys.formation.cdb.validator.ComputerValidator;
  *
  */
 @Component
-public class ComputerMapper {
+public class ComputerMapper implements RowMapper<Computer> {
 
 	static final Logger LOGGER  = LogManager.getLogger(ComputerMapper.class);
 
@@ -53,10 +58,9 @@ public class ComputerMapper {
 
 	}*/
 
-	public Computer map(ResultSet results) throws SQLException {
+	public Computer mapRow(ResultSet results, int arg1) throws SQLException {
 
 		Computer computer = new Computer.ComputerBuilder().build();
-
 
 		computer.setId(results.getInt(Column.CID.getName()));
 		computer.setName(results.getString(Column.CNAME.getName()));
@@ -74,7 +78,6 @@ public class ComputerMapper {
 		}
 
 		computer.setCompany(new Company(results.getInt(Column.CCOMPANY_ID.getName()), results.getString(Column.CCNAME.getName())));
-
 
 		return computer;
 	}
@@ -188,5 +191,27 @@ public class ComputerMapper {
 		return computer;
 	}
 
+	public List<Computer> map(List<Map<String, Object>> rows) {
+		List<Computer> list = new ArrayList<>();
+		
+		for (Map row : rows) {
+			ComputerBuilder computerBuilder = new Computer.ComputerBuilder();
+			
+			int id = (int) row.get(Column.CID.getName());
+			
+			computerBuilder.withId(id);
+			String name = (String) row.get(Column.CNAME.getName());
+			
+			computerBuilder.withName(name);
+						
+			System.out.println(computerBuilder.build());
+			
+			list.add(computerBuilder.build());
+		}
+		
+		return list;
+		
+	}
 
+	
 }

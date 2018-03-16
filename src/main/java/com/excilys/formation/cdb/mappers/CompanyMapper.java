@@ -5,11 +5,16 @@ package com.excilys.formation.cdb.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.CompanyDTO;
 import com.excilys.formation.cdb.model.Company;
+import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.persistence.Column;
 
 /**
@@ -17,7 +22,7 @@ import com.excilys.formation.cdb.persistence.Column;
  *
  */
 @Component
-public class CompanyMapper {
+public class CompanyMapper implements RowMapper<Company>{
 
 	
 //public static CompanyMapper instance;
@@ -36,7 +41,7 @@ public class CompanyMapper {
 		
 	}*/
 	
-	public Company map(ResultSet results) throws SQLException {
+	public Company mapRow(ResultSet results, int arg1) throws SQLException {
 		
 		Company company = new Company();
 		company.setId(results.getInt(Column.CCID.getName()));
@@ -56,4 +61,5 @@ public class CompanyMapper {
 		return dto;
 		
 	}
+	
 }

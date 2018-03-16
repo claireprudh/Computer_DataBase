@@ -9,15 +9,19 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.mappers.ComputerMapper;
@@ -35,29 +39,14 @@ public class ComputerDAO {
 
 	@Autowired
 	ComputerMapper computerMapper;
+
 	
-	/**
-	 * instance, l'instance de ComputerDAO pour appliquer le pattern Singleton.
-	 */
-	//private static ComputerDAO instance;
+	JdbcTemplate jdbcTemplate;
 
-	/**
-	 * Méthode permettant de récupérer l'instance du Singleton.
-	 * @return l'instance
-	 */
-/*	public static ComputerDAO getInstance() {
-
-		if (instance == null) {
-			instance = new ComputerDAO();
-		}
-
-		return instance;
+	@Autowired
+	public ComputerDAO(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
-
-	private ComputerDAO() {
-
-	}*/
-
 
 
 	/*
@@ -111,7 +100,6 @@ public class ComputerDAO {
 			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
 			+ "WHERE " + ccompanyID + " = ?;";
 
-
 	/**
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
@@ -120,24 +108,8 @@ public class ComputerDAO {
 
 		List<Computer> listComputers = new ArrayList<Computer>();
 
-		ResultSet results = null;
-		try (Connection connection = Connexion.getInstance()) {
-
-			Statement stmt = connection.createStatement();
-
-			results = stmt.executeQuery(qlistComputers);
-
-			while (results.next()) {
-
-				listComputers.add(computerMapper.map(results));
-
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(qlistComputers);
+		computerMapper.map(rows);
 
 		return listComputers;
 	}
@@ -149,32 +121,8 @@ public class ComputerDAO {
 	 */
 	public Optional<Computer> getByID(int id) {
 
-		Computer computer = null;
-
-
-		try (Connection connection = Connexion.getInstance()) {
-
-
-			PreparedStatement pstmt = connection.prepareStatement(qgetComputerById);
-			pstmt.setInt(1, id);
-
-			ResultSet results = pstmt.executeQuery();
-
-
-			if (results.next()) {
-
-				computer = computerMapper.map(results);
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
-
-		if (computer == null) {
-			LOGGER.error("Aucun ordinateur n'a l'ID spécifié : " + id);
-		}
+		Computer computer = (Computer) getJdbcTemplate().queryForObject(
+				qgetComputerById, new Object[] {id}, new ComputerMapper());
 
 		return Optional.ofNullable(computer);
 	}
@@ -185,41 +133,33 @@ public class ComputerDAO {
 	 */
 	public void create(Computer computer) {
 
-
-		try (Connection connection = Connexion.getInstance()) {
-			PreparedStatement pstmt = connection.prepareStatement(qcreateNewComputer);
-
+		List<Object> attributes = new ArrayList<>();
 
 			if (computer.getName() != null) {
-				pstmt.setString(1, computer.getName());
+				attributes.add(computer.getName());
 			} else {
-				pstmt.setString(1,  null);
+				attributes.add(null);
 			}
 
 			if (computer.getDateOfIntro().isPresent()) {
-				pstmt.setDate(2, Date.valueOf(computer.getDateOfIntro().get()));
+				attributes.add(Date.valueOf(computer.getDateOfIntro().get()));
 			} else {
-				pstmt.setDate(2, null);
+				attributes.add(null);
 			}
 
 			if (computer.getDateOfDisc().isPresent()) {
-				pstmt.setDate(3, Date.valueOf(computer.getDateOfDisc().get()));
+				attributes.add(Date.valueOf(computer.getDateOfDisc().get()));
 			} else {
-				pstmt.setDate(3, null);
+				attributes.add(null);
 			}
 
 			if (computer.getCompany().isPresent() && computer.getCompany().get().getId() != 0) {
-				pstmt.setInt(4, computer.getCompany().orElse(new Company()).getId());
+				attributes.add(computer.getCompany().orElse(new Company()).getId());
 			} else {
-				pstmt.setNull(4, Types.INTEGER);
+				attributes.add(Types.INTEGER);
 			}
 
-			pstmt.executeUpdate();			
-
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+			getJdbcTemplate().update(qcreateNewComputer, attributes.toArray());
 
 	}
 
@@ -232,37 +172,31 @@ public class ComputerDAO {
 
 		if (this.getByID(ucomputer.getId()).isPresent()) { 
 
-			try (Connection connection = Connexion.getInstance()) {
+			List<Object> attributes = new ArrayList<>();
 
-				PreparedStatement pstmt = connection.prepareStatement(qupdateComputer);
-
-				pstmt.setInt(5, ucomputer.getId());
-
-				pstmt.setString(1, ucomputer.getName());
+			attributes.add(ucomputer.getName());
 
 				if (ucomputer.getDateOfIntro().isPresent()) {
-					pstmt.setDate(2, Date.valueOf(ucomputer.getDateOfIntro().get()));	
+					attributes.add(Date.valueOf(ucomputer.getDateOfIntro().get()));	
 				} else {
-					pstmt.setDate(2, null);
+					attributes.add(null);
 				}
 				if (ucomputer.getDateOfDisc().isPresent()) {
-					pstmt.setDate(3, Date.valueOf(ucomputer.getDateOfDisc().get()));	
+					attributes.add(Date.valueOf(ucomputer.getDateOfDisc().get()));	
 				} else {
-					pstmt.setDate(3, null);
+					attributes.add(null);
 				}
 
 				if (ucomputer.getCompany().isPresent() && ucomputer.getCompany().get().getId() != 0) {
-					pstmt.setInt(4, ucomputer.getCompany().orElse(new Company()).getId());
+					attributes.add(ucomputer.getCompany().orElse(new Company()).getId());
 				} else {
-					pstmt.setNull(4, Types.INTEGER);
+					attributes.add(Types.INTEGER);
 				}
+				
+				attributes.add(ucomputer.getId());
+				
+				getJdbcTemplate().update(qupdateComputer, attributes.toArray());
 
-				pstmt.executeUpdate();
-
-
-			} catch (SQLException e) {
-				LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-			}
 		} else {
 			LOGGER.error("Pas d'ordinateur reçu à mettre à jour");
 		}
@@ -275,78 +209,34 @@ public class ComputerDAO {
 	 */
 	public void delete(int id) {
 
-
-		try (Connection connection = Connexion.getInstance(); PreparedStatement pstmt = connection.prepareStatement(qdeleteComputer)) {
-
-
-			pstmt.setInt(1, id);
-
-			pstmt.executeUpdate();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
-
+			getJdbcTemplate().update(qdeleteComputer, new Object[] {id});
 
 	}
 
 	public List<Computer> getPage(int nbComputer, int offset) {
 
-
 		List<Computer> listComputers = new ArrayList<Computer>();
 
-
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qgetPageOfComputers)) {
-
-			pstmt.setInt(1, offset);
-			pstmt.setInt(2, nbComputer);
-
-			ResultSet results = pstmt.executeQuery();
-
-			while (results.next()) {
-
-				listComputers.add(computerMapper.map(results));
-
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+		listComputers = getJdbcTemplate().query(qgetPageOfComputers, new Object[] {offset, nbComputer}, new ComputerMapper());
 
 		return listComputers;
 	}
 
-	
+
 
 	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
+
+		part = "%" + part + "%";
 
 		int offset = (noPage - 1) * nbComputer;
 		List<Computer> listComputers = new ArrayList<Computer>();
 
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qsearchByName)) {
-
-			pstmt.setString(1, "%" + part + "%");
-			pstmt.setString(2, "%" + part + "%");
-			pstmt.setInt(3, offset);
-			pstmt.setInt(4, nbComputer);
-
-			ResultSet results = pstmt.executeQuery();
-			while (results.next()) {
-				Computer c = computerMapper.map(results);
-				listComputers.add(c);
-			}
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la recherche : " + e.getMessage());
-		}
-
+		listComputers = getJdbcTemplate().query(qsearchByName, new Object[] {part, part, offset, nbComputer}, new ComputerMapper());
+		
 		return listComputers;
 	}
 
-	public boolean deletecomputers(Connection connection, int id) {
+	/*public boolean deletecomputers(Connection connection, int id) {
 
 		List<Computer> listComputers = new ArrayList<Computer>();
 		listComputers = getComputers2delete(connection, id);
@@ -368,9 +258,9 @@ public class ComputerDAO {
 
 		return success;
 
-	}
+	}*/
 
-	public List<Computer> getComputers2delete(Connection connection, int id) {
+	/*public List<Computer> getComputers2delete(Connection connection, int id) {
 
 		List<Computer> listComputers = new ArrayList<Computer>();
 
@@ -388,50 +278,31 @@ public class ComputerDAO {
 
 		}
 		return listComputers;
-	}
+	}*/
 
 	public int getCount() {
 		int count = 0;
 
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qgetCount)) {
-
-			ResultSet results = pstmt.executeQuery();
-
-			if (results.next()) {
-				count = results.getInt(ccount);
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+		count = getJdbcTemplate().queryForObject(qgetCount, Integer.class);
 
 		return count;
 	}
 
 	public int getSearchCount(String part) {
 		int count = 0;
+		part = "%" + part + "%";
 
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qgetSearchCount)) {
-
-			pstmt.setString(1, "%" + part + "%");
-			pstmt.setString(2, "%" + part + "%");
-			ResultSet results = pstmt.executeQuery();
-
-			if (results.next()) {
-				count = results.getInt(ccount);
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		}
+		count = getJdbcTemplate().queryForObject(qgetSearchCount, new Object[] {part, part}, Integer.class);
 
 		return count;
+		
+	}
+
+	/**
+	 * @return the jdbcTemplate
+	 */
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
 	}
 
 }

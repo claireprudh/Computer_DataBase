@@ -114,7 +114,7 @@ public class ComputerService {
 	public List<Computer> getPage(int nbComputer, int noPage, String contenu) {
 		List<Computer> list = new ArrayList<Computer>();
 
-		if (contenu == null) {
+		if (contenu == null || contenu.equals(" ")) {
 			list = this.getPage(nbComputer, noPage);
 		} else {
 			list = this.searchByName(nbComputer, noPage, contenu);

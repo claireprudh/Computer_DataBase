@@ -55,12 +55,12 @@ public class CompanyService {
 	 * @param id, l'identifiant du fabricant.
 	 * @return le fabricant.
 	 */
-	public Company getDetails(int id) {
+	/*public Company getDetails(int id) {
 		return companyDAO.getByID(id).orElse(new Company());
-	}
+	}*/
 	
-	public void delete(int id) {
+/*	public void delete(int id) {
 		companyDAO.delete(id);
-	}
+	}*/
 
 }

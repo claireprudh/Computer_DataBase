@@ -78,7 +78,7 @@ public class DashboardServlet extends HttpServlet {
 
 			for (String s : selection) {
 				computerService.deleteComputer(Integer.valueOf(s));
-			}			
+			}		
 		}
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
@@ -123,7 +123,6 @@ public class DashboardServlet extends HttpServlet {
 		book.setPageMax(count);
 		request.setAttribute("maxPage", book.getPageMax());	
 
-		System.out.println("contenu = " + book.getContenu());
 		//Récupération de la page
 		page = book.getPage(noPage);
 

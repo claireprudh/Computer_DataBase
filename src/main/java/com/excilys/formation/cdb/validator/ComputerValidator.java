@@ -148,11 +148,11 @@ public class ComputerValidator {
 	public void validateCompany(Company company) throws IDNotFoundException {
 		
 		int id = company.getId();
-		Company testCompany = companyService.getDetails(id);
+	/*	Company testCompany = companyService.getDetails(id);
 	
 		if (testCompany.getId() == 0) {		
 			throw new IDNotFoundException();
-		}
+		}*/
 
 	}
 
