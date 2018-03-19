@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
@@ -22,15 +24,23 @@ import com.excilys.formation.cdb.services.ComputerService;
  * @author excilys
  *
  */
+@Component
 public class IHM {
 
 	static final Logger LOGGER = LogManager.getLogger(IHM.class);
 	static final int COMPUTER_BY_PAGE = 500;
 	static Book book;
+	
+	@Autowired
+	ComputerService computerService;
+	@Autowired
+	CompanyService companyService;
 
-	public static void main(String[] args) {
+	public void main(String[] args) {
 
 		Scanner scan = new Scanner(System.in);
+		
+		
 
 		System.out.println("Bienvenue dans l'application,\n");
 		for (String s : Command.listcommands(TypeCommand.ARGUMENT_LESS)) {
@@ -53,7 +63,7 @@ public class IHM {
 
 			switch (command) {
 			case LIST_COMPUTERS :
-				for (Computer s : ComputerService.getInstance().getList()) {
+				for (Computer s : computerService.getList()) {
 					System.out.println(s);
 				}
 				break;
@@ -64,7 +74,7 @@ public class IHM {
 				break;
 
 			case LIST_COMPANIES :
-				for (Company company : CompanyService.getInstance().getList()) {
+				for (Company company : companyService.getList()) {
 					System.out.println(company.getName());
 				}
 				break;
@@ -132,7 +142,7 @@ public class IHM {
 	private static void displayPages(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
-		Page page = new Page(COMPUTER_BY_PAGE, 1);
+		Page page = book.getPage(1);
 		System.out.println(page.toString());
 
 		do {
@@ -174,7 +184,7 @@ public class IHM {
 	 * @param str
 	 * @param command
 	 */
-	private static void createNewComputer(Scanner scan, StringBuilder str, Command command) {
+	private void createNewComputer(Scanner scan, StringBuilder str, Command command) {
 
 
 		str.setLength(0);
@@ -188,7 +198,7 @@ public class IHM {
 		Computer computer = computerBuilder.build();
 
 		if (computer.getName() != null) {
-			ComputerService.getInstance().createNew(computer);
+			computerService.createNew(computer);
 
 		} else {
 			System.out.println("Le nom est obligatoire pour la création d'un nouvel ordinateur, sortie");
@@ -204,7 +214,7 @@ public class IHM {
 	 * @param computer
 	 * @param message
 	 */
-	private static void fillComputer(Scanner scan, StringBuilder str, Command command, ComputerBuilder computer, StringBuilder message) {
+	private void fillComputer(Scanner scan, StringBuilder str, Command command, ComputerBuilder computer, StringBuilder message) {
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
 		String dateInString;
@@ -274,7 +284,7 @@ public class IHM {
 				break;
 
 			case COMPANY_ID : 
-				Company company = CompanyService.getInstance().getDetails(
+				Company company = companyService.getDetails(
 						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));
 
 				computer.withCompany(company);
@@ -305,7 +315,7 @@ public class IHM {
 	 * @param str
 	 * @param command
 	 */
-	private static void updateComputer(Scanner scan, StringBuilder str, Command command) {
+	private void updateComputer(Scanner scan, StringBuilder str, Command command) {
 
 		ComputerBuilder computerBuilder = new Computer.ComputerBuilder();
 		
@@ -351,7 +361,7 @@ public class IHM {
 
 		Computer computer = computerBuilder.build();
 		if (computer.getId() != 0) {			
-			ComputerService.getInstance().update(computer);			
+			computerService.update(computer);			
 		} else {
 			System.out.println("ID non mentionné, pas de changement, sortie");
 		}
@@ -364,7 +374,7 @@ public class IHM {
 	 * @param str
 	 * @param command
 	 */
-	private static void getComputer(Scanner scan, StringBuilder str, Command command) {
+	private void getComputer(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
 
@@ -390,7 +400,7 @@ public class IHM {
 
 			case COMPUTER_ID : 
 				System.out.println(
-						ComputerService.getInstance().getDetails(
+						computerService.getDetails(
 								Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim())));			
 				break;			
 
@@ -416,7 +426,7 @@ public class IHM {
 	 * @param str
 	 * @param command
 	 */
-	private static void getCompany(Scanner scan, StringBuilder str, Command command) {
+	private void getCompany(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
 
@@ -442,7 +452,7 @@ public class IHM {
 
 			case COMPANY_ID : 
 				System.out.println(
-						CompanyService.getInstance().getDetails(
+						companyService.getDetails(
 								Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim())));			
 				break;			
 
@@ -466,7 +476,7 @@ public class IHM {
 	 * @param str
 	 * @param command
 	 */
-	private static void deleteCompany(Scanner scan, StringBuilder str, Command command) {
+	private void deleteCompany(Scanner scan, StringBuilder str, Command command) {
 
 		str.setLength(0);
 
@@ -492,7 +502,7 @@ public class IHM {
 
 			case COMPANY_ID : 
 				int id = Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim());
-				CompanyService.getInstance().delete(id);
+				//companyService.delete(id);
 					
 				break;			
 
@@ -517,7 +527,7 @@ public class IHM {
 	 * @param str
 	 * @param command
 	 */
-	private static void deleteComputer(Scanner scan, StringBuilder str, Command command) {
+	private void deleteComputer(Scanner scan, StringBuilder str, Command command) {
 
 		int computerErased = 0;
 
@@ -545,7 +555,7 @@ public class IHM {
 			switch (command) {
 
 			case COMPUTER_ID : 
-				ComputerService.getInstance().deleteComputer(
+				computerService.deleteComputer(
 						Integer.valueOf(str.substring(str.indexOf("=")).replace('=', ' ').trim()));	
 				computerErased++;
 				break;			

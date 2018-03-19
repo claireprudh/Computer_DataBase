@@ -81,30 +81,15 @@ public class CompanyDAO {
 	 * @param id, l'identifiant du fabriquant à récupérer.
 	 * @return le fabriquant récupéré
 	 */
-	/*public Optional<Company> getByID(int id) {
+	public Optional<Company> getByID(int id) {
 
 		Company company = null;
-		ResultSet results = null;
-
-		try (Connection connection = Connexion.getInstance(); 
-				PreparedStatement pstmt = connection.prepareStatement(qgetCompanyId)) {
-
-			pstmt.setInt(1, id);
-			results = pstmt.executeQuery();
-
-			if (results.next()) {
-				company = companyMapper.map(results);
-			}
-
-			results.close();
-
-		} catch (SQLException e) {
-			LOGGER.error("Exception SQL à l'exécution de la requête : " + e.getMessage());
-		} 
+		
+		company = (Company) getJdbcTemplate().query(qgetCompanyId, new Object[] {id}, new CompanyMapper());
 
 		return Optional.ofNullable(company);
 
-	}*/
+	}
 
 	/**
 	 * Récupère la liste des fabricants.
