@@ -1,22 +1,16 @@
 package com.excilys.formation.cdb.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.cdb.dto.CompanyDTO;
 import com.excilys.formation.cdb.dto.ComputerDTO;
@@ -28,16 +22,10 @@ import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
 
 @Controller
-@WebServlet("/addComputer")
-public class AddComputerServlet extends HttpServlet {
+public class AddComputerServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6742178476293935906L;
-	
 	@Autowired
-	private ComputerService computerService/* = ComputerService.getInstance()*/;
+	private ComputerService computerService;
 	
 	@Autowired
 	private CompanyService companyService;
@@ -48,68 +36,51 @@ public class AddComputerServlet extends HttpServlet {
 	@Autowired
 	private CompanyMapper companyMapper;
 	
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-	    AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-	    autowireCapableBeanFactory.autowireBean(this);
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@GetMapping("addComputer")
+	public String getAddPage(ModelMap model, @RequestParam Map<String, String> params) {
+		
+		remplirAffichage(model, params);
 
-		remplirAffichage(request);
-
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/addComputer.jsp").forward(request, response);
-
+		return "addComputer";
 	}
 
 	
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
-		Computer computer = computerMapper.map(remplirAffichage(request));
+	@PostMapping("addComputer")
+	public String addComputer(ModelMap model, @RequestParam Map<String, String> params) {
+		Computer computer = computerMapper.map(remplirAffichage(model, params));
 
 		computerService.createNew(computer);
 
-		response.sendRedirect("dashboard?page=" + DashboardServlet.noPage);
+		return "addComputer";
 
 	}
 
-	public ComputerDTO remplirAffichage(HttpServletRequest request) {
+	public ComputerDTO remplirAffichage(ModelMap model, @RequestParam Map<String, String> params) {
 
-		ComputerDTO computer = new ComputerDTO();
+		ComputerDTO computerDTO = new ComputerDTO();
 
 		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
 
-		if (request.getParameter("name") != null) {
-			computer.setName(request.getParameter("name"));
-
-		} 
-		if (request.getParameter("introduced") != null) {
-			computer.setIntroduced(request.getParameter("introduced"));
-		}
-		if (request.getParameter("discontinued") != null) {
-			computer.setDiscontinued(request.getParameter("discontinued"));
-		}
-		if (request.getParameter("companyId") != null) {
-
-			computer.setCompanyId(Integer.valueOf(request.getParameter("companyId")));
-		}
-
-
-
+		String name = params.getOrDefault("name", "");
+			computerDTO.setName(name);
+		 
+		String introduced = params.getOrDefault("introduced", "");
+		computerDTO.setIntroduced(introduced);
+		
+		String discontinued = params.getOrDefault("discontinued", "");
+		computerDTO.setIntroduced(discontinued);
+		
+		int companyId = Integer.valueOf(params.getOrDefault("companyId", "0"));
+		computerDTO.setCompanyId(companyId);
+		
 		for (Company company : companyService.getList()) {
-			listCompanies.add(companyMapper.map(company));
+			listCompanies.add(companyMapper.map(company));                                                                                                                                                
 		}
 		listCompanies.add(new CompanyDTO());
 
-		request.setAttribute("listCompanies", listCompanies);
+		model.addAttribute("listCompanies", listCompanies);
 
-		return computer;
+		return computerDTO;
 	}
 	
 	

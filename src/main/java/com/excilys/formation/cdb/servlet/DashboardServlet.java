@@ -1,23 +1,16 @@
 package com.excilys.formation.cdb.servlet;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
 import com.excilys.formation.cdb.mappers.ComputerMapper;
@@ -28,13 +21,7 @@ import com.excilys.formation.cdb.services.ComputerService;
 import com.excilys.formation.cdb.tag.PageTag;
 
 @Controller
-@WebServlet("/dashboard")
-public class DashboardServlet extends HttpServlet {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3777472704213860075L;
+public class DashboardServlet {
 
 	@Autowired
 	private ComputerService computerService;
@@ -47,81 +34,59 @@ public class DashboardServlet extends HttpServlet {
 	private Book book;
 	private Page page;
 
-
-
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		ServletContext servletContext = config.getServletContext();
-		WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-		AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-		autowireCapableBeanFactory.autowireBean(this);
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@GetMapping("dashboard")
+	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params) {
+				
 		book = new Book(50, computerService.getSearchCount(searchValue), searchValue);
 		page = book.getPage(noPage);
-		managePage(request);
-
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+		managePage(model, params);
+		return "dashboard";
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@PostMapping("dashboard")
+	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params) {
 
-		managePage(request);
+		managePage(model, params);
+		
+		if (params.get("selection") != null) {
 
-		if (request.getParameter("selection") != null) {
-
-			List<String> selection = Arrays.asList(request.getParameter("selection").split(","));
+			List<String> selection = Arrays.asList(params.get("selection").split(","));
 
 			for (String s : selection) {
 				computerService.deleteComputer(Integer.valueOf(s));
 			}		
 		}
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(request, response);
+		return "dashboard";
 
 	}
 
-	public void managePage(HttpServletRequest request) {
+	public void managePage(ModelMap model, Map<String, String> params) {
 
 		//Gestion no de page
-		if (request.getParameter("page") != null) {
-			noPage = Integer.valueOf(request.getParameter("page"));
-		} else {
-			noPage = 1;
-		}
-
-		request.setAttribute("page", noPage);
+		noPage = Integer.valueOf(params.getOrDefault("page", "1"));
+		model.addAttribute("page", noPage);
 
 		//Gestion nb de computers par page 
-		if (request.getParameter("nbbypage") != null) {
-			book.setNbComputer(Integer.valueOf(request.getParameter("nbbypage")));
-		}
+		int nbByPage = Integer.valueOf(params.getOrDefault("nbbypage", "50"));
+		book.setNbComputer(Integer.valueOf(nbByPage));
+		
 
 		//Gestion contenu de la page
 		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
 
 		//Valeur de recherche
-		if (request.getParameter("search") != null) {
-
-			searchValue = request.getParameter("search");
-
-			book.setContenu(searchValue);
-		}
-
-		System.out.println(searchValue);
-		request.setAttribute("searchValue", searchValue);
+		searchValue = params.getOrDefault("searchValue", "");
+		book.setContenu(searchValue);
+		model.addAttribute("searchValue", searchValue);
 
 		//Nombre de résultats
 		int count = computerService.getSearchCount(searchValue);
-		request.setAttribute("count", count);
+		model.addAttribute("count", count);
 
 		//Nombre de pages
 		book.setPageMax(count);
-		request.setAttribute("maxPage", book.getPageMax());	
+		model.addAttribute("maxPage", book.getPageMax());	
 
 		//Récupération de la page
 		page = book.getPage(noPage);
@@ -133,7 +98,7 @@ public class DashboardServlet extends HttpServlet {
 			list.add(computerMapper.map(c));
 		}
 
-		request.setAttribute("list", list);
+		model.addAttribute("list", list);
 
 		PageTag.setMax(book.getPageMax());
 		PageTag.setCurrent(page.getNoPage());
