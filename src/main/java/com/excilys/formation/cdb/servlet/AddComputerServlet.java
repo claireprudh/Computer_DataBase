@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,17 +23,25 @@ import com.excilys.formation.cdb.services.ComputerService;
 @Controller
 public class AddComputerServlet {
 
-	@Autowired
-	private ComputerService computerService;
+	private final ComputerService computerService;
 	
-	@Autowired
-	private CompanyService companyService;
+	private final CompanyService companyService;
 	
-	@Autowired
-	private ComputerMapper computerMapper;
+	private final ComputerMapper computerMapper;
 	
-	@Autowired
-	private CompanyMapper companyMapper;
+	private final CompanyMapper companyMapper;
+	
+	public AddComputerServlet(ComputerService computerService, 
+			CompanyService companyService, 
+			ComputerMapper computerMapper, 
+			CompanyMapper companyMapper) {
+		
+		this.computerService = computerService;
+		this.companyService = companyService;
+		this.computerMapper = computerMapper;
+		this.companyMapper = companyMapper;
+		
+	}
 	
 	@GetMapping("addComputer")
 	public String getAddPage(ModelMap model, @RequestParam Map<String, String> params) {

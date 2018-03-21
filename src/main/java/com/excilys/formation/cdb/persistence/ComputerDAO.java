@@ -8,13 +8,14 @@ import java.sql.Date;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -31,67 +32,73 @@ public class ComputerDAO {
 
 	static final Logger LOGGER = LogManager.getLogger(ComputerDAO.class);
 
-	@Autowired
-	ComputerMapper computerMapper;
 
-	@Autowired
-	RequestCreator rqc;
-	
-	JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
+	private final ComputerMapper computerMapper;
 
-	@Autowired
-	public ComputerDAO(JdbcTemplate jdbcTemplate) {
+	public ComputerDAO(JdbcTemplate jdbcTemplate, ComputerMapper computerMapper) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.computerMapper = computerMapper;				
 	}
-
-
-	/*
-	 * Columns c-
-	 */
-	private static final String cid = Column.CID.getName();
-	private static final String cname = Column.CNAME.getName();
-	private static final String cdateOfIntro = Column.CDATE_OF_INTRO.getName();
-	private static final String cdateOfDisc = Column.CDATE_OF_DISC.getName();
-	private static final String ccompanyID = Column.CCOMPANY_ID.getName();
-	private static final String ccount = Column.CCOUNT.getName();
 
 	/*
 	 * Queries q-
 	 */
-	private final String allComputer = rqc.select(
+	private static final String SELECT = "SELECT ";
+	private static final String FROM = " FROM computer ";
+	private static final String EQUAL = " = ? ";
+	private static final String LEFT_JOIN = " LEFT JOIN company ON " + Column.CCOMPANY_ID.getName() + " = " + Column.CCID.getName();
+	private static final String WHERE = " WHERE ";
+	private static final String WHERE_ID = WHERE + Column.CID.getName() + EQUAL;
+	private static final String LIKE = " LIKE ? ";
+	private static final String LIMIT = " LIMIT ? , ? ";
+	private static final String TERMINATE = " ;";
+	
+	
+	private static final List<Column> ALL_COMPUTER = Arrays.asList(
 			Column.CID, 
 			Column.CNAME, 
 			Column.CDATE_OF_INTRO, 
 			Column.CDATE_OF_DISC,
 			Column.CCOMPANY_ID,
-			Column.CCNAME);
-
-	private final String qlistComputers = allComputer
-			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + ";";
-	private final String qgetComputerById = allComputer
-			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
-			+ "WHERE " + cid + " = ?;";
-	private final String qcreateNewComputer = "INSERT INTO computer (" + cname + ", " + cdateOfIntro + ", " + cdateOfDisc + ", " + ccompanyID + ")"
-			+ "  VALUES (?, ?, ?, ?)";
-	private final String qupdateComputer = "UPDATE computer SET " 
-			+ cname + " = ? , " 
-			+ cdateOfIntro + " = ? , " 
-			+ cdateOfDisc + " = ? , " 
-			+ ccompanyID + " = ? "
-			+ "WHERE " + cid + " = ? ;";
-	private final String qdeleteComputer = "DELETE FROM computer WHERE " + cid + " = ? ;";
-	private final String qgetPageOfComputers = allComputer
-			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
-			+ "LIMIT ? , ? ;";
-	private static final String qgetCount = "SELECT " + ccount + " FROM computer ;";
-	private final String qgetSearchCount = rqc.select(
-			Column.CCOUNT)
-			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
-			+ "WHERE " + cname + " LIKE ? or " + Column.CCNAME.getName() + " LIKE ? ;";
-	private final String qsearchByName = allComputer
-			+ "LEFT JOIN company ON " + ccompanyID + " = " + Column.CCID.getName() + " "
-			+ "WHERE " + cname + " LIKE ? or " + Column.CCNAME.getName() + " LIKE ? "
-			+ "LIMIT ? , ? ;";
+			Column.CCNAME
+			);
+	
+	private static final String SELECT_ALL = ALL_COMPUTER.stream().map(s -> s.getName()).collect(Collectors.joining(" , ", SELECT, FROM));
+	
+	private static final List<Column> ALL_UPDATE = Arrays.asList(
+			Column.CNAME, 
+			Column.CDATE_OF_INTRO, 
+			Column.CDATE_OF_DISC,
+			Column.CCOMPANY_ID);
+	
+	private static final String INSERT = "INSERT INTO computer (";
+	private static final String VALUES = ") VALUES (?, ?, ?, ?);";
+	private static final String Q_CREATE_NEW_COMPUTER = ALL_UPDATE.stream()
+			.map(s -> s.getName()).collect(Collectors.joining(", ", INSERT, VALUES));
+	
+	private static final String Q_LIST_COMPUTERS = SELECT_ALL
+			+ LEFT_JOIN + TERMINATE;
+	private static final String Q_GET_COMPUTER_BY_ID = SELECT_ALL
+			+ LEFT_JOIN
+			+ WHERE_ID + TERMINATE;
+	
+	private static final String UPDATE = "UPDATE computer SET ";
+	
+	private static final String Q_UPDATE_COMPUTER = ALL_UPDATE.stream()
+			.map(s -> s.getName()).collect(Collectors.joining(EQUAL + " , ", UPDATE, EQUAL + WHERE_ID));
+	private static final String Q_DELETE_COMPUTER = "DELETE FROM computer" + WHERE_ID + TERMINATE;
+	private static final String Q_GET_PAGE_OF_COMPUTERS = SELECT_ALL
+			+ LEFT_JOIN
+			+ LIMIT + TERMINATE;
+	private static final String Q_GET_COUNT = SELECT + Column.CCOUNT.getName() + FROM + TERMINATE;
+	private static final String Q_GET_SEARCH_COUNT = SELECT + Column.CCOUNT.getName() + FROM
+			+ LEFT_JOIN
+			+ WHERE + Column.CNAME.getName() + LIKE + " or " + Column.CCNAME.getName() + LIKE + TERMINATE;
+	private static final String Q_SEARCH_BY_NAME = SELECT_ALL
+			+ LEFT_JOIN
+			+ WHERE + Column.CNAME.getName() + LIKE + " or " + Column.CCNAME.getName() + LIKE
+			+ LIMIT + TERMINATE;
 	
 
 	/**
@@ -102,7 +109,7 @@ public class ComputerDAO {
 
 		List<Computer> listComputers = new ArrayList<>();
 
-		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(qlistComputers);
+		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(Q_LIST_COMPUTERS);
 		computerMapper.map(rows);
 
 		return listComputers;
@@ -116,7 +123,7 @@ public class ComputerDAO {
 	public Optional<Computer> getByID(int id) {
 
 		Computer computer = getJdbcTemplate().queryForObject(
-				qgetComputerById, new Object[] {id}, new ComputerMapper());
+				Q_GET_COMPUTER_BY_ID, new Object[] {id}, computerMapper);
 
 		return Optional.ofNullable(computer);
 	}
@@ -156,7 +163,7 @@ public class ComputerDAO {
 				attributes.add(Types.INTEGER);
 			}
 
-			getJdbcTemplate().update(qcreateNewComputer, attributes.toArray());
+			getJdbcTemplate().update(Q_CREATE_NEW_COMPUTER, attributes.toArray());
 
 	}
 
@@ -195,7 +202,7 @@ public class ComputerDAO {
 				
 				attributes.add(ucomputer.getId());
 				
-				getJdbcTemplate().update(qupdateComputer, attributes.toArray());
+				getJdbcTemplate().update(Q_UPDATE_COMPUTER, attributes.toArray());
 
 		} else {
 			LOGGER.error("Pas d'ordinateur reçu à mettre à jour");
@@ -209,7 +216,7 @@ public class ComputerDAO {
 	 */
 	public void delete(int id) {
 
-			getJdbcTemplate().update(qdeleteComputer, (Object) id);
+			getJdbcTemplate().update(Q_DELETE_COMPUTER, (Object) id);
 
 	}
 
@@ -217,7 +224,7 @@ public class ComputerDAO {
 
 		List<Computer> listComputers;
 
-		listComputers = getJdbcTemplate().query(qgetPageOfComputers, new Object[] {offset, nbComputer}, new ComputerMapper());
+		listComputers = getJdbcTemplate().query(Q_GET_PAGE_OF_COMPUTERS, new Object[] {offset, nbComputer}, computerMapper);
 
 		return listComputers;
 	}
@@ -231,7 +238,7 @@ public class ComputerDAO {
 		int offset = (noPage - 1) * nbComputer;
 		List<Computer> listComputers;
 
-		listComputers = getJdbcTemplate().query(qsearchByName, new Object[] {part, part, offset, nbComputer}, new ComputerMapper());
+		listComputers = getJdbcTemplate().query(Q_SEARCH_BY_NAME, new Object[] {part, part, offset, nbComputer}, computerMapper);
 		
 		return listComputers;
 	}
@@ -239,7 +246,7 @@ public class ComputerDAO {
 	public int getCount() {
 		int count = 0;
 
-		count = getJdbcTemplate().queryForObject(qgetCount, Integer.class);
+		count = getJdbcTemplate().queryForObject(Q_GET_COUNT, Integer.class);
 
 		return count;
 	}
@@ -248,7 +255,7 @@ public class ComputerDAO {
 		int count = 0;
 		part = "%" + part + "%";
 
-		count = getJdbcTemplate().queryForObject(qgetSearchCount, new Object[] {part, part}, Integer.class);
+		count = getJdbcTemplate().queryForObject(Q_GET_SEARCH_COUNT, new Object[] {part, part}, Integer.class);
 
 		return count;
 		

@@ -6,52 +6,16 @@ import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.formation.cdb.exception.DuplicateIDException;
-import com.excilys.formation.cdb.exception.IDNotFoundException;
 import com.excilys.formation.cdb.exception.InvalidNameException;
 import com.excilys.formation.cdb.exception.InvalidStringDateException;
 import com.excilys.formation.cdb.exception.NullException;
 import com.excilys.formation.cdb.exception.TimeLineException;
-import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.model.Computer;
-import com.excilys.formation.cdb.services.CompanyService;
-import com.excilys.formation.cdb.services.ComputerService;
 
 @Component
 public class ComputerValidator {
-
-	@Autowired
-	private ComputerService computerService;
-	@Autowired
-	private CompanyService companyService;
-
-	public void validateId(int id, String action) throws DuplicateIDException, IDNotFoundException {
-		Computer computer = computerService.getDetails(id);
-		switch (action) {
-		case "create" : 
-
-			if (computer.getId() != 0) {
-				throw new DuplicateIDException();
-			}
-
-			break;
-		case "update" :
-
-		case "delete" :
-
-			if (computer.getId() == 0) {
-				throw new IDNotFoundException();
-			}
-			break;
-		default :
-			
-			break;
-
-		}
-	}
+	
 	public void validateName(String name) throws NullException, InvalidNameException {
 
 		Pattern pattern;
@@ -132,15 +96,4 @@ public class ComputerValidator {
 
 	}
 	
-	public void validateCompany(Company company) throws IDNotFoundException {
-		
-		int id = company.getId();
-		Company testCompany = companyService.getDetails(id);
-	
-		if (testCompany.getId() == 0) {		
-			throw new IDNotFoundException();
-		}
-
-	}
-
 }

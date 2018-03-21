@@ -16,12 +16,10 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.exception.IDNotFoundException;
 import com.excilys.formation.cdb.exception.InvalidNameException;
 import com.excilys.formation.cdb.exception.InvalidStringDateException;
 import com.excilys.formation.cdb.exception.NullException;
@@ -41,8 +39,11 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 	static final Logger LOGGER  = LogManager.getLogger(ComputerMapper.class);
 
-	@Autowired
 	ComputerValidator computerValidator;
+
+	public ComputerMapper(ComputerValidator computerValidator) {
+		this.computerValidator = computerValidator;
+	}
 
 	public Computer mapRow(ResultSet results, int arg1) throws SQLException {
 
@@ -165,40 +166,32 @@ public class ComputerMapper implements RowMapper<Computer> {
 			LOGGER.error("valeur null");
 		}
 
-		try {
-			computerValidator.validateCompany(new Company(dto.getCompanyId()));
+		Company c = new Company(dto.getCompanyId());
 
-			Company c = new Company(dto.getCompanyId());
-
-			computer.setCompany(c);
-		} catch (IDNotFoundException e) {
-
-			LOGGER.error("Fabricant inexistant");
-
-		}
+		computer.setCompany(c);
 
 		return computer;
 	}
 
 	public List<Computer> map(List<Map<String, Object>> rows) {
 		List<Computer> list = new ArrayList<>();
-		
+
 		for (Map row : rows) {
 			ComputerBuilder computerBuilder = new Computer.ComputerBuilder();
-			
+
 			int id = (int) row.get(Column.CID.getName());
-			
+
 			computerBuilder.withId(id);
 			String name = (String) row.get(Column.CNAME.getName());
-			
+
 			computerBuilder.withName(name);
-			
+
 			list.add(computerBuilder.build());
 		}
-		
+
 		return list;
-		
+
 	}
 
-	
+
 }

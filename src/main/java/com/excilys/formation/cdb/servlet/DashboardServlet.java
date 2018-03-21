@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +22,8 @@ import com.excilys.formation.cdb.tag.PageTag;
 @Controller
 public class DashboardServlet {
 
-	@Autowired
 	private ComputerService computerService;
 	
-	@Autowired
 	private ComputerMapper computerMapper;
 
 	private String searchValue = "";
@@ -35,6 +32,11 @@ public class DashboardServlet {
 	private Book book;
 	private Page page;
 
+	public DashboardServlet(ComputerService computerService, ComputerMapper computerMapper) {
+		this.computerService = computerService;
+		this.computerMapper = computerMapper;
+	}
+	
 	@GetMapping("dashboard")
 	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params) {
 				

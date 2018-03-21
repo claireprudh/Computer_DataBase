@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,19 +22,31 @@ import com.excilys.formation.cdb.services.ComputerService;
 @Controller
 public class EditComputerServlet {
 
-	@Autowired
-	private ComputerService computerService;
-	@Autowired
-	private CompanyService companyService;
-	@Autowired
-	private ComputerMapper computerMapper;
-	@Autowired
-	private CompanyMapper companyMapper;
+private ComputerService computerService;
+	
+	private final CompanyService companyService;
+	
+	private final ComputerMapper computerMapper;
+	
+	private final CompanyMapper companyMapper;
+	
 	private ComputerDTO computerdto;
 
 	List<CompanyDTO> listCompanies = new ArrayList<>();
 	int id;
 
+	public EditComputerServlet(ComputerService computerService, 
+			CompanyService companyService, 
+			ComputerMapper computerMapper, 
+			CompanyMapper companyMapper) {
+		
+		this.computerService = computerService;
+		this.companyService = companyService;
+		this.computerMapper = computerMapper;
+		this.companyMapper = companyMapper;
+		
+	}
+	
 	@GetMapping("editComputer")
 	public String getEditPage(ModelMap model, @RequestParam Map<String, String> params) {
 		Computer computer;

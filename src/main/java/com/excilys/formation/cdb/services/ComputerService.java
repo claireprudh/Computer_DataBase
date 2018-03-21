@@ -5,7 +5,6 @@ package com.excilys.formation.cdb.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.excilys.formation.cdb.model.Computer;
@@ -19,10 +18,11 @@ import com.excilys.formation.cdb.persistence.ComputerDAO;
 @Service
 public class ComputerService {
 
-	
-	@Autowired
-	private ComputerDAO computerDAO;
+	private final ComputerDAO computerDAO;
 
+	public ComputerService(ComputerDAO computerDAO) {
+		this.computerDAO = computerDAO;
+	}
 	/**
 	 * Retourne la liste complète des ordinateurs.
 	 * @return la liste des ordinateurs.
