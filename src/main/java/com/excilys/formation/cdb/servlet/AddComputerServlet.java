@@ -59,7 +59,7 @@ public class AddComputerServlet {
 
 		ComputerDTO computerDTO = new ComputerDTO();
 
-		List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
+		List<CompanyDTO> listCompanies = new ArrayList<>();
 
 		String name = params.getOrDefault("name", "");
 			computerDTO.setName(name);
@@ -70,7 +70,7 @@ public class AddComputerServlet {
 		String discontinued = params.getOrDefault("discontinued", "");
 		computerDTO.setIntroduced(discontinued);
 		
-		int companyId = Integer.valueOf(params.getOrDefault("companyId", "0"));
+		int companyId = Integer.parseInt(params.getOrDefault("companyId", "0"));
 		computerDTO.setCompanyId(companyId);
 		
 		for (Company company : companyService.getList()) {

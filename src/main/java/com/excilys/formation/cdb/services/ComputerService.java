@@ -3,7 +3,6 @@
  */
 package com.excilys.formation.cdb.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +19,9 @@ import com.excilys.formation.cdb.persistence.ComputerDAO;
 @Service
 public class ComputerService {
 
-	/**
-	 * instance, l'instance de ComputerService pour appliquer le pattern Singleton.
-	 */
-	//private static ComputerService instance;
-
+	
 	@Autowired
-	private ComputerDAO computerDAO/* = ComputerDAO.getInstance()*/;
-
-	/**
-	 * Méthode permettant de récupérer l'instance du Singleton.
-	 * @return l'instance
-	 */
-	/*public static ComputerService getInstance() {
-
-		if (instance == null) {
-			instance = new ComputerService();
-		}		
-
-		return instance;
-	}
-
-	private ComputerService() {
-
-	}*/
+	private ComputerDAO computerDAO;
 
 	/**
 	 * Retourne la liste complète des ordinateurs.
@@ -112,7 +90,7 @@ public class ComputerService {
 	}
 
 	public List<Computer> getPage(int nbComputer, int noPage, String contenu) {
-		List<Computer> list = new ArrayList<Computer>();
+		List<Computer> list;
 
 		if (contenu == null || contenu.equals(" ")) {
 			list = this.getPage(nbComputer, noPage);

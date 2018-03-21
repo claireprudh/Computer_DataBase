@@ -21,28 +21,6 @@ public class Computer {
 	
 	
 	private Computer() {
-		
-	}
-	
-	private Computer(int id) {
-		this.setId(id);
-	}
-	
-	private Computer(String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
-		
-		this.setName(name);
-		this.setDateOfIntro(dateOfIntro);
-		this.setDateOfDisc(dateOfDisc);
-		this.setCompany(company);
-	}
-	
-	private Computer(int id, String name, LocalDate dateOfIntro, LocalDate dateOfDisc, Company company) {
-		
-		this.setId(id);
-		this.setName(name);
-		this.setDateOfIntro(dateOfIntro);
-		this.setDateOfDisc(dateOfDisc);
-		this.setCompany(company);
 	}
 	
 	private Computer(ComputerBuilder computerBuilder) {
@@ -143,9 +121,9 @@ public class Computer {
 	
 	@Override
 	public String toString() {
-		String s = "Computer name : " + this.name + " \nid : " + this.id + " \ndate of introduction : " + this.dateOfIntro
+		
+		return "Computer name : " + this.name + " \nid : " + this.id + " \ndate of introduction : " + this.dateOfIntro
 				+ " \ndate of discontinuity : " + this.dateOfDisc + " \nmanufacturer : " + this.company + "\n\n";
-		return s;
 	}
 
 	
@@ -159,20 +137,13 @@ public class Computer {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
+		if (this == obj && this.getClass() == obj.getClass()) {
+			Computer other = (Computer) obj;
+			
+			return (id == other.id);
+		} else {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Computer other = (Computer) obj;
-		if (id != other.id) {
-			return false;
-		}
-		return true;
 	}
 
 	

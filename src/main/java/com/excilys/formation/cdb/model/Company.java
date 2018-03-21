@@ -53,8 +53,8 @@ public class Company {
 	
 	@Override
 	public String toString() {
-		String s = "\n\tCompany name : " + this.name + " \n\tid : " + this.id;
-		return s;
+		return "\n\tCompany name : " + this.name + " \n\tid : " + this.id;
+		
 	}
 	
 	
@@ -75,25 +75,17 @@ public class Company {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
+		if (this == obj && this.getClass() == obj.getClass()) {
+			Company other = (Company) obj;
+			
+			return (id == other.id);
+		} else {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Company other = (Company) obj;
-		if (id != other.id) {
-			return false;
-		}
-		return true;
+		
+		
 	}
 
 	

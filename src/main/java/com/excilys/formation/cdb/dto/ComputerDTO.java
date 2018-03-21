@@ -2,12 +2,12 @@ package com.excilys.formation.cdb.dto;
 
 public class ComputerDTO {
 
-	public int id;
-	public String name;
-	public String introduced;
-	public String discontinued;
-	public int companyId;
-	public String companyName;
+	private int id;
+	private String name;
+	private String introduced;
+	private String discontinued;
+	private int companyId;
+	private String companyName;
 	/**
 	 * @return the id
 	 */

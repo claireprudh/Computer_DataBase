@@ -8,9 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,22 +44,6 @@ public class ComputerMapper implements RowMapper<Computer> {
 	@Autowired
 	ComputerValidator computerValidator;
 
-	//public static ComputerMapper instance;
-
-	/*public static ComputerMapper getInstance() {
-
-		if (instance == null) {
-
-			instance = new ComputerMapper();
-		}
-
-		return instance;
-	}
-
-	private ComputerMapper() {
-
-	}*/
-
 	public Computer mapRow(ResultSet results, int arg1) throws SQLException {
 
 		Computer computer = new Computer.ComputerBuilder().build();
@@ -86,23 +72,26 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 		ComputerDTO dto = new ComputerDTO();
 
-		dto.id = computer.getId();
-		dto.name = computer.getName();
-		if (computer.getDateOfIntro().isPresent()) {
-			dto.introduced = computer.getDateOfIntro().get().toString();
+		dto.setId(computer.getId());
+		dto.setName(computer.getName());
+		Optional<LocalDate> date = computer.getDateOfIntro();
+		if (date.isPresent()) {
+			dto.setIntroduced(date.get().toString());
 		} else {
-			dto.introduced = null;
+			dto.setIntroduced(null);
 		}
-		if (computer.getDateOfDisc().isPresent()) {
-			dto.discontinued = computer.getDateOfDisc().get().toString();
+		date = computer.getDateOfDisc();
+		if (date.isPresent()) {
+			dto.setDiscontinued(date.get().toString());
 		} else {
-			dto.discontinued = null;
+			dto.setDiscontinued(null);
 		}
-		if (computer.getCompany().isPresent()) {
-			dto.companyId = computer.getCompany().get().getId();
-			dto.companyName = computer.getCompany().get().getName();
+		Optional<Company> company = computer.getCompany();
+		if (company.isPresent()) {
+			dto.setCompanyId(company.get().getId());
+			dto.setCompanyName(company.get().getName());
 		} else {
-			dto.companyId = 0;
+			dto.setCompanyId(0);
 		}
 
 
@@ -203,8 +192,6 @@ public class ComputerMapper implements RowMapper<Computer> {
 			String name = (String) row.get(Column.CNAME.getName());
 			
 			computerBuilder.withName(name);
-						
-			System.out.println(computerBuilder.build());
 			
 			list.add(computerBuilder.build());
 		}

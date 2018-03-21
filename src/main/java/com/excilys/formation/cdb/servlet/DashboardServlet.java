@@ -31,6 +31,7 @@ public class DashboardServlet {
 
 	private String searchValue = "";
 	public static int noPage = 1;
+	private int nbByPage = 50;
 	private Book book;
 	private Page page;
 
@@ -53,7 +54,7 @@ public class DashboardServlet {
 			List<String> selection = Arrays.asList(params.get("selection").split(","));
 
 			for (String s : selection) {
-				computerService.deleteComputer(Integer.valueOf(s));
+				computerService.deleteComputer(Integer.parseInt(s));
 			}		
 		}
 
@@ -64,16 +65,18 @@ public class DashboardServlet {
 	public void managePage(ModelMap model, Map<String, String> params) {
 
 		//Gestion no de page
-		noPage = Integer.valueOf(params.getOrDefault("page", "1"));
+		noPage = Integer.parseInt(params.getOrDefault("page", "1"));
 		model.addAttribute("page", noPage);
 
 		//Gestion nb de computers par page 
-		int nbByPage = Integer.valueOf(params.getOrDefault("nbbypage", "50"));
-		book.setNbComputer(Integer.valueOf(nbByPage));
-		
+		if (params.get("nbbypage") != "" && params.get("nbbypage") != null) {
+			nbByPage = Integer.parseInt(params.get("nbbypage"));
+		}
+		book.setNbComputer(nbByPage);
+		model.addAttribute("nbbypage", nbByPage);
 
 		//Gestion contenu de la page
-		List<ComputerDTO> list = new ArrayList<ComputerDTO>();
+		List<ComputerDTO> list = new ArrayList<>();
 
 		//Valeur de recherche
 		searchValue = params.getOrDefault("searchValue", "");

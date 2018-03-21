@@ -32,14 +32,13 @@ public class EditComputerServlet {
 	@Autowired
 	private CompanyMapper companyMapper;
 	private ComputerDTO computerdto;
-	private Computer computer;
 
-	List<CompanyDTO> listCompanies = new ArrayList<CompanyDTO>();
+	List<CompanyDTO> listCompanies = new ArrayList<>();
 	int id;
 
 	@GetMapping("editComputer")
-	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params) {
-
+	public String getEditPage(ModelMap model, @RequestParam Map<String, String> params) {
+		Computer computer;
 
 
 		id = Integer.valueOf(params.getOrDefault("id", "0"));

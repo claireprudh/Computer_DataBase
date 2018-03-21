@@ -2,8 +2,9 @@ package com.excilys.formation.cdb.dto;
 
 public class CompanyDTO {
 	
-	public int id;
-	public String name;
+	private int id;
+	private String name;
+	
 	/**
 	 * @return the id
 	 */

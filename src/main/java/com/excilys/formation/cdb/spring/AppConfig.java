@@ -2,9 +2,8 @@
 package com.excilys.formation.cdb.spring;
 
 import javax.servlet.ServletContext;
-//import javax.servlet.ServletRegistration;
-import javax.sql.DataSource;
 
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-//import org.springframework.web.servlet.DispatcherServlet;
+
 
 @Configuration
 @ComponentScan(basePackages = { "com.excilys.formation.cdb" })
@@ -27,10 +26,6 @@ public class AppConfig implements WebApplicationInitializer {
 		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 		context.setConfigLocation("com.excilys.formation.cdb");
 		context.close();
-//		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dashboard", new DispatcherServlet(context));
-//		dispatcher.setLoadOnStartup(1);
-//		dispatcher.addMapping("/");
-
 	}
 	
 	  @Autowired

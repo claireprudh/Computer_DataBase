@@ -17,28 +17,7 @@ import com.excilys.formation.cdb.persistence.CompanyDAO;
 public class CompanyService {
 
 	@Autowired
-	private CompanyDAO companyDAO/* = CompanyDAO.getInstance()*/;
-	/**
-	 * instance, l'instance de CompanyService pour appliquer le pattern Singleton.
-	 */
-	//private static CompanyService instance;
-	
-	/**
-	 * Méthode permettant de récupérer l'instance du Singleton.
-	 * @return l'instance
-	 */
-	/*public static CompanyService getInstance() {
-		
-		if (instance == null) {
-			instance = new CompanyService();
-		}
-
-		return instance;
-	}
-	
-	private CompanyService() {
-		
-	}*/
+	private CompanyDAO companyDAO;
 
 	/**
 	 * Liste les fabricants.
@@ -59,8 +38,4 @@ public class CompanyService {
 		return companyDAO.getByID(id).orElse(new Company());
 	}
 	
-/*	public void delete(int id) {
-		companyDAO.delete(id);
-	}*/
-
 }

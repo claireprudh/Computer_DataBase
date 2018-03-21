@@ -96,7 +96,7 @@ public enum Command {
 	 * @return listCommands la list des commandes du type
 	 */
 	public static List<String> listcommands(TypeCommand type) {
-		List<String> listCommands = new ArrayList<String>();
+		List<String> listCommands = new ArrayList<>();
 
 		for (Command c : values()) {
 			if (c.typeCommand.equals(type)) {

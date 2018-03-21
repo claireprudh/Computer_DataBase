@@ -1,21 +1,9 @@
 package com.excilys.formation.cdb.persistence;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RequestCreator {
-	
-	private static RequestCreator instance;
-	
-	private RequestCreator() {
-		
-	}
-	
-	public static RequestCreator getInstance() {
-		
-		if (instance == null) {
-			instance = new RequestCreator();
-		}
-		
-		return instance;
-	}
 	
 	public String select(Column... columns) {
 		StringBuilder sb = new StringBuilder();

@@ -23,9 +23,7 @@ public class Book {
 	}
 	
 	public Page getPage(int noPage) {
-		Page page = new Page(this, noPage);
-		return page;
-		
+		return new Page(this, noPage);
 	}
 	
 	private int getMaxPage(int nbComputer, int count) {

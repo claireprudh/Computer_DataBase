@@ -27,21 +27,6 @@ public class ComputerValidator {
 	private ComputerService computerService;
 	@Autowired
 	private CompanyService companyService;
-	
-	//private static ComputerValidator instance;
-		
-	/*private ComputerValidator() {
-		
-	}
-	
-	public static ComputerValidator getInstance() {
-		
-		if (instance == null) {
-			instance = new ComputerValidator();
-		}
-		
-		return instance;
-	}*/
 
 	public void validateId(int id, String action) throws DuplicateIDException, IDNotFoundException {
 		Computer computer = computerService.getDetails(id);
@@ -61,7 +46,9 @@ public class ComputerValidator {
 				throw new IDNotFoundException();
 			}
 			break;
-
+		default :
+			
+			break;
 
 		}
 	}
@@ -148,11 +135,11 @@ public class ComputerValidator {
 	public void validateCompany(Company company) throws IDNotFoundException {
 		
 		int id = company.getId();
-	/*	Company testCompany = companyService.getDetails(id);
+		Company testCompany = companyService.getDetails(id);
 	
 		if (testCompany.getId() == 0) {		
 			throw new IDNotFoundException();
-		}*/
+		}
 
 	}
 
