@@ -7,7 +7,12 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,67 +24,69 @@ import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.services.CompanyService;
 import com.excilys.formation.cdb.services.ComputerService;
+import com.excilys.formation.cdb.validator.ComputerDTOValidator;
 
 @Controller
 public class AddComputerServlet {
 
 	private final ComputerService computerService;
-	
+
 	private final CompanyService companyService;
-	
+
 	private final ComputerMapper computerMapper;
-	
+
 	private final CompanyMapper companyMapper;
-	
+
+	private final ComputerDTOValidator computerValidator;
+
 	public AddComputerServlet(ComputerService computerService, 
 			CompanyService companyService, 
 			ComputerMapper computerMapper, 
-			CompanyMapper companyMapper) {
-		
+			CompanyMapper companyMapper,
+			ComputerDTOValidator computerValidator) {
+
 		this.computerService = computerService;
 		this.companyService = companyService;
 		this.computerMapper = computerMapper;
 		this.companyMapper = companyMapper;
-		
+		this.computerValidator = computerValidator;
+
 	}
-	
+
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(computerValidator);
+	}
+
 	@GetMapping("addComputer")
 	public String getAddPage(ModelMap model, @RequestParam Map<String, String> params) {
-		
-		remplirAffichage(model, params);
+
+		remplirAffichage(model);
 
 		return "addComputer";
 	}
 
-	
+
 	@PostMapping("addComputer")
-	public String addComputer(ModelMap model, @RequestParam Map<String, String> params) {
-		Computer computer = computerMapper.map(remplirAffichage(model, params));
+	public String addComputer(@ModelAttribute("addForm") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult, ModelMap model, @RequestParam Map<String, String> params) {
 
-		computerService.createNew(computer);
+		Computer computer = computerMapper.map(computerDTO);
 
-		return "addComputer";
+		if (!bindingResult.hasErrors()) {
+			computerService.createNew(computer);
+			return "redirect:dashboard";
+
+		} else {
+			return "addComputer";
+		}
+
 
 	}
 
-	public ComputerDTO remplirAffichage(ModelMap model, @RequestParam Map<String, String> params) {
-
-		ComputerDTO computerDTO = new ComputerDTO();
+	public void remplirAffichage(ModelMap model) {
 
 		List<CompanyDTO> listCompanies = new ArrayList<>();
 
-		String name = params.getOrDefault("name", "");
-			computerDTO.setName(name);
-		 
-		String introduced = params.getOrDefault("introduced", "");
-		computerDTO.setIntroduced(introduced);
-		
-		String discontinued = params.getOrDefault("discontinued", "");
-		computerDTO.setIntroduced(discontinued);
-		
-		int companyId = Integer.parseInt(params.getOrDefault("companyId", "0"));
-		computerDTO.setCompanyId(companyId);
-		
 		for (Company company : companyService.getList()) {
 			listCompanies.add(companyMapper.map(company));                                                                                                                                                
 		}
@@ -87,8 +94,7 @@ public class AddComputerServlet {
 
 		model.addAttribute("listCompanies", listCompanies);
 
-		return computerDTO;
 	}
-	
-	
+
+
 }

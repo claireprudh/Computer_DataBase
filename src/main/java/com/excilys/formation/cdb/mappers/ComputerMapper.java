@@ -20,15 +20,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.formation.cdb.dto.ComputerDTO;
-import com.excilys.formation.cdb.exception.InvalidNameException;
-import com.excilys.formation.cdb.exception.InvalidStringDateException;
-import com.excilys.formation.cdb.exception.NullException;
-import com.excilys.formation.cdb.exception.TimeLineException;
 import com.excilys.formation.cdb.model.Company;
 import com.excilys.formation.cdb.model.Computer;
 import com.excilys.formation.cdb.model.Computer.ComputerBuilder;
 import com.excilys.formation.cdb.persistence.Column;
-import com.excilys.formation.cdb.validator.ComputerValidator;
+import com.excilys.formation.cdb.validator.ComputerDTOValidator;
 
 /**
  * @author excilys
@@ -39,9 +35,9 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 	static final Logger LOGGER  = LogManager.getLogger(ComputerMapper.class);
 
-	ComputerValidator computerValidator;
+	ComputerDTOValidator computerValidator;
 
-	public ComputerMapper(ComputerValidator computerValidator) {
+	public ComputerMapper(ComputerDTOValidator computerValidator) {
 		this.computerValidator = computerValidator;
 	}
 
@@ -106,64 +102,41 @@ public class ComputerMapper implements RowMapper<Computer> {
 
 		Computer computer = new Computer.ComputerBuilder().build();
 
-
 		computer.setId(dto.getId());
 
+		computer.setName(dto.getName());
 
 		try {
-			computerValidator.validateName(dto.getName());
+			if (!dto.getIntroduced().isEmpty()) {
+			date = new Date(formatter.parse(dto.getIntroduced()).getTime());
 
-			computer.setName(dto.getName());
-
-		} catch (NullException ne) {
-
-			LOGGER.error("valeur null");
-		} catch (InvalidNameException e) {
-			LOGGER.error("caractère interdit détecté");
-		} 
-
-		try {
-			computerValidator.validateIntroduced(dto.getIntroduced());
-
-			try {
-				date = new Date(formatter.parse(dto.getIntroduced()).getTime());
-
-				computer.setDateOfIntro(date.toLocalDate());
-
-			} catch (ParseException e) {
-
+			computer.setDateOfIntro(date.toLocalDate());
+			} else {
+				computer.setDateOfIntro(null);
 			}
 
-		} catch (InvalidStringDateException isde) {
+		} catch (ParseException e) {
+			LOGGER.error("Erreur de parsing dans la date");
+		} catch (NullPointerException npe) {
+			LOGGER.error("Date non renseignée");
+			computer.setDateOfIntro(null);
+		}
 
-			LOGGER.error("Date invalide");
-
-		} catch (NullException ne) {
-			LOGGER.error("Chaîne de caractères inexistante");
-		} 
-
+		
 		try {
+			if (!dto.getIntroduced().isEmpty()) {
+			date = new Date(formatter.parse(dto.getDiscontinued()).getTime());
 
-			computerValidator.validateDiscontinued(dto.getDiscontinued(), dto.getIntroduced());
-
-
-
-			try {
-				date = new Date(formatter.parse(dto.getDiscontinued()).getTime());
-
-				computer.setDateOfDisc(date.toLocalDate());
-
-			} catch (ParseException e) {
-
+			computer.setDateOfDisc(date.toLocalDate());
+			} else {
+				computer.setDateOfDisc(null);
 			}
-		} catch (TimeLineException tle) {
 
-			LOGGER.error("Chronologie douteuse");
-
-		} catch (InvalidStringDateException e1) {
-			LOGGER.error("Date invalide");
-		} catch (NullException e1) {
-			LOGGER.error("valeur null");
+		} catch (ParseException e) {
+			LOGGER.error("Erreur de parsing dans la date");
+		} catch (NullPointerException npe) {
+			LOGGER.error("Date non renseignée");
+			computer.setDateOfDisc(null);
 		}
 
 		Company c = new Company(dto.getCompanyId());

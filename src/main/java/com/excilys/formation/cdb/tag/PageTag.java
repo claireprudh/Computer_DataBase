@@ -16,6 +16,7 @@ public class PageTag extends SimpleTagSupport {
 	private static int max;
 	
 
+	@Override
 	public void doTag() throws JspException, IOException {
 	      JspWriter out = getJspContext().getOut();
 	      

@@ -27,7 +27,7 @@ public class DashboardServlet {
 	private ComputerMapper computerMapper;
 
 	private String searchValue = "";
-	public static int noPage = 1;
+	private static int noPage = 1;
 	private int nbByPage = 50;
 	private Book book;
 	private Page page;
@@ -66,16 +66,18 @@ public class DashboardServlet {
 
 	public void managePage(ModelMap model, Map<String, String> params) {
 
+		String nbbypage = "nbbypage";
+		
 		//Gestion no de page
 		noPage = Integer.parseInt(params.getOrDefault("page", "1"));
 		model.addAttribute("page", noPage);
 
 		//Gestion nb de computers par page 
-		if (params.get("nbbypage") != "" && params.get("nbbypage") != null) {
-			nbByPage = Integer.parseInt(params.get("nbbypage"));
+		if (params.get(nbbypage) != "" && params.get(nbbypage) != null) {
+			nbByPage = Integer.parseInt(params.get(nbbypage));
 		}
 		book.setNbComputer(nbByPage);
-		model.addAttribute("nbbypage", nbByPage);
+		model.addAttribute(nbbypage, nbByPage);
 
 		//Gestion contenu de la page
 		List<ComputerDTO> list = new ArrayList<>();
