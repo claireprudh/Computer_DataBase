@@ -3,6 +3,7 @@ package com.excilys.formation.cdb.servlet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
@@ -38,8 +39,7 @@ public class DashboardServlet {
 	}
 	
 	@GetMapping("dashboard")
-	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params) {
-				
+	public String getDashboardPage(ModelMap model, @RequestParam Map<String, String> params, Locale locale) {
 		book = new Book(50, computerService.getSearchCount(searchValue), searchValue);
 		page = book.getPage(noPage);
 		managePage(model, params);
@@ -47,7 +47,7 @@ public class DashboardServlet {
 	}
 
 	@PostMapping("dashboard")
-	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params) {
+	public String deleteComputer(ModelMap model, @RequestParam Map<String, String> params, Locale locale) {
 
 		managePage(model, params);
 		
