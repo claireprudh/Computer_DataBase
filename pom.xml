@@ -73,8 +73,30 @@
 			<version>5.0.4.RELEASE</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-hibernate -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-hibernate</artifactId>
+			<version>1.2.9</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-annotations -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.5.6-Final</version>
+		</dependency>
+
 
 		<!-- /Spring -->
+
+		<!-- https://mvnrepository.com/artifact/org.hibernate.hql/hibernate-hql-parser -->
+		<dependency>
+			<groupId>org.hibernate.hql</groupId>
+			<artifactId>hibernate-hql-parser</artifactId>
+			<version>1.5.0.Final</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.powermock</groupId>

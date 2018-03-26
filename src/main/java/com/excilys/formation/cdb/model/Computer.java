@@ -6,11 +6,20 @@ package com.excilys.formation.cdb.model;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * @author excilys
  *
  */
-
+@Entity
+@Table(name = "computer")
 public class Computer {
 	
 	private int id;
@@ -78,7 +87,9 @@ public class Computer {
  		
 	}
 		
-	
+	@Id
+    @Column(name = "id")
+    @GeneratedValue
 	public int getId() {
 		return id;
 	}
@@ -87,6 +98,7 @@ public class Computer {
 		this.id = id;
 	}
 	
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -95,6 +107,7 @@ public class Computer {
 		this.name = name;
 	}
 	
+	@Column(name = "introduced")
 	public Optional<LocalDate> getDateOfIntro() {
 		return Optional.ofNullable(dateOfIntro);
 	}
@@ -103,6 +116,7 @@ public class Computer {
 		this.dateOfIntro = dateOfIntro;
 	}
 	
+	@Column(name = "discontinued")
 	public Optional<LocalDate> getDateOfDisc() {
 		return Optional.ofNullable(dateOfDisc);
 	}
@@ -111,6 +125,8 @@ public class Computer {
 		this.dateOfDisc = dateOfDisc;
 	}
 	
+	@ManyToOne
+	@JoinColumn(name = "company_id")
 	public Optional<Company> getCompany() {
 		return Optional.ofNullable(company);
 	}
