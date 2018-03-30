@@ -13,7 +13,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.formation.cdb.model.Company;
-import com.excilys.formation.cdb.spring.HibernateConfig;
 
 /**
  * @author excilys

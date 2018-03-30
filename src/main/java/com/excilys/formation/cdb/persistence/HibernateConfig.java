@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.spring;
+package com.excilys.formation.cdb.persistence;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

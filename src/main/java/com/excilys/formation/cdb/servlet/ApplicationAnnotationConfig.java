@@ -1,7 +1,9 @@
-package com.excilys.formation.cdb.spring;
+package com.excilys.formation.cdb.servlet;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import com.excilys.formation.cdb.spring.AppConfig;
 
 @Configuration
 public class ApplicationAnnotationConfig extends AbstractAnnotationConfigDispatcherServletInitializer {

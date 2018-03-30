@@ -1,4 +1,4 @@
-package com.excilys.formation.cdb.spring;
+package com.excilys.formation.cdb.servlet;
 
 
 import java.util.Locale;
