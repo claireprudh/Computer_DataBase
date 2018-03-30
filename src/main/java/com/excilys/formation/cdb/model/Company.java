@@ -6,6 +6,7 @@ package com.excilys.formation.cdb.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -37,7 +38,7 @@ public class Company {
 	
 	@Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 		
@@ -47,7 +48,7 @@ public class Company {
 		this.id = id;
 	}
 
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}

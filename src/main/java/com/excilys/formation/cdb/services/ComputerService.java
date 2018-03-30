@@ -39,7 +39,7 @@ public class ComputerService {
 	 * @return le Computer avec tous ses détails.
 	 */
 	public Computer getDetails(int id) {
-		return computerDAO.getByID(id).orElse(new Computer.ComputerBuilder().build());
+		return computerDAO.getByID(id);
 	}
 
 
@@ -69,19 +69,8 @@ public class ComputerService {
 		computerDAO.delete(idComputer);
 	}
 
-	public List<Computer> getPage(int nbComputer, int noPage) {
-
-		return computerDAO.getPage(nbComputer, nbComputer * (noPage - 1));
-
-	}
-
 	public List<Computer> searchByName(int nbComputer, int noPage, String part) {
 		return computerDAO.searchByName(nbComputer, noPage, part);
-	}
-
-	public int getCount() {
-
-		return computerDAO.getCount();
 	}
 
 	public int getSearchCount(String part) {
@@ -92,11 +81,7 @@ public class ComputerService {
 	public List<Computer> getPage(int nbComputer, int noPage, String contenu) {
 		List<Computer> list;
 
-		if (contenu == null || contenu.equals(" ")) {
-			list = this.getPage(nbComputer, noPage);
-		} else {
-			list = this.searchByName(nbComputer, noPage, contenu);
-		}
+		list = this.searchByName(nbComputer, noPage, contenu);
 
 		return list;
 	}

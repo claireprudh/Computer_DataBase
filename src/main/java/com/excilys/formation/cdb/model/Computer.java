@@ -4,13 +4,12 @@
 package com.excilys.formation.cdb.model;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -89,7 +88,7 @@ public class Computer {
 		
 	@Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -98,7 +97,7 @@ public class Computer {
 		this.id = id;
 	}
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -108,8 +107,8 @@ public class Computer {
 	}
 	
 	@Column(name = "introduced")
-	public Optional<LocalDate> getDateOfIntro() {
-		return Optional.ofNullable(dateOfIntro);
+	public LocalDate getDateOfIntro() {
+		return dateOfIntro;
 	}
 	
 	public void setDateOfIntro(LocalDate dateOfIntro) {
@@ -117,8 +116,8 @@ public class Computer {
 	}
 	
 	@Column(name = "discontinued")
-	public Optional<LocalDate> getDateOfDisc() {
-		return Optional.ofNullable(dateOfDisc);
+	public LocalDate getDateOfDisc() {
+		return dateOfDisc;
 	}
 	
 	public void setDateOfDisc(LocalDate dateOfDisc) {
@@ -126,9 +125,8 @@ public class Computer {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "company_id")
-	public Optional<Company> getCompany() {
-		return Optional.ofNullable(company);
+	public Company getCompany() {
+		return company;
 	}
 	
 	public void setCompany(Company companyID) {

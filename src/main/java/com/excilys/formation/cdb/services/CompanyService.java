@@ -30,14 +30,5 @@ public class CompanyService {
 		return companyDAO.getList();
 		
 	}
-	
-	/**
-	 * Récupère un fabricant identifé par id.
-	 * @param id, l'identifiant du fabricant.
-	 * @return le fabricant.
-	 */
-	public Company getDetails(int id) {
-		return companyDAO.getByID(id).orElse(new Company());
-	}
-	
+
 }
