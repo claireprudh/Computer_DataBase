@@ -4,179 +4,30 @@
 	<groupId>com.excilys.formation</groupId>
 	<artifactId>Computer_DataBase</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-
-	<properties>
-		<powermock.version>1.7.1</powermock.version>
-		<jstlVersion>1.2</jstlVersion>
-		<servletVersion>3.0.1</servletVersion>
-		<jspVersion>2.2</jspVersion>
-		<jasperVersion>6.0.32</jasperVersion>
-		<org.springframework.version>5.0.4.RELEASE</org.springframework.version>
-		<mysqlConnectorJavaVersion>5.1.39</mysqlConnectorJavaVersion>
-	</properties>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Spring -->
-
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<!-- /Spring -->
-
-		<!-- https://mvnrepository.com/artifact/org.hibernate.hql/hibernate-hql-parser -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.hibernate.hql</groupId> -->
-		<!-- <artifactId>hibernate-hql-parser</artifactId> -->
-		<!-- <version>1.5.0.Final</version> -->
-		<!-- </dependency> -->
-
-		<!-- Hibernate (Baeldung's tutorial) -->
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>5.2.10.Final</version>
-		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.javassist</groupId> -->
-		<!-- <artifactId>javassist</artifactId> -->
-		<!-- <version>3.18.2-GA</version> -->
-		<!-- </dependency> -->
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysqlConnectorJavaVersion}</version>
-		</dependency>
+	<packaging>pom</packaging>
 
 
-		<!-- /Hibernate -->
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-jdk14</artifactId>
-			<version>1.7.10</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>jstl-api</artifactId>
-			<version>${jstlVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${servletVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>${jspVersion}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
-		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.4.0</version>
-			<scope>test</scope>
-		</dependency>
+	<modules>
+		<module>persistence</module>
+		<module>webapp</module>
+		<module>binding</module>
+		<module>core</module>
+		<module>services</module>
+	</modules>
 
 
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.10.0</version>
-		</dependency>
+	<dependencyManagement>
+		<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
-		<dependency>
-			<groupId>com.puppycrawl.tools</groupId>
-			<artifactId>checkstyle</artifactId>
-			<version>8.8</version>
-		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.apache.tomcat</groupId> -->
-		<!-- <artifactId>jasper</artifactId> -->
-		<!-- <version>${jasperVersion}</version> -->
-		<!-- </dependency> -->
+			<!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
+			<dependency>
+				<groupId>com.puppycrawl.tools</groupId>
+				<artifactId>checkstyle</artifactId>
+				<version>8.8</version>
+			</dependency>
 
-		<!-- https://mvnrepository.com/artifact/taglibs/standard -->
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-			<version>1.1.2</version>
-		</dependency>
-
-	</dependencies>
-
+		</dependencies>
+	</dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>
