@@ -1,10 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys.formation</groupId>
 	<artifactId>webapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+
 
 
 	<parent>
@@ -18,10 +16,27 @@
 		<jstlVersion>1.2</jstlVersion>
 		<servletVersion>3.0.1</servletVersion>
 		<jspVersion>2.2</jspVersion>
+		<project.version>0.0.1-SNAPSHOT</project.version>
 	</properties>
 
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.excilys.formation</groupId>
+			<artifactId>core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.excilys.formation</groupId>
+			<artifactId>services</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.excilys.formation</groupId>
+			<artifactId>binding</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
 		<dependency>
