@@ -1,9 +1,0 @@
-com/excilys/formation/cdb/model/Computer.class
-com/excilys/formation/cdb/model/Computer$ComputerBuilder.class
-com/excilys/formation/cdb/model/Company.class
-com/excilys/formation/cdb/model/Computer$1.class
-com/excilys/formation/cdb/dto/CompanyDTO.class
-com/excilys/formation/cdb/pagination/Book.class
-com/excilys/formation/cdb/dto/ComputerDTO.class
-com/excilys/formation/cdb/spring/AppConfig.class
-com/excilys/formation/cdb/pagination/Page.class
