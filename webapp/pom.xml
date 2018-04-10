@@ -4,6 +4,11 @@
 
 	<artifactId>webapp</artifactId>
 
+
+        <packaging>war</packaging>
+
+
+
 	<parent>
 		<groupId>com.excilys.formation</groupId>
 		<artifactId>Computer_DataBase</artifactId>
