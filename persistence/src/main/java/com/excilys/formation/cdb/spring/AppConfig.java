@@ -9,8 +9,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 
 @Configuration
-@ComponentScan(basePackages = {"com.excilys.formation.cdb.persistence", 
-		"com.excilys.formation.cdb.spring"})
+@ComponentScan
 public class AppConfig {
 
 		@Bean

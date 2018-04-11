@@ -1,245 +1,151 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.excilys.formation</groupId>
-	<artifactId>Computer_DataBase</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.excilys.formation</groupId>
+    <artifactId>Computer_DataBase</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
+    <modules>
+        <module>core</module>
+        <module>binding</module>
+        <module>persistence</module>
+        <module>services</module>
+        <module>webapp</module>
+    </modules>
 
-	<modules>
-		<module>persistence</module>
-		<module>webapp</module>
-		<module>binding</module>
-		<module>core</module>
-		<module>services</module>
-	</modules>
+    <properties>
+        <powermock.version>1.7.1</powermock.version>
+        <jstlVersion>1.2</jstlVersion>
+        <servletVersion>3.0.1</servletVersion>
+        <jspVersion>2.2</jspVersion>
+        <jasperVersion>6.0.32</jasperVersion>
+        <org.springframework.version>5.0.4.RELEASE</org.springframework.version>
+        <mysqlConnectorJavaVersion>5.1.39</mysqlConnectorJavaVersion>
+    </properties>
 
-	<properties>
-		<powermock.version>1.7.1</powermock.version>
-		<jstlVersion>1.2</jstlVersion>
-		<servletVersion>3.0.1</servletVersion>
-		<jspVersion>2.2</jspVersion>
-		<jasperVersion>6.0.32</jasperVersion>
-		<org.springframework.version>5.0.4.RELEASE</org.springframework.version>
-		<mysqlConnectorJavaVersion>5.1.39</mysqlConnectorJavaVersion>
-	</properties>
+    <dependencyManagement>
+        <dependencies>
 
-	<dependencyManagement>
-		<dependencies>
+            <!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
+            <dependency>
+                <groupId>com.puppycrawl.tools</groupId>
+                <artifactId>checkstyle</artifactId>
+                <version>8.8</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle -->
-			<dependency>
-				<groupId>com.puppycrawl.tools</groupId>
-				<artifactId>checkstyle</artifactId>
-				<version>8.8</version>
-			</dependency>
+            <!-- CORE -->
 
-			<!-- CORE -->
+            <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>1.0.2</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api --> 
-			<dependency>
-				<groupId>javax.persistence</groupId>
-				<artifactId>persistence-api</artifactId>
-				<version>1.0.2</version>
-			</dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${org.springframework.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${org.springframework.version}</version>
-			</dependency>
+            <!-- </dependency> -->
 
-			<!-- /CORE -->
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.25</version>
+            </dependency>
 
-			<!-- BINDING -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>1.7.10</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-core</artifactId> -->
-			<!-- <version>${org.springframework.version}</version> -->
-			<!-- </dependency> -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.10.0</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.7.25</version>
-			</dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-jdk14</artifactId>
-				<version>1.7.10</version>
-			</dependency>
+            <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>2.10.0</version>
-			</dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp.jstl</groupId>
+                <artifactId>jstl-api</artifactId>
+                <version>${jstlVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servletVersion}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${jspVersion}</version>
+            </dependency>
 
-			<!-- /BINDING -->
+            <!-- https://mvnrepository.com/artifact/taglibs/standard -->
+            <dependency>
+                <groupId>taglibs</groupId>
+                <artifactId>standard</artifactId>
+                <version>1.1.2</version>
+            </dependency>
 
-			<!-- WEBAPP -->
+            <!-- PERSISTENCE -->
 
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-context</artifactId> -->
-			<!-- <version>${org.springframework.version}</version> -->
-			<!-- </dependency> -->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-orm</artifactId>
+                <version>${org.springframework.version}</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-core</artifactId> -->
-			<!-- <version>${org.springframework.version}</version> -->
-			<!-- </dependency> -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.2.10.Final</version>
+            </dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${org.springframework.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysqlConnectorJavaVersion}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${org.springframework.version}</version>
-			</dependency>
-
-			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.slf4j</groupId> -->
-			<!-- <artifactId>slf4j-api</artifactId> -->
-			<!-- <version>1.7.25</version> -->
-			<!-- </dependency> -->
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.slf4j</groupId> -->
-			<!-- <artifactId>slf4j-jdk14</artifactId> -->
-			<!-- <version>1.7.10</version> -->
-			<!-- </dependency> -->
-
-			<dependency>
-				<groupId>javax.servlet.jsp.jstl</groupId>
-				<artifactId>jstl-api</artifactId>
-				<version>${jstlVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servletVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.servlet.jsp</groupId>
-				<artifactId>jsp-api</artifactId>
-				<version>${jspVersion}</version>
-			</dependency>
-
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.apache.logging.log4j</groupId> -->
-			<!-- <artifactId>log4j-core</artifactId> -->
-			<!-- <version>2.10.0</version> -->
-			<!-- </dependency> -->
-
-
-			<!-- https://mvnrepository.com/artifact/taglibs/standard -->
-			<dependency>
-				<groupId>taglibs</groupId>
-				<artifactId>standard</artifactId>
-				<version>1.1.2</version>
-			</dependency>
-
-			<!-- /WEBAPP -->
-
-			<!-- SERVICES -->
-
-			<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.springframework</groupId> -->
-			<!-- <artifactId>spring-core</artifactId> -->
-			<!-- <version>${org.springframework.version}</version> -->
-			<!-- </dependency> -->
-
-			<!-- /SERVICES -->
-
-			<!-- PERSISTENCE -->
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-orm</artifactId>
-				<version>${org.springframework.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>5.2.10.Final</version>
-<!-- 				<exclusions> -->
-<!-- 					<exclusion> -->
-<!-- 						<groupId>org.hibernate.javax.persistence</groupId> -->
-<!-- 						<artifactId>hibernate-jpa-2.1-api</artifactId> -->
-<!-- 					</exclusion> -->
-<!-- 				</exclusions> -->
-
-			</dependency>
-
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysqlConnectorJavaVersion}</version>
-			</dependency>
-
-			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.slf4j</groupId> -->
-			<!-- <artifactId>slf4j-api</artifactId> -->
-			<!-- <version>1.7.25</version> -->
-			<!-- </dependency> -->
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.slf4j</groupId> -->
-			<!-- <artifactId>slf4j-jdk14</artifactId> -->
-			<!-- <version>1.7.10</version> -->
-			<!-- </dependency> -->
-
-
-			<!-- <dependency> -->
-			<!-- <groupId>org.apache.logging.log4j</groupId> -->
-			<!-- <artifactId>log4j-core</artifactId> -->
-			<!-- <version>2.10.0</version> -->
-			<!-- </dependency> -->
-
-			<!-- /PERSISTENCE -->
-
-		</dependencies>
-	</dependencyManagement>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
