@@ -2,4 +2,5 @@
 /home/excilys/WorkspaceCDB/Computer_DataBase/persistence/src/main/java/com/excilys/formation/cdb/persistence/ComputerDAO.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/persistence/src/main/java/com/excilys/formation/cdb/persistence/Column.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/persistence/src/main/java/com/excilys/formation/cdb/persistence/HibernateConfig.java
+/home/excilys/WorkspaceCDB/Computer_DataBase/persistence/src/main/java/com/excilys/formation/cdb/spring/PersistenceConfig.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/persistence/src/main/java/com/excilys/formation/cdb/persistence/CompanyDAO.java
