@@ -13,17 +13,6 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-
-	<properties>
-		<powermock.version>1.7.1</powermock.version>
-		<jstlVersion>1.2</jstlVersion>
-		<servletVersion>3.0.1</servletVersion>
-		<jspVersion>2.2</jspVersion>
-		<jasperVersion>6.0.32</jasperVersion>
-		<org.springframework.version>5.0.4.RELEASE</org.springframework.version>
-		<mysqlConnectorJavaVersion>5.1.39</mysqlConnectorJavaVersion>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
@@ -35,39 +24,39 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-			<version>${org.springframework.version}</version>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.2.10.Final</version>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysqlConnectorJavaVersion}</version>
+			
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-jdk14</artifactId>
-			<version>1.7.10</version>
+			
 		</dependency>
 
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.10.0</version>
+			
 		</dependency>
 
 	</dependencies>

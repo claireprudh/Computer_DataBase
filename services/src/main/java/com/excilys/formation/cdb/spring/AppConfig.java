@@ -9,11 +9,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 
 @Configuration
-@ComponentScan(basePackages = {"com.excilys.formation.cdb.pagination", 
-		"com.excilys.formation.cdb.services", 
-		"com.excilys.formation.cdb.servlet",
-		"com.excilys.formation.cdb.spring",
-		"com.excilys.formation.cdb.tag"})
+@ComponentScan(basePackages = {"com.excilys.formation.cdb.services", "com.excilys.formation.cdb.spring"})
 public class AppConfig {
 
 		@Bean

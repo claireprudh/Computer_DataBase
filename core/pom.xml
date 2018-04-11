@@ -15,28 +15,30 @@
 	<properties>
 		<org.springframework.version>5.0.4.RELEASE</org.springframework.version>
 	</properties>
-	
+
 	<dependencies>
 
 		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
-			<version>1.0.2</version>
+
 		</dependency>
+
+
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>${org.springframework.version}</version>
+
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${org.springframework.version}</version>
+
 		</dependency>
-		
+
 	</dependencies>
 
 </project>
