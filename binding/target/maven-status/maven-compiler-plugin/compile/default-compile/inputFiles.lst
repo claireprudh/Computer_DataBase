@@ -1,4 +1,5 @@
 /home/excilys/WorkspaceCDB/Computer_DataBase/binding/src/main/java/com/excilys/formation/cdb/mappers/ComputerMapper.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/binding/src/main/java/com/excilys/formation/cdb/mappers/CompanyMapper.java
+/home/excilys/WorkspaceCDB/Computer_DataBase/binding/src/main/java/com/excilys/formation/cdb/spring/BindingConfig.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/binding/src/main/java/com/excilys/formation/cdb/spring/AppConfig.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/binding/src/main/java/com/excilys/formation/cdb/validator/ComputerDTOValidator.java

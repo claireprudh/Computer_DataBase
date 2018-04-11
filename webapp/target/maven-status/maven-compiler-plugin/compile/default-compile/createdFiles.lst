@@ -3,3 +3,4 @@ com/excilys/formation/cdb/tag/PageTag.class
 com/excilys/formation/cdb/servlet/WebController.class
 com/excilys/formation/cdb/servlet/ApplicationAnnotationConfig.class
 com/excilys/formation/cdb/spring/AppConfig.class
+com/excilys/formation/cdb/spring/WebAppConfig.class

@@ -2,6 +2,7 @@
 /home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/model/Company.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/pagination/Page.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/dto/CompanyDTO.java
+/home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/spring/CoreConfig.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/model/Computer.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/pagination/Book.java
 /home/excilys/WorkspaceCDB/Computer_DataBase/core/src/main/java/com/excilys/formation/cdb/spring/AppConfig.java

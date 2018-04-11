@@ -14,6 +14,24 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>WebContent</directory>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
 	<properties>
 		<org.springframework.version>5.0.4.RELEASE</org.springframework.version>
 		<jstlVersion>1.2</jstlVersion>
@@ -105,5 +123,6 @@
 		</dependency>
 
 	</dependencies>
+
 
 </project>

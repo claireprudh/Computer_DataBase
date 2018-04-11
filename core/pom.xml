@@ -18,14 +18,11 @@
 
 	<dependencies>
 
-		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
 		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			
 		</dependency>
-
-
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 		<dependency>
 			<groupId>org.springframework</groupId>
